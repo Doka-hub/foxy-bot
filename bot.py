@@ -1,5 +1,7 @@
 from typing import List
 
+import ssl
+
 import aiojobs as aiojobs
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
@@ -54,7 +56,9 @@ async def init() -> web.Application:
 
 if __name__ == '__main__':
     bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
-    storage = RedisStorage2(**config.redis)
-    dp = Dispatcher(bot, storage=storage)
-
-    web.run_app(init())
+    # storage = RedisStorage2(**config.redis)
+    dp = Dispatcher(bot,
+                    # storage=storage
+                    )
+    ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+    web.run_app(init(), ssl_context=ssl_context)
