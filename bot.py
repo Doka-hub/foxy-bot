@@ -53,8 +53,8 @@ async def init() -> web.Application:
 
 
 if __name__ == '__main__':
-    # bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
-    # storage = RedisStorage2(**config.redis)
-    # dp = Dispatcher(bot, storage=storage)
+    bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
+    storage = RedisStorage2(**config.redis)
+    dp = Dispatcher(bot, storage=storage)
 
-    web.run_app(init(), host='localhost', port=8000)
+    web.run_app(init())
