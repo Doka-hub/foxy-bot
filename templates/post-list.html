@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Посты
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered">
+            <thead>
+                <tr style="background-color: #306AFF;">
+                    <th style="color: white; font-weight: 100; width: 80px">#</th>
+                    <th style="color: white; font-weight: 100">Заголовок</th>
+                    <th style="color: white; font-weight: 100">Юзер</th>
+                    <th style="color: white; font-weight: 100">Создано</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in post_list %}
+                    <tr>
+                        <th style="color: #001759;">
+                            <div style="display: flex; flex-direction: row; align-content: center">
+                                {{ loop.index }}
+                                <div style="margin: auto;; border-radius: 15px; width: 9px; height: 9px;
+                                background:
+                                    {% if post.bgcolor == 'gray' %}
+                                        rgba(0,0,0,0.27)
+                                        {% elif post.bgcolor == 'yellow' %}
+                                            #FFF500
+                                        {% elif post.bgcolor == 'green' %}
+                                            #00FFA3
+                                        {% elif post.bgcolor == 'red' %}
+                                            #FF0000
+                                    {% endif %}
+                                "></div>
+                            </div>
+                        </th>
+                        <td><a style="color: #001759; text-decoration-color: #306AFF" href="/post/{{ post.id }}/">{{ post.title }}</a></td>
+                        <th><a style="color: #001759; text-decoration-color: #306AFF" href="//t.me/{{ post.user.username }}">{{ post.user.username }}</a></th>
+                        <th style="color: #001759; font-weight: 200">{{ post.created }}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

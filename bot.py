@@ -8,6 +8,7 @@ from aiohttp import web
 from loguru import logger
 
 from data import config
+from loader import bot, dp
 
 
 # noinspection PyUnusedLocal
@@ -33,10 +34,13 @@ async def init() -> web.Application:
     import web_handlers
     logging.setup()
     scheduler = await aiojobs.create_scheduler()
-    app = web.Application()
+
+    app = web.Application(debug=True)
     subapps: List[str, web.Application] = [
         ('/health/', web_handlers.health_app),
         ('/tg/webhooks', web_handlers.tg_updates_app),
+        ('/post/', web_handlers.post_app),
+        ('/payment/handler/', web_handlers.payment_handler_app)
     ]
     for prefix, subapp in subapps:
         subapp['bot'] = bot
@@ -49,8 +53,8 @@ async def init() -> web.Application:
 
 
 if __name__ == '__main__':
-    bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
-    storage = RedisStorage2(**config.redis)
-    dp = Dispatcher(bot, storage=storage)
+    # bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
+    # storage = RedisStorage2(**config.redis)
+    # dp = Dispatcher(bot, storage=storage)
 
-    web.run_app(init())
+    web.run_app(init(), host='localhost', port=8000)

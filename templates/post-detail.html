@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Пост # {{ post.id }}
+{% endblock %}
+
+{% block content %}
+    <a class="btn" style="background-color: #F8F9FF; color: #001759; margin-bottom: 20px    ;" href="/post/list/">< Назад</a>
+    <form class="form-group" method="POST">
+        <div class="form-group">
+            {% if image_url %}
+                <img src="{{ image_url }}" style="width: 20%; border-radius: 2px" alt="image">
+                {% else %}
+                    <!-- ничего -->
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="title">Заголовок</label>
+            <input id="title" class="form-control" name="title" type="text" placeholder="Заголовок" disabled value="{{ post.title or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="text">Текст</label>
+            <textarea id="text" class="form-control" name="text" disabled placeholder="Текст">{{ post.text or '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="button">Кнопка</label>
+            <div id="button" class="d-flex justify-content-around">
+                <input id="buttonText" class="form-control mr-1" name="button_text" disabled placeholder="Текст" value="{{ post.button_text or '' }}">
+                <input id="buttonUrl" class="form-control ml-1" name="button_url" disabled placeholder="Ссылка" value="{{ post.button_url or '' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date">Дата</label>
+            <input id="date" class="form-control" name="date" type="date" disabled value="{{ post.date }}">
+        </div>
+        <div class="form-group">
+            <label for="time">Время</label>
+            <select id="time" class="custom-select" disabled name="time">
+                {% for time in post.TIME_CHOICES %}
+                    <option {% if time.0 == post.time %}
+                                selected
+                            {% endif %}
+                            value="{{ time.0 }}">{{ time.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="paid">Оплачено</label>
+            <div id="paid">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paid" id="paidTrue" value="true"
+                           {% if post.paid %} checked {% endif %}
+                    >
+                    <label class="form-check-label" for="paidTrue">Да</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paid" id="paidFalse" value="false"
+                           {% if not post.paid %} checked {% endif %}
+                    >
+                    <label class="form-check-label" for="paidFalse">Нет</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status">Статус</label>
+            <select id="status" class="custom-select" disabled name="status">
+                {% for status in post.STATUS_CHOICES %}
+                    <option {% if status.1 == post.get_status %}
+                                selected
+                            {% endif %}
+                            value="{{ status.0 }}">{{ status.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mt-4">
+            <label for="statusMessage">Комментарий к посту</label>
+            <textarea id="statusMessage" class="form-control" name="status_message" placeholder="Введите комментарий к посту">{{ post.status_message or '' }}</textarea>
+            <div class="mt-2">
+                <input class="btn btn-primary" style="background: #306AFF" type="submit" value="Одобрить" name="accept">
+                <input class="btn btn-outline-danger" style="border-color: #FF3030" type="submit" value="Отказать" name="decline">
+            </div>
+        </div>
+    </form>
+{% endblock %}
