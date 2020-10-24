@@ -1,12 +1,12 @@
 from models import objects, User
 from utils.payment import bitcoin
 
-from typing import Optional, List
+from typing import Optional, List, Union
 
 from data import config
 
 
-async def get_or_create_user(user_id: int, username: Optional[str] = None) -> List[User, bool]:
+async def get_or_create_user(user_id: int, username: Optional[str] = None) -> List[Union[User, bool]]:
     user, created = await objects.get_or_create(User, user_id=user_id)
 
     if username and user.username != username:
