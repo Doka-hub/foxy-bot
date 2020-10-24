@@ -7,6 +7,7 @@ from data import config
 
 
 async def start(message: types.Message):
+    await message.answer('hello')
     await message.bot.set_my_commands([
         types.BotCommand('menu', 'Show bot menu')
     ])
