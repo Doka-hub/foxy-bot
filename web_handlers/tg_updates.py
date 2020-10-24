@@ -12,8 +12,8 @@ async def proceed_update(request: web.Request):
 
 
 async def execute(request: web.Request) -> web.Response:
-    await request.app['scheduler'].spawn(proceed_update(req))
+    await request.app['scheduler'].spawn(proceed_update(request))
     return web.Response()
 
 
-tg_updates_app.add_routes([web.post('/{token}', execute)])
+tg_updates_app.add_routes([web.post('/bot/{token}', execute)])
