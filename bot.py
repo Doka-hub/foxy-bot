@@ -23,7 +23,8 @@ async def on_startup(app: web.Application):
     handlers.errors.setup(dp)
     handlers.user.setup(dp)
     logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
-    await dp.bot.set_webhook(config.WEBHOOK_URL)
+    await bot.delete_webhook()
+    await bot.set_webhook(config.WEBHOOK_URL, certificate=open('/home/admin/conf/web/ssl.getsub.cc.pem', 'r'))
 
 
 async def on_shutdown(app: web.Application):
@@ -55,10 +56,10 @@ async def init() -> web.Application:
 
 
 if __name__ == '__main__':
-    bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
+    # bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML, validate_token=True)
     # storage = RedisStorage2(**config.redis)
-    dp = Dispatcher(bot,
+    # dp = Dispatcher(bot,
                     # storage=storage
-                    )
-    ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
-    web.run_app(init(), ssl_context=ssl_context)
+                    # )
+    ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, )
+    web.run_app(init(), host='localhost', access_log=logger, backlog=2)
