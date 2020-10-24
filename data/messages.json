@@ -10,8 +10,8 @@
     "menu": {
       "change_language": "Сменить язык",
       "profile": "Профиль",
-      "subscribe_to_newsletter": "Подписаться на рассылку",
-      "show_time_to_post": "Выбрать время рассылки новостей",
+      "category_list": "Подписаться на рассылку",
+      "time_to_post": "Выбрать время рассылки новостей",
       "advertising_profile": "Рекламный профиль",
       "info": "Информация",
       "back": "< Назад"
@@ -100,8 +100,8 @@
     "menu": {
       "change_language": "Сменить язык",
       "profile": "Профиль",
-      "subscribe_to_newsletter": "Подписаться на рассылку",
-      "show_time_to_post": "Выбрать время рассылки новостей",
+      "category_list": "Подписаться на рассылку",
+      "time_to_post": "Выбрать время рассылки новостей",
       "advertising_profile": "Рекламный профиль",
       "info": "Информация",
       "back": "< Назад"
@@ -185,8 +185,8 @@
     "menu": {
       "change_language": "Сменить язык",
       "profile": "Профиль",
-      "subscribe_to_newsletter": "Подписаться на рассылку",
-      "show_time_to_post": "Выбрать время рассылки новостей",
+      "category_list": "Подписаться на рассылку",
+      "time_to_post": "Выбрать время рассылки новостей",
       "advertising_profile": "Рекламный профиль",
       "info": "Информация",
       "back": "< Назад"

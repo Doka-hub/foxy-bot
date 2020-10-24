@@ -3,7 +3,7 @@ from models import objects
 from .users import get_or_create_user
 
 
-async def subscribe_user_to_channel(user_id: int):
+async def subscribe_user_to_channel(user_id: int) -> None:
     user, created = await get_or_create_user(user_id)
 
     if user.language == 'ru':

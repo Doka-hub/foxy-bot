@@ -22,7 +22,7 @@ class SqliteDBConn:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
         if exc_val:
-            raise
+            raise Exception
 
 
 class SqliteConnection(RawConnection):

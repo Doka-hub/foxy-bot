@@ -7,15 +7,13 @@ from data import config
 
 
 async def start(message: types.Message) -> None:
-    await message.answer('hello')
-    await message.bot.set_my_commands([
-        types.BotCommand('menu', 'Show bot menu')
-    ])
+    await message.bot.set_my_commands([types.BotCommand('menu', 'Show bot menu'), types.BotCommand('help', 'Help')])
+
     user_id = message.from_user.id
     username = message.from_user.username
 
-    user = await get_or_create_user(user_id, username)
-    user_language = user[0].language
+    user, created = await get_or_create_user(user_id, username)
+    user_language = user.language
 
     if not user_language:
         language_inline_keyboard = get_language_inline_keyboard()
