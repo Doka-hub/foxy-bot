@@ -1,0 +1,16 @@
+[Unit]                                                                
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/foxy-bot
+ExecStart=/var/www/foxy-bot/env/bin/gunicorn bot:init     --access-logfile a.log     --workers 1     --bind unix:/tmp/foxy_bot.sock --worker-class aiohttp.GunicornWebWorker
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+

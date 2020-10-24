@@ -9,7 +9,6 @@ BOT_TOKEN = env('BOT_TOKEN')
 BASE_URL = env('WEBHOOK_DOMAIN')  # Webhook domain
 WEBHOOK_PATH = f'/tg/webhooks/bot/{BOT_TOKEN}'
 WEBHOOK_URL = f'{BASE_URL}{WEBHOOK_PATH}'
-print(WEBHOOK_URL)
 BTC_WALLET_ID = env('BTC_WALLET_ID')
 
 LOGS_BASE_PATH = str(Path(__file__).parent.parent / 'logs')
@@ -20,15 +19,15 @@ admins = {
 }
 
 ip = {
-    'db':    '',
-    'redis': '',
+    'db':    'localhost',
+    'redis': 'localhost',
 }
 
 mysql_info = {
     'host':     ip['db'],
-    'user':     '',
+    'user':     'root',
     'password': '',
-    'db':       '',
+    'db':       'foxy',
     'maxsize':  5,
     'port':     3306,
 }
