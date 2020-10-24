@@ -8,7 +8,7 @@ from uuid import uuid4
 from models import objects, Post, User
 from loader import bot
 from data import config
-from utils.db_api import get_or_create_user
+from utils.db_api.users import get_or_create_user
 
 post_app = web.Application()
 aiohttp_jinja2.setup(post_app, loader=jinja2.FileSystemLoader('templates'))

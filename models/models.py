@@ -1,5 +1,7 @@
 from data import config
 
+from typing import Dict
+
 import peewee
 from peewee_async import MySQLDatabase, Manager
 
