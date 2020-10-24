@@ -65,6 +65,6 @@ if __name__ == '__main__':
                     # storage=storage
                     )
     ssl_context = ssl.create_default_context(path='/home/admin/conf/web/ssl.getsub.cc.crt')
-    sslcontext.load_cert_chain('/home/admin/conf/web/ssl.getsub.cc.pem',
+    ssl_context.load_cert_chain('/home/admin/conf/web/ssl.getsub.cc.pem',
                            '/home/admin/conf/web/ssl.getsub.cc.key')
     web.run_app(init(), ssl_context=ssl_context, port=8443)
