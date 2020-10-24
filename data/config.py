@@ -26,7 +26,7 @@ ip = {
 mysql_info = {
     'host':     ip['db'],
     'user':     'root',
-    'password': '123riko123',
+    'password': '',
     'db':       'foxy',
     'maxsize':  5,
     'port':     3306,

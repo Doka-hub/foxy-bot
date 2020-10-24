@@ -45,7 +45,6 @@ async def init() -> web.Application:
         ('/payment/handler/', web_handlers.payment_handler_app)
     ]
     for prefix, subapp in subapps:
-        print(bot)
         subapp['bot'] = bot
         subapp['dp'] = dp
         subapp['scheduler'] = scheduler
