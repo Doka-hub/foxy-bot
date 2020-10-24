@@ -68,9 +68,9 @@ class User(BaseModel):
 
     user_id = peewee.IntegerField()
     username = peewee.CharField(max_length=255, null=True)
-    user_phone = peewee.CharField(max_length=255, null=True)
+    phone_number = peewee.CharField(max_length=255, null=True)
 
-    lang = peewee.CharField(max_length=3, null=True, choices=LANGUAGE_CHOICES)
+    language = peewee.CharField(max_length=3, null=True, choices=LANGUAGE_CHOICES)
 
     btc_address_to_pay = peewee.CharField(max_length=255, null=True)
 
@@ -82,7 +82,7 @@ class User(BaseModel):
     he_subscribed = peewee.BooleanField(default=False)
 
 
-class ChannelAdmin(BaseModel):
+class Channel(BaseModel):
     LANGUAGE_CHOICES = (
         ('ru', 'ru'),
         ('en', 'en'),
@@ -91,6 +91,7 @@ class ChannelAdmin(BaseModel):
 
     channel_id = peewee.BigIntegerField()
     channel_url = peewee.CharField(max_length=255)
+    channel_title = peewee.CharField(max_length=255)
     language = peewee.CharField(max_length=3, null=True, choices=LANGUAGE_CHOICES)
 
 
@@ -123,12 +124,11 @@ class Post(BaseModel):
         ('not_paid', 'Не оплачено')
     )
 
-    user = peewee.ForeignKeyField(User, related_name='posts')
+    user = peewee.ForeignKeyField(User, backref='posts')
+    channel = peewee.ForeignKeyField(Channel, backref='posts')
 
-    uuid_pay = peewee.UUIDField(null=True)
-
-    title = peewee.CharField(null=True, max_length=255)
-    text = peewee.TextField(null=True)
+    title = peewee.CharField(default='', max_length=255)
+    text = peewee.TextField(default='')
     button = peewee.CharField(max_length=255, null=True)
     image_id = peewee.CharField(max_length=255, null=True)  # file_id - from telegram
 
@@ -137,11 +137,12 @@ class Post(BaseModel):
     paid = peewee.BooleanField(default=False)
 
     status = peewee.CharField(max_length=10, choices=STATUS_CHOICES, default='not_paid')
-    status_message = peewee.TextField(null=True)
+    status_message = peewee.TextField(default='')
 
     bgcolor = peewee.CharField(max_length=255)  # для админ панели
 
     created = peewee.DateTimeField()
+    updated = peewee.DateTimeField()
 
     @property
     def get_time(self):
@@ -163,6 +164,36 @@ class Post(BaseModel):
     def button_url(self) -> str:
         if self._is_button():
             return self.button.split(' - ')[1]  # ссылка кнопки
+
+    def _get_image(self) -> False or str:
+        if self.image_id != '0':
+            return self.image_id
+        return False
+
+    def get_states_data(self) -> dict:
+        data = {
+            'channel_id': self.channel.id,
+            'image_id': self._get_image(),
+            'title': self.title,
+            'text': self.text,
+            'button': self.button,
+            'date': self.date,
+            'time': self.time
+        }
+        return data
+
+    def pre_update_data(self, data: Dict):
+        self.title = data.get('title')
+        self.text = data.get('text')
+        self.button = data.get('button')
+        self.image_id = data.get('image_id')
+        self.date = data.get('date')
+        self.time = data.get('time')
+        self.bgcolor = data.get('bgcolor')
+        self.updated = data.get('updated')
+        self.status = data.get('status')
+        self.status_message = data.get('status_message')
+        return self
 
 
 category_users_through = Category.users.get_through_model()

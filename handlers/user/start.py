@@ -6,7 +6,7 @@ from keyboards.inline import get_language_inline_keyboard, get_menu_inline_keybo
 from data import config
 
 
-async def start(message: types.Message):
+async def start(message: types.Message) -> None:
     await message.answer('hello')
     await message.bot.set_my_commands([
         types.BotCommand('menu', 'Show bot menu')
@@ -19,10 +19,9 @@ async def start(message: types.Message):
 
     if not user_language:
         language_inline_keyboard = get_language_inline_keyboard()
-
         await message.answer('Выберите язык / Choose language / שפה נבחרתת', reply_markup=language_inline_keyboard)
         return
+
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
     text_answer = config.messages[user_language]['menu_name']
-
     await message.answer(text_answer, reply_markup=menu_inline_keyboard)

@@ -1,6 +1,6 @@
 from typing import Optional
 from .models import (
-    objects, Post, User, Category, ChannelAdmin, category_users_through, URL, InfoArticle, LastPost, Article
+    objects, Post, User, Category, Channel, category_users_through, URL, InfoArticle, LastPost, Article
 )
 
 
@@ -247,8 +247,8 @@ def setup():
     if not User.table_exists():
         User.create_table()
 
-    if not ChannelAdmin.table_exists():
-        ChannelAdmin.create_table()
+    if not Channel.table_exists():
+        Channel.create_table()
 
     if not Post.table_exists():
         Post.create_table()
