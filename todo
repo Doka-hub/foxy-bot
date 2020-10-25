@@ -1,0 +1,1 @@
+# TODO 24.10.2020 -  проблема с базой данных на сервере. Channel - TypeError: argument of type 'ManyToManyQuery' is not iterable. Думаю связано с кодировкой

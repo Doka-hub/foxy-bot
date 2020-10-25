@@ -1,6 +1,6 @@
 from data import config
 
-from typing import Dict
+from typing import Dict, AnyStr
 
 import peewee
 from peewee_async import MySQLDatabase, Manager
@@ -184,7 +184,7 @@ class Post(BaseModel):
         }
         return data
 
-    def pre_update_data(self, data: Dict):
+    def pre_update_data(self, data: Dict[str, str]):
         self.title = data.get('title')
         self.text = data.get('text')
         self.button = data.get('button')
