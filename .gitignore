@@ -142,3 +142,4 @@ dmypy.json
 
 # Other
 *.rar
+*.swp*

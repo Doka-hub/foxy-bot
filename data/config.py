@@ -23,13 +23,11 @@ ip = {
     'redis': 'localhost',
 }
 
-mysql_info = {
+postgresql_info = {
     'host':     ip['db'],
-    'user':     'foxy',
-    'password': '123foxy123',
+    'user':     'postgres',
+    'password': '',
     'db':       'foxy',
-    'maxsize':  5,
-    'port':     3306,
 }
 
 redis = {
