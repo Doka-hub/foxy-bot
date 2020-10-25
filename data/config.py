@@ -19,14 +19,14 @@ admins = {
 }
 
 ip = {
-    'db':    'localhost',
+    'db':    '127.0.0.1',
     'redis': 'localhost',
 }
 
 mysql_info = {
     'host':     ip['db'],
-    'user':     'root',
-    'password': '',
+    'user':     'foxy',
+    'password': '123foxy123',
     'db':       'foxy',
     'maxsize':  5,
     'port':     3306,
