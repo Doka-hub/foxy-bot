@@ -27,6 +27,7 @@ def setup(dp: Dispatcher) -> None:
     # category
     dp.register_callback_query_handler(category_list, lambda c: c.data == 'category_list')
     dp.register_callback_query_handler(category_subscribe, lambda c: c.data.startswith('choose_category'))
+    # category - time_to_mail
     dp.register_callback_query_handler(show_time_to_mail, lambda c: c.data == 'show_time_to_mail')
     dp.register_callback_query_handler(choose_time_to_mail, lambda c: c.data.startswith('choose_time_to_mail'))
 
