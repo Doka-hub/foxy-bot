@@ -23,9 +23,9 @@ ip = {
     'redis': 'localhost',
 }
 
-mysql_info = {
+postgresql_info = {
     'host':     ip['db'],
-    'user':     'root',
+    'user':     'postgres',
     'password': '',
     'db':       'foxy',
     'maxsize':  5,

@@ -3,14 +3,14 @@ from data import config
 from typing import Dict, AnyStr
 
 import peewee
-from peewee_async import MySQLDatabase, Manager
+from peewee_async import Manager, PostgresqlDatabase
 
 
-database = MySQLDatabase(
-    config.mysql_info['db'],
-    user=config.mysql_info['user'],
-    password=config.mysql_info['password'],
-    host=config.mysql_info['host']
+database = PostgresqlDatabase(
+    config.postgresql_info['db'],
+    user=config.postgresql_info['user'],
+    password=config.postgresql_info['password'],
+    host=config.postgresql_info['host']
 )
 
 objects = Manager(database)
