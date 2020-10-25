@@ -1,12 +1,14 @@
 from aiogram import types
 
 from utils.db_api.users import get_or_create_user
+
 from keyboards.inline.user.menu import get_menu_inline_keyboard
 from keyboards.inline.user.language import get_language_inline_keyboard
 
 from data import config
 
 
+# Меню
 async def menu(message: types.Message) -> None:
     user_id = message.from_user.id
     username = message.from_user.username

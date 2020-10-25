@@ -1,7 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from data import config
 from utils.keyboards.inline import get_inline_keyboard
+
+from data import config
 
 
 def get_menu_inline_keyboard(user_language: str) -> InlineKeyboardMarkup:

@@ -15,7 +15,7 @@ def setup(dp: Dispatcher) -> None:
 
     # menu
     dp.register_message_handler(menu, Command(['menu']))
-    dp.callback_query_handler(menu, lambda c: c.data == 'menu')
+    dp.register_callback_query_handler(menu, lambda c: c.data == 'menu')
 
     # help
     dp.register_message_handler(bot_help, CommandHelp())

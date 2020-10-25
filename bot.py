@@ -21,15 +21,14 @@ async def on_startup(app: web.Application):
     filters.setup(dp)
     handlers.errors.setup(dp)
     handlers.user.setup(dp)
-    handlers.admin.setup(dp)
     handlers.advertising_profile.setup(dp)
+    handlers.admin.setup(dp)
     logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
     await bot.delete_webhook()
     await bot.set_webhook(config.WEBHOOK_URL)
 
 
 async def on_shutdown(app: web.Application):
-    print(app.get('bot'))
     app_bot: Bot = app['bot']
     await app_bot.close()
 
