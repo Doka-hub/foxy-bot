@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import CommandStart, CommandHelp, Command
 
 from .help import bot_help
 from .start import start
-from .menu import menu
+from .menu import menu, back_to_menu
 from .language import choose_language, change_language
 from .category import category_subscribe, category_list, show_time_to_mail, choose_time_to_mail
 from .channel import check_subscribe
@@ -15,7 +15,7 @@ def setup(dp: Dispatcher) -> None:
 
     # menu
     dp.register_message_handler(menu, Command(['menu']))
-    dp.register_callback_query_handler(menu, lambda c: c.data == 'menu')
+    dp.register_callback_query_handler(back_to_menu, lambda c: c.data == 'menu')
 
     # help
     dp.register_message_handler(bot_help, CommandHelp())

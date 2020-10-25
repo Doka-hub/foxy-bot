@@ -24,3 +24,22 @@ async def menu(message: types.Message) -> None:
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
     text_answer = config.messages[user_language]['menu_name']
     await message.answer(text_answer, reply_markup=menu_inline_keyboard)
+
+
+async def back_to_menu(call_data: types.CallbackQuery) -> None:
+    await call_data.message.delete()
+
+    user_id = call_data.from_user.id
+    username = call_data.message.from_user.username
+
+    user, created = await get_or_create_user(user_id, username)
+    user_language = user.language
+
+    if not user_language:
+        language_inline_keyboard = get_language_inline_keyboard()
+        await call_data.message.answer('Выберите язык / Choose language / שפה נבחרתת', reply_markup=language_inline_keyboard)
+        return
+
+    menu_inline_keyboard = get_menu_inline_keyboard(user_language)
+    text_answer = config.messages[user_language]['menu_name']
+    await call_data.message.answer(text_answer, reply_markup=menu_inline_keyboard)
