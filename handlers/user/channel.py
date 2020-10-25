@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.utils.exceptions import BadRequest
 
 from data import config
-from keyboards.inline.category import get_categories_inline_keyboard
+from keyboards.inline.user.category import get_categories_inline_keyboard
 
 from utils.db_api.channel import subscribe_user_to_channel
 from utils.db_api.language import get_language

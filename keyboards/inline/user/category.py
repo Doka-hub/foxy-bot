@@ -37,13 +37,12 @@ async def get_categories_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
             )
         ] for category in categories
     ]
-
     categories_inline_keyboard = get_inline_keyboard(
         category_list + [
             [
                 InlineKeyboardButton(
                     config.messages[user_language]['menu']['back'],
-                    callback_data='back_to_menu'
+                    callback_data='menu'
                 )
             ]
         ]
@@ -80,7 +79,7 @@ async def get_time_to_mail_inline_keyboard(user_id: int) -> InlineKeyboardMarkup
             ],
             [
                 InlineKeyboardButton(
-                    config.messages[user_language]['menu']['back'], callback_data='back_to_menu'
+                    config.messages[user_language]['menu']['back'], callback_data='menu'
                 )
             ]
         ]

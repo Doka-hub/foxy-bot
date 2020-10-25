@@ -6,13 +6,7 @@ import peewee
 from peewee_async import Manager, PostgresqlDatabase
 
 
-database = PostgresqlDatabase(
-    config.postgresql_info['db'],
-    user=config.postgresql_info['user'],
-#    password=config.postgresql_info['password'],
-#    host=config.postgresql_info['host']
-)
-
+database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'],)
 objects = Manager(database)
 
 

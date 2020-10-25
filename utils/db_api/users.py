@@ -17,3 +17,4 @@ async def get_or_create_user(user_id: int, username: Optional[str] = None) -> Li
         user.btc_address_to_pay = btc_address_to_pay['address']
         await objects.update(user, ['btc_address_to_pay'])
     return [user, created]
+

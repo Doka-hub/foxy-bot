@@ -2,7 +2,7 @@ from aiogram import types
 
 from data import config
 
-from keyboards.inline.category import (
+from keyboards.inline.user.category import (
     get_check_subscribe_inline_keyboard, get_categories_inline_keyboard,
     get_time_to_mail_inline_keyboard
 )
@@ -69,7 +69,5 @@ async def choose_time_to_mail(call_data: types.CallbackQuery) -> None:
 
     time_to_mail_inline_keyboard = await get_time_to_mail_inline_keyboard(user_id)
     await set_user_time_to_mail(user_id, time_to_mail)
-    await call_data.message.edit_reply_markup(
-        reply_markup=time_to_mail_inline_keyboard
-    )
+    await call_data.message.edit_reply_markup(reply_markup=time_to_mail_inline_keyboard)
 
