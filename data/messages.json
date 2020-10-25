@@ -25,8 +25,8 @@
 
     "advertising_profile_name": "Рекламный профиль",
     "advertising_profile": {
-      "my_posts": "Мои посты",
-      "create_post": "Создать пост"
+      "post_list": "Мои посты",
+      "post_create": "Создать пост"
     },
 
     "post_detail_text": {
@@ -51,7 +51,7 @@
       "choose_channel": "Выберите канал для рекламного поста"
     },
 
-    "create_post": {
+    "post_create": {
       "image": "Добавить изображение",
       "title": "Добавить заголовок",
       "text": "Добавить текст",
@@ -71,7 +71,7 @@
       "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`",
       "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
-    "create_post_preview": {
+    "post_create_preview": {
       "date": "Дата публикации",
       "time": "Время публикации"
     },
@@ -134,8 +134,8 @@
 
     "advertising_profile_name": "Advertising profile",
     "advertising_profile": {
-      "my_posts": "My posts",
-      "create_post": "Create post"
+      "post_list": "My posts",
+      "post_create": "Create post"
     },
 
     "post_detail_text": {
@@ -157,7 +157,7 @@
       "choose_chanel": "Выберите канал для рекламного поста"
     },
 
-    "create_post": {
+    "post_create": {
       "image": "Add picture",
       "title": "Add title",
       "text": "Add text",
@@ -177,7 +177,7 @@
       "button_invalid_format": "Invalid format, send the button in the required format:\n`Text - URL`",
       "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
-    "create_post_preview": {
+    "post_create_preview": {
       "date": "Date of publication",
       "time": "Post time"
     },
@@ -242,8 +242,8 @@
 
     "advertising_profile_name": "פרופיל פרסום",
     "advertising_profile": {
-      "my_posts": "פוסטים שלי",
-      "create_post": "צור פוסט"
+      "post_list": "פוסטים שלי",
+      "post_create": "צור פוסט"
     },
 
     "post_detail_text": {
@@ -265,7 +265,7 @@
       "choose_chanel": "Выберите канал для рекламного поста"
     },
 
-    "create_post": {
+    "post_create": {
       "image": "להוסיף תמונה",
       "title": "להוסיף כותרת",
       "text": "להוסיף טקסט",
@@ -285,7 +285,7 @@
       "button_invalid_format": "פורמט לא חוקי, שלח את הכפתור בפורמט הנכון:\n`Text - URL`",
       "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
-    "create_post_preview": {
+    "post_create_preview": {
       "date": "תאריך הפרסום",
       "time": "זמן פרסום"
     },

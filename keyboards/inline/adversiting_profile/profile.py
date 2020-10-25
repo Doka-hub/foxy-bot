@@ -10,8 +10,8 @@ async def get_advertising_profile_inline_keyboard(user_language: str) -> InlineK
 
     advertising_profile_inline_keyboard = get_inline_keyboard(
         [
-            [InlineKeyboardButton(advertising_profile_menu['my_posts'], callback_data='post_list'),],
-            [InlineKeyboardButton(advertising_profile_menu['create_post'], callback_data='create_post')],
+            [InlineKeyboardButton(advertising_profile_menu['post_list'], callback_data='post_list'),],
+            [InlineKeyboardButton(advertising_profile_menu['post_create'], callback_data='post_create')],
             [InlineKeyboardButton(config.messages[user_language]['menu']['back'], callback_data='menu')],
         ]
     )
