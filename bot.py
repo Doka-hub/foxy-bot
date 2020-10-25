@@ -21,6 +21,7 @@ async def on_startup(app: web.Application):
     filters.setup(dp)
     handlers.errors.setup(dp)
     handlers.user.setup(dp)
+    handlers.admin.setup(dp)
     logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
     await bot.delete_webhook()
     await bot.set_webhook(config.WEBHOOK_URL)
