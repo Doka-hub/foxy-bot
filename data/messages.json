@@ -10,7 +10,7 @@
     "menu": {
       "change_language": "Сменить язык",
       "profile": "Профиль",
-      "subscribe_to_newsletter": "Подписаться на рассылку",
+      "category_list": "Подписаться на рассылку",
       "show_time_to_mail": "Выбрать время рассылки новостей",
       "advertising_profile": "Рекламный профиль",
       "info": "Информация",
@@ -119,7 +119,7 @@
     "menu": {
       "change_language": "Change language",
       "profile": "Profile",
-      "subscribe_to_newsletter": "Subscribe to the newsletter",
+      "category_list": "Subscribe to the newsletter",
       "show_time_to_mail": "Select time of newsletter",
       "advertising_profile": "Advertising profile",
       "info": "Information",
@@ -227,7 +227,7 @@
     "menu": {
       "change_language": "שנה את השפה",
       "profile": "פרופיל",
-      "subscribe_to_newsletter": "הירשם לניוזלטר",
+      "category_list": "הירשם לניוזלטר",
       "show_time_to_mail": "בחר זמן דיוור",
       "advertising_profile": "פרופיל פרסום",
       "info": "מידע",
