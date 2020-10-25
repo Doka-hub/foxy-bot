@@ -4,20 +4,20 @@
     "subscribe": "Подписка на категории",
     "subscribe_required": "Для подписки на рассылку необходимо подписаться на канал:",
     "check_subscribe": "Проверить подписку",
-    "time_to_post_choose": "Выберите время для рассылки новостей:",
+    "time_to_mail_choose": "Выберите время для рассылки новостей:",
 
     "menu_name": "Меню",
     "menu": {
       "change_language": "Сменить язык",
       "profile": "Профиль",
-      "category_list": "Подписаться на рассылку",
-      "time_to_post": "Выбрать время рассылки новостей",
+      "subscribe_to_newsletter": "Подписаться на рассылку",
+      "show_time_to_mail": "Выбрать время рассылки новостей",
       "advertising_profile": "Рекламный профиль",
       "info": "Информация",
       "back": "< Назад"
     },
 
-    "time_to_post": {
+    "time_to_mail": {
       "morning": "Утром",
       "evening": "Вечером",
       "upon_receipt_of": "По мере поступления"
@@ -30,17 +30,25 @@
     },
 
     "post_detail_text": {
+      "image": "Изображение",
       "paid": "Оплачено",
       "status": "Статус",
       "reason": "Причина",
       "date": "Дата",
       "title": "Заголовок",
       "text": "Текст",
+      "time": "Время",
 
       "accepted": "Успешно",
       "declined": "Отказано",
       "processing": "В процессе",
-      "not_paid": "Не оплачено"
+      "not_paid": "Не оплачено",
+
+      "edit": "Изменить"
+    },
+
+    "channel": {
+      "choose_channel": "Выберите канал для рекламного поста"
     },
 
     "create_post": {
@@ -60,7 +68,8 @@
       "not_filled": "не заполнено",
       "date_busy": "Дата занята!",
       "button_format": "Отправьте кнопку в таком формате:\n`Text - URL`",
-      "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`"
+      "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`",
+      "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
     "create_post_preview": {
       "date": "Дата публикации",
@@ -83,179 +92,234 @@
       "no": "Нет"
     },
 
-    "pay_message": "Проведите оплату.\nBTC-Address: `{btc_address}`\nAmount: `{amount}`\nComment: `{uuid}`",
-    "lock": "Занято",
+    "contact": {
+      "ask_contact": "Отправьте ваш контакт",
+      "send_contact": "Отправить контакт"
+    },
 
+    "must_fields": {
+      "field": "Поле",
+      "image_or_text": "\"изображение\" или \"текст\"",
+      "date": "\"дата\""
+    },
+    "pay_message": "Проведите оплату.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`",
+    "lock": "Занято",
+    "choose": "Выбрать",
     "cancel": "Отмена"
   },
 
   "en": {
     "start_asnwer": "",
-    "subscribe": "Подписка на категории",
-    "subscribe_required": "Для подписки на рассылку необходимо подписаться на канал:",
-    "check_subscribe": "Проверить подписку",
-    "time_to_post_choose": "Выберите время для рассылки новостей:",
+    "subscribe": "Subscribe to categories",
+    "subscribe_required": "To subscribe to the newsletter, you must subscribe to the channel:",
+    "check_subscribe": "Check subscription",
+    "time_to_mail_choose": "Choose a time to send news:",
 
-    "menu_name": "Меню",
+    "menu_name": "Menu",
     "menu": {
-      "change_language": "Сменить язык",
-      "profile": "Профиль",
-      "category_list": "Подписаться на рассылку",
-      "time_to_post": "Выбрать время рассылки новостей",
-      "advertising_profile": "Рекламный профиль",
-      "info": "Информация",
-      "back": "< Назад"
+      "change_language": "Change language",
+      "profile": "Profile",
+      "subscribe_to_newsletter": "Subscribe to the newsletter",
+      "show_time_to_mail": "Select time of newsletter",
+      "advertising_profile": "Advertising profile",
+      "info": "Information",
+      "back": "< Back"
     },
 
-    "time_to_post": {
-      "morning": "Утром",
-      "evening": "Вечером",
-      "upon_receipt_of": "По мере поступления"
+    "time_to_mail": {
+      "morning": "Morning",
+      "evening": "Evening",
+      "upon_receipt_of": "During the day"
     },
 
-    "advertising_profile_name": "Рекламный профиль",
+    "advertising_profile_name": "Advertising profile",
     "advertising_profile": {
-      "my_posts": "Мои посты",
-      "create_post": "Создать пост"
+      "my_posts": "My posts",
+      "create_post": "Create post"
     },
 
     "post_detail_text": {
-      "paid": "Оплачено",
-      "status": "Статус",
-      "reason": "Причина",
-      "date": "Дата",
-      "title": "Заголовок",
-      "text": "Текст"
+      "paid": "Paid",
+      "status": "Status",
+      "reason": "Reason",
+      "date": "Date",
+      "title": "Title",
+      "text": "Text",
+      "time": "Time",
+
+      "accepted": "Success",
+      "declined": "Declined",
+      "processing": "Processing",
+      "not_paid": "Not paid"
+    },
+
+    "channel": {
+      "choose_chanel": "Выберите канал для рекламного поста"
     },
 
     "create_post": {
-      "image": "Добавить изображение",
-      "title": "Добавить заголовок",
-      "text": "Добавить текст",
-      "button": "Добавить кнопку",
-      "date": "Выбрать дату публикации",
-      "time": "Выбрать время для публикации",
-      "moderate": "Отправить на модерацию",
+      "image": "Add picture",
+      "title": "Add title",
+      "text": "Add text",
+      "button": "Add button",
+      "date": "Select publication date",
+      "time": "Choose time to post",
+      "moderate": "Send for moderation",
 
-      "image_send": "Отправьте изображение",
-      "title_send": "Отправьте заголовок",
-      "text_send": "Отправьте текст",
-      "date_choose": "Выберите дату публикации",
+      "image_send": "Send picture",
+      "title_send": "Send title",
+      "text_send": "Send text",
+      "date_choose": "Select publication date",
 
-      "not_filled": "не заполнено",
-      "date_busy": "Дата занята!",
-      "button_format": "Отправьте кнопку в таком формате:\n`Text - URL`",
-      "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`"
+      "not_filled": "not filled",
+      "date_busy": "Date is busy!",
+      "button_format": "Send the button in this format:\n`Text - URL`",
+      "button_invalid_format": "Invalid format, send the button in the required format:\n`Text - URL`",
+      "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
     "create_post_preview": {
-      "date": "Дата публикации",
-      "time": "Время публикации"
+      "date": "Date of publication",
+      "time": "Post time"
     },
 
     "edit_post": {
-      "image": "Изменить изображение",
-      "title": "Изменить заголовок",
-      "text": "Изменить текст",
-      "button": "Изменить кнопку",
-      "date": "Изменить дату публикации",
-      "time": "Изменить время для публикации",
-      "moderate": "Отправить на модерацию"
+      "image": "Change picture",
+      "title": "Change title",
+      "text": "Change text",
+      "button": "Change button",
+      "date": "Change publication date",
+      "time": "Change post time",
+      "moderate": "Send for moderation"
     },
 
     "confirmation": {
-      "ask": "Всё верно?",
-      "yes": "Да",
-      "no": "Нет"
+      "ask": "Is that correct?",
+      "yes": "Yes",
+      "no": "No"
     },
 
-    "pay_message": "Проведите оплату.\nBTC-Address: `{btc_address}`\nAmount: `{amount}`\nComment: `{uuid}`",
-    "lock": "Занято",
+    "contact": {
+      "ask_contact": "Отправьте ваш контакт",
+      "send_contact": "Отправить контакт"
+    },
 
-    "cancel": "Отмена"
+    "must_fields": {
+      "field": "Field",
+      "image_or_text": "\"image\" or \"text\"",
+      "date": "\"date\""
+    },
+
+    "pay_message": "Make a payment.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`\n",
+    "lock": "Busy",
+    "choose": "Выбрать",
+    "cancel": "Cancel"
   },
 
   "he": {
     "start_asnwer": "",
-    "subscribe": "Подписка на категории",
-    "subscribe_required": "Для подписки на рассылку необходимо подписаться на канал:",
-    "check_subscribe": "Проверить подписку",
-    "time_to_post_choose": "Выберите время для рассылки новостей:",
+    "subscribe": "הירשם לקטגוריות",
+    "subscribe_required": "כדי להירשם לניוזלטר, עליך להירשם לערוץ:",
 
-    "menu_name": "Меню",
+    "check_subscribe": "בדוק מנוי",
+    "time_to_mail_choose": "בחר זמן לשליחת חדשות:",
+
+    "menu_name": "תפריט",
     "menu": {
-      "change_language": "Сменить язык",
-      "profile": "Профиль",
-      "category_list": "Подписаться на рассылку",
-      "time_to_post": "Выбрать время рассылки новостей",
-      "advertising_profile": "Рекламный профиль",
-      "info": "Информация",
-      "back": "< Назад"
+      "change_language": "שנה את השפה",
+      "profile": "פרופיל",
+      "subscribe_to_newsletter": "הירשם לניוזלטר",
+      "show_time_to_mail": "בחר זמן דיוור",
+      "advertising_profile": "פרופיל פרסום",
+      "info": "מידע",
+      "back": "< לאחור"
     },
 
-    "time_to_post": {
-      "morning": "Утром",
-      "evening": "Вечером",
-      "upon_receipt_of": "По мере поступления"
+    "time_to_mail": {
+      "morning": "בבוקר",
+      "evening": "בערב",
+      "upon_receipt_of": "כל היום"
     },
 
-    "advertising_profile_name": "Рекламный профиль",
+    "advertising_profile_name": "פרופיל פרסום",
     "advertising_profile": {
-      "my_posts": "Мои посты",
-      "create_post": "Создать пост"
+      "my_posts": "פוסטים שלי",
+      "create_post": "צור פוסט"
     },
 
     "post_detail_text": {
-      "paid": "Оплачено",
-      "status": "Статус",
-      "reason": "Причина",
-      "date": "Дата",
-      "title": "Заголовок",
-      "text": "Текст"
+      "paid": "התשלום הצליח",
+      "status": "סטטוס",
+      "reason": "סיבה",
+      "date": "תאריך",
+      "title": "כותרת",
+      "text": "טקסט",
+      "time": "זמן",
+
+      "accepted": "בהצלחה",
+      "declined": "נדחה",
+      "processing": "במהלך",
+      "not_paid": "לא משולם"
+    },
+
+    "channel": {
+      "choose_chanel": "Выберите канал для рекламного поста"
     },
 
     "create_post": {
-      "image": "Добавить изображение",
-      "title": "Добавить заголовок",
-      "text": "Добавить текст",
-      "button": "Добавить кнопку",
-      "date": "Выбрать дату публикации",
-      "time": "Выбрать время для публикации",
-      "moderate": "Отправить на модерацию",
+      "image": "להוסיף תמונה",
+      "title": "להוסיף כותרת",
+      "text": "להוסיף טקסט",
+      "button": "להוסיף כפתור",
+      "date": "בחר תאריך פרסום",
+      "time": "בחר זמן לפרסום",
+      "moderate": "שלח לאימות",
 
-      "image_send": "Отправьте изображение",
-      "title_send": "Отправьте заголовок",
-      "text_send": "Отправьте текст",
-      "date_choose": "Выберите дату публикации",
+      "image_send": "הגש תמונה",
+      "title_send": "הגש כותרת",
+      "text_send": "הגש טקסט",
+      "date_choose": "בחר תאריך פרסום",
 
-      "not_filled": "не заполнено",
-      "date_busy": "Дата занята!",
-      "button_format": "Отправьте кнопку в таком формате:\n`Text - URL`",
-      "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`"
+      "not_filled": "לא מלא",
+      "date_busy": "התאריך עמוס!",
+      "button_format": "שלח את הכפתור בפורמט זה:\n`Text - URL`",
+      "button_invalid_format": "פורמט לא חוקי, שלח את הכפתור בפורמט הנכון:\n`Text - URL`",
+      "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
     },
     "create_post_preview": {
-      "date": "Дата публикации",
-      "time": "Время публикации"
+      "date": "תאריך הפרסום",
+      "time": "זמן פרסום"
     },
 
     "edit_post": {
-      "image": "Изменить изображение",
-      "title": "Изменить заголовок",
-      "text": "Изменить текст",
-      "button": "Изменить кнопку",
-      "date": "Изменить дату публикации",
-      "time": "Изменить время для публикации",
-      "moderate": "Отправить на модерацию"
+      "image": "שנה תמונה",
+      "title": "שנה כותרת",
+      "text": "שנה טקסט",
+      "button": "שנה כפתור",
+      "date": "שנה תאריך פרסום",
+      "time": "שנה את זמן המודעה",
+      "moderate": "שלח לאימות"
     },
 
     "confirmation": {
-      "ask": "Всё верно?",
-      "yes": "Да",
-      "no": "Нет"
+      "ask": "האם זה נכון?",
+      "yes": "כן",
+      "no": "לֹא"
     },
 
-    "pay_message": "Проведите оплату.\nBTC-Address: `{btc_address}`\nAmount: `{amount}`\nComment: `{uuid}`",
-    "lock": "Занято",
+    "contact": {
+      "ask_contact": "Отправьте ваш контакт",
+      "send_contact": "Отправить контакт"
+    },
 
-    "cancel": "Отмена"
+    "must_fields": {
+      "field": "Field",
+      "image_or_text": "\"image\" or \"text\"",
+      "date": "\"date\""
+    },
+
+    "pay_message": "בצע את התשלום.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`\n",
+    "lock": "עסוק",
+    "choose": "Выбрать",
+    "cancel": "ביטול"
   }
 }
