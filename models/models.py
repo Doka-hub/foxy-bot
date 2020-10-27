@@ -3,10 +3,10 @@ from data import config
 from typing import Dict, AnyStr
 
 import peewee
-from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
+from peewee_async import Manager, PostgresqlDatabase
 
 
-database = MySQLDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], password=config.postgresql_info['password'])
+database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'],)
 objects = Manager(database)
 
 
