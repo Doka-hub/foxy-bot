@@ -31,7 +31,7 @@ postgresql_info = {
     'host':     ip['db'],
     'user':     'postgres',
     'password': '',
-    'db':       'test',
+    'db':       'foxy',
 }
 
 redis = {
