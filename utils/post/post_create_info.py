@@ -22,7 +22,7 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         post_data = await dp.storage.get_data(user=user_id)
         image_id = post_data.get('image_id')
 
-        create_post_inline_keyboard = get_post_create_inline_keyboard(user_id, post_data)
+        create_post_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
@@ -46,7 +46,7 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         post_data = await dp.storage.get_data(user=user_id)
         image_id = post_data.get('image_id')
 
-        create_post_inline_keyboard = get_post_create_inline_keyboard(user_id, post_data)
+        create_post_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
