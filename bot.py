@@ -24,8 +24,8 @@ async def on_startup(app: web.Application):
     handlers.advertising_profile.setup(dp)
     handlers.admin.setup(dp)
     logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
-    await bot.delete_webhook()
-    await bot.set_webhook(config.WEBHOOK_URL)
+    # await bot.delete_webhook()
+    # await bot.set_webhook(config.WEBHOOK_URL)
 
 
 async def on_shutdown(app: web.Application):

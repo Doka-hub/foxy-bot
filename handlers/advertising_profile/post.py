@@ -7,6 +7,7 @@ from loader import dp
 
 from states.adversiting_profile.post import PostState
 
+from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.language import get_language
 from utils.db_api.users import get_or_create_user
 from utils.db_api.adversiting_profile.post import set_phone_number
@@ -78,6 +79,13 @@ async def post_create(call_data: types.CallbackQuery) -> None:
     await PostState.channel_id.set()
 
 
+# Создать пост - отмена
+async def post_create_cancel(call_data: types.CallbackQuery) -> None:
+    user_id = call_data.from_user.id
+    await dp.storage.reset_data(user=user_id)
+    await advertising_profile(call_data)
+
+
 # Обработка контакта
 async def get_contact(message: types.Message) -> None:
     wait_message = await message.answer('...', reply_markup=types.ReplyKeyboardRemove())
@@ -93,8 +101,8 @@ async def get_contact(message: types.Message) -> None:
     await message.answer(text_answer, reply_markup=advertising_profile_inline_keyboard)
 
 
-# Создать пост - выбора канал
-async def post_create_choose_channel(call_data: types.CallbackQuery, state: FSMContext) -> None:
+# Создать пост - обработка выбора канала
+async def post_create_choose_channel_handle(call_data: types.CallbackQuery, state: FSMContext) -> None:
     await call_data.message.delete()
 
     channel_id = call_data.data.replace('choose_channel ', '')  # example: 'choose_channel 1'
@@ -110,15 +118,69 @@ async def post_create_choose_channel(call_data: types.CallbackQuery, state: FSMC
     await call_data.message.answer(text_answer, reply_markup=post_create_inline_keyboard)
 
 
-# Создать пост - выбора канал - отмена
-async def post_create_choose_channel_cancel(call_data: types.CallbackQuery, state: FSMContext) -> None:
+# Создать пост - обработка выбора канала - отмена
+async def post_create_choose_channel_hanlde_cancel(call_data: types.CallbackQuery, state: FSMContext) -> None:
     await state.reset_state()
     await advertising_profile(call_data)
 
 
-# Рекламный профиль - отмена
-async def post_create_cancel(call_data: types.CallbackQuery) -> None:
-    user_id = call_data.from_user.id
-    await dp.storage.reset_data(user=user_id)
-    await advertising_profile(call_data)
+# Создать пост - изображение
+async def create_post_image(call_data: types.CallbackQuery) -> None:
+    await call_data.message.delete()
 
+    user_id = call_data.from_user.id
+    user_language = await get_language(user_id)
+
+    image_cancel_inline_keyboard = get_inline_keyboard(
+        [[types.InlineKeyboardButton(config.messages[user_language]['cancel'], callback_data='image_cancel')]]
+    )
+    text_answer = config.messages[user_language]['create_post']['image_send']
+    await call_data.message.answer(text_answer, reply_markup=image_cancel_inline_keyboard)
+    await Post.image_id.set()
+
+
+# Создать пост - обработка изображения
+async def create_post_image_handle(message: types.Message, state: FSMContext) -> None:
+    photo_sizes = message.photo
+    image_id = photo_sizes[-1].file_id  # [-1] - самый лучший размер
+
+    await state.update_data(image_id=image_id)
+    await state.reset_state(with_data=False)
+
+    user_id = message.from_user.id
+    post_data = await dp.storage.get_data(user=user_id)
+
+    create_post_inline_keyboard = get_post_create_inline_keyboard(user_id, post_data)
+    await message.answer_photo(
+        image_id,
+        create_post_inline_keyboard[1],
+        reply_markup=create_post_inline_keyboard[0],
+        parse_mode='markdown'
+    )
+
+
+# Создать пост - обработка изображения - отмена
+async def create_post_image_handle_cancel(call_data: types.CallbackQuery, state: FSMContext):
+    await call_data.message.delete()
+    await state.reset_state(with_data=False)
+
+    user_id = call_data.from_user.id
+    user_language = await get_language(user_id)
+    post_data = await dp.storage.get_data(user=user_id)
+    image_id = post_data.get('image_id')
+
+    create_post_inline_keyboard = get_post_create_inline_keyboard(user_id, post_data)
+    text_answer = get_post_create_message(user_language, post_data)
+    if image_id:
+        await call_data.message.answer_photo(
+            image_id,
+            create_post_inline_keyboard[1],
+            reply_markup=create_post_inline_keyboard[0],
+            parse_mode='markdown'
+        )
+    else:
+        await call_data.message.answer(
+            create_post_inline_keyboard[1],
+            reply_markup=create_post_inline_keyboard[0],
+            parse_mode='markdown'
+        )

@@ -11,7 +11,11 @@ WEBHOOK_PATH = f'/tg/webhooks/bot/{BOT_TOKEN}'
 WEBHOOK_URL = f'{BASE_URL}{WEBHOOK_PATH}'
 BTC_WALLET_ID = env('BTC_WALLET_ID')
 
-LOGS_BASE_PATH = str(Path(__file__).parent.parent / 'logs')
+BASE_DIR = Path(__file__).parent.parent
+LOGS_BASE_PATH = str(BASE_DIR / 'logs')
+
+I18N_DOMAIN = 'foxy'
+LOCALES_DIR = BASE_DIR / 'locales'
 
 admins = {
     'foxy': 414908999,
@@ -25,9 +29,9 @@ ip = {
 
 postgresql_info = {
     'host':     ip['db'],
-    'user':     'postgres',
-    'password': '',
-    'db':       'foxy',
+    'user':     'root',
+    'password': '123riko123',
+    'db':       'test',
 }
 
 redis = {
