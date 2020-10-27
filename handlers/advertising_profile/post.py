@@ -263,7 +263,7 @@ async def post_create_date(call_data: types.CallbackQuery) -> None:
     post_data = await dp.storage.get_data(user=user_id)
 
     date_inline_keyboard = await get_date_inline_keyboard(user_language, post_data)
-    text_answer = config.messages[user_language]['create_post']['date_choose']
+    text_answer = config.messages[user_language]['post_create']['date_choose']
 
     await call_data.message.answer(text_answer, reply_markup=date_inline_keyboard)
     await Post.date.set()
@@ -285,5 +285,5 @@ async def post_create_handle_cancel_busy(call_data: types.CallbackQuery, state: 
     user_id = call_data.from_user.id
     user_language = await get_language(user_id)
 
-    text_answer = config.messages[user_language]['create_post']['date_busy']
+    text_answer = config.messages[user_language]['post_create']['date_busy']
     await call_data.answer(text_answer, show_alert=True)

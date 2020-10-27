@@ -155,7 +155,7 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
         f'*{title}*\n\n{text}' if title and text else \
         f'*{title}*\n\n' if title and not text else \
         f'{text}' if text and not title else \
-        f'{config.messages[user_language]["advertising_profile"]["create_post"]}:'
+        f'{config.messages[user_language]["advertising_profile"]["post_create"]}:'
 
     message += f'\n{date_publication_text}: `{date}`' if date else ''
     message += f'\n{time_publication_text}: `{time}`' if time else ''
@@ -163,7 +163,7 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
 
 
 def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> InlineKeyboardMarkup:
-    post_create_menu = config.messages[user_language]['create_post']
+    post_create_menu = config.messages[user_language]['post_create']
     post_edit_menu = config.messages[user_language]['edit_post']
     if post_data.get('button'):
         post_detail_inline_button = get_post_detail_inline_button(post_data.get('button'))
