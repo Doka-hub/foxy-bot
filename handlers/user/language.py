@@ -1,6 +1,7 @@
 from aiogram import types
 
 from utils.db_api.language import set_language
+
 from keyboards.inline.user.menu import get_menu_inline_keyboard
 from keyboards.inline.user.language import get_language_inline_keyboard
 

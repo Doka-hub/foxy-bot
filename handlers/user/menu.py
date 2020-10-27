@@ -26,6 +26,7 @@ async def menu(message: types.Message) -> None:
     await message.answer(text_answer, reply_markup=menu_inline_keyboard)
 
 
+# Меню (возвращение)
 async def back_to_menu(call_data: types.CallbackQuery) -> None:
     await call_data.message.delete()
 

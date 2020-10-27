@@ -67,7 +67,7 @@ async def choose_time_to_mail(call_data: types.CallbackQuery) -> None:
     time_to_mail = call_data.data.replace('choose_time_to_mail ', '')  # example: 'choose_time_to_mail morning'
     user_id = call_data.from_user.id
 
-    time_to_mail_inline_keyboard = await get_time_to_mail_inline_keyboard(user_id)
     await set_user_time_to_mail(user_id, time_to_mail)
+    time_to_mail_inline_keyboard = await get_time_to_mail_inline_keyboard(user_id)
     await call_data.message.edit_reply_markup(reply_markup=time_to_mail_inline_keyboard)
 
