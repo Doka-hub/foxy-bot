@@ -154,7 +154,7 @@ async def post_create_image(call_data: types.CallbackQuery) -> None:
     text_answer = config.messages[user_language]['post_create']['image_send']
 
     await call_data.message.answer(text_answer, reply_markup=post_create_data_cancel_inline_keyboard)
-    await Post.image_id.set()
+    await PostState.image_id.set()
 
 
 # Создать пост - обработка изображения
@@ -179,7 +179,7 @@ async def post_create_title(call_data: types.CallbackQuery) -> None:
     text_answer = config.messages[user_language]['post_create']['title_send']
 
     await call_data.message.answer(text_answer, reply_markup=post_create_data_cancel_inline_keyboard)
-    await Post.title.set()
+    await PostState.title.set()
 
 
 # Создать пост - обработка заголовка
@@ -201,7 +201,7 @@ async def post_create_text(call_data: types.CallbackQuery) -> None:
     text_answer = config.messages[user_language]['post_create']['text_send']
 
     await call_data.message.answer(text_answer, reply_markup=post_create_data_cancel_inline_keyboard)
-    await Post.text.set()
+    await PostState.text.set()
 
 
 # Создать пост - обработка текста
@@ -224,7 +224,7 @@ async def post_create_button(call_data: types.CallbackQuery) -> None:
 
     await call_data.message.answer(text_answer, reply_markup=post_create_data_cancel_inline_keyboard,
                                    parse_mode='markdown',)
-    await Post.button.set()
+    await PostState.button.set()
 
 
 # Создать пост - обработка кнопки
@@ -266,7 +266,7 @@ async def post_create_date(call_data: types.CallbackQuery) -> None:
     text_answer = config.messages[user_language]['post_create']['date_choose']
 
     await call_data.message.answer(text_answer, reply_markup=date_inline_keyboard)
-    await Post.date.set()
+    await PostState.date.set()
 
 
 # Создать пост - обработка даты
