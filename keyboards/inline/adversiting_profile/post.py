@@ -1,10 +1,11 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from datetime import datetime, timedelta
+
 from typing import List, Union, Dict
 
 from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.users import get_or_create_user
-from utils.db_api.language import get_language
 
 from models import objects, Post, Channel
 
@@ -21,7 +22,7 @@ def get_post_detail_inline_button(button: str) -> List[InlineKeyboardButton]:
     return post_detail_inline_button
 
 
-def get_edit_post_inline_button(user_language: str, post_id: Union[int, str]) -> List[InlineKeyboardButton]:
+def get_post_edit_inline_button(user_language: str, post_id: Union[int, str]) -> List[InlineKeyboardButton]:
     edit_text = config.messages[user_language]['post_detail_text']['edit']
     post_edit_inline_button = [
         InlineKeyboardButton(
@@ -32,7 +33,7 @@ def get_edit_post_inline_button(user_language: str, post_id: Union[int, str]) ->
     return post_edit_inline_button
 
 
-async def get_list_post_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
+async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
     user, created = await get_or_create_user(user_id)
     user_language = user.language
 
@@ -94,10 +95,10 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     ]
     # если модерация отказала, то даётся возможность изменить пост
     if post.status == 'declined':
-        edit_post_inline_button = get_edit_post_inline_button(user_language, post.id)
+        post_edit_inline_button = get_post_edit_inline_button(user_language, post.id)
         inline_buttons.insert(
             0,
-            edit_post_inline_button
+            post_edit_inline_button
         )
     # если есть кнопка, то добавляем её
     if post.button:
@@ -146,9 +147,9 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
     if time:
         time = config.messages[user_language]['time_to_mail'][time]
 
-    create_post_preview = config.messages[user_language]['create_post_preview']
-    date_publication_text = create_post_preview['date']
-    time_publication_text = create_post_preview['time']
+    post_create_preview = config.messages[user_language]['post_create_preview']
+    date_publication_text = post_create_preview['date']
+    time_publication_text = post_create_preview['time']
 
     message = \
         f'*{title}*\n\n{text}' if title and text else \
@@ -162,45 +163,45 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
 
 
 def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> InlineKeyboardMarkup:
-    create_post_menu = config.messages[user_language]['create_post']
-    edit_post_menu = config.messages[user_language]['edit_post']
+    post_create_menu = config.messages[user_language]['create_post']
+    post_edit_menu = config.messages[user_language]['edit_post']
     if post_data.get('button'):
         post_detail_inline_button = get_post_detail_inline_button(post_data.get('button'))
 
-    create_post_inline_keyboard = get_inline_keyboard(
+    post_create_inline_keyboard = get_inline_keyboard(
         [
             post_detail_inline_button if post_data.get('button') else [],
             [
                 InlineKeyboardButton(
-                    create_post_menu['image'] if not post_data.get('image_id') else edit_post_menu['image'],
-                    callback_data='create_post_image' if not post_data.get('image_id') else 'edit_post_image'
+                    post_create_menu['image'] if not post_data.get('image_id') else post_edit_menu['image'],
+                    callback_data='post_create_image' if not post_data.get('image_id') else 'post_edit_image'
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    create_post_menu['title'] if not post_data.get('title') else edit_post_menu['title'],
-                    callback_data='create_post_title' if not post_data.get('title') else 'edit_post_title'
+                    post_create_menu['title'] if not post_data.get('title') else post_edit_menu['title'],
+                    callback_data='post_create_title' if not post_data.get('title') else 'post_edit_title'
                 ),
                 InlineKeyboardButton(
-                    create_post_menu['text'] if not post_data.get('text') else edit_post_menu['text'],
-                    callback_data='create_post_text' if not post_data.get('text') else 'edit_post_text'
+                    post_create_menu['text'] if not post_data.get('text') else post_edit_menu['text'],
+                    callback_data='post_create_text' if not post_data.get('text') else 'post_edit_text'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    create_post_menu['button'] if not post_data.get('button') else edit_post_menu['button'],
-                    callback_data='create_post_button' if not post_data.get('button') else 'edit_post_button'
+                    post_create_menu['button'] if not post_data.get('button') else post_edit_menu['button'],
+                    callback_data='post_create_button' if not post_data.get('button') else 'post_edit_button'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    create_post_menu['date'] if not post_data.get('date') else edit_post_menu['date'],
-                    callback_data='create_post_date' if not post_data.get('date') else 'edit_post_date'
+                    post_create_menu['date'] if not post_data.get('date') else post_edit_menu['date'],
+                    callback_data='post_create_date' if not post_data.get('date') else 'post_edit_date'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    create_post_menu['moderate'], callback_data='post_moderate'
+                    post_create_menu['moderate'], callback_data='post_moderate'
                 )
             ],
             [
@@ -210,4 +211,79 @@ def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> Inli
             ],
         ]
     )
-    return create_post_inline_keyboard
+    return post_create_inline_keyboard
+
+
+async def get_date_inline_keyboard(user_language: str, post_data: Dict) -> InlineKeyboardMarkup:
+    channel_id = post_data.get('channel_id')
+
+    posts = await objects.execute(Post.select().where(Post.paid).join(Channel).where(Channel.id == channel_id))
+    posts = [(post.date, post.time) for post in posts]
+
+    today = datetime.today()
+    date_list = []
+    for day in range(30):
+        for time in ['morning', 'evening']:
+            date = (today + timedelta(days=day))
+            date_list.append(
+                (date, time)
+            )
+    for date in date_list:
+        if (date[0].date(), date[1]) in posts:
+            date_list[date_list.index(date)] = ('lock', date[1])
+            continue
+
+    free_dates_list = []
+    for i in range(30):
+        dates = []
+        for x in range(2):
+            time = config.messages[user_language]['time_to_mail'][date_list[0][1]]
+            time_data = date_list[0][1]
+            date = date_list[0][0]
+
+            if date_list[0][0] == 'lock':
+                dates.append(
+                    InlineKeyboardButton(
+                        f'{config.messages[user_language]["lock"]} - {time}',
+                        callback_data='date_busy'
+                    )
+                )
+                date_list.remove(date_list[0])
+                continue
+            date = date.strftime('%d.%m.%Y')
+            dates.append(
+                InlineKeyboardButton(
+                    f'{date} - {time}',
+                    callback_data=f'choose_date {date}-{time_data}'
+                )
+            )
+            date_list.remove(date_list[0])
+
+        free_dates_list.append(
+            dates
+        )
+
+    date_inline_keyboard = get_inline_keyboard(
+        free_dates_list +
+        [
+            [
+                InlineKeyboardButton(config.messages[user_language]['cancel'], callback_data='data_cancel')
+            ]
+        ]
+    )
+    return date_inline_keyboard
+
+
+def get_post_create_data_cancel_inline_keyboard(user_language: str) -> InlineKeyboardMarkup:
+    """
+    :param user_language: ['ru', 'en, 'he']
+    :return: Возвращает inline-клавиатуру с отменой заполнения того или иного поля
+    """
+    post_create_data_cancel_inline_keyboard = get_inline_keyboard(
+        [
+            [
+                InlineKeyboardButton(config.messages[user_language]['cancel'], callback_data='data_cancel')
+            ]
+        ]
+    )
+    return post_create_data_cancel_inline_keyboard
