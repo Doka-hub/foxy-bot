@@ -8,6 +8,8 @@ from keyboards.inline.user.language import get_language_inline_keyboard
 from data import config
 from data import messages
 
+from loader import _
+
 
 # Меню
 async def menu(message: types.Message) -> None:
@@ -24,7 +26,7 @@ async def menu(message: types.Message) -> None:
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
     # text_answer = config.messages[user_language]['menu_name']
-    text_answer = messages['hello']
+    text_answer = _('привет')
     await message.answer(text_answer, reply_markup=menu_inline_keyboard)
 
 
@@ -44,5 +46,6 @@ async def back_to_menu(call_data: types.CallbackQuery) -> None:
         return
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
-    text_answer = config.messages[user_language]['menu_name']
+    # text_answer = config.messages[user_language]['menu_name']
+    text_answer = _('привет')
     await call_data.message.answer(text_answer, reply_markup=menu_inline_keyboard)

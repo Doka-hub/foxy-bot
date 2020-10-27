@@ -1,7 +1,5 @@
-from loader import _
-
 
 messages = {
-    'hello': _('привет'),
-    'bye': _('пока'),
+    'hello': 'привет',
+    'bye': 'пока',
 }
