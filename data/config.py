@@ -29,8 +29,8 @@ ip = {
 
 postgresql_info = {
     'host':     ip['db'],
-    'user':     'root',
-    'password': '123riko123',
+    'user':     'postgres',
+    'password': '',
     'db':       'test',
 }
 
