@@ -299,12 +299,11 @@ async def post_create_moderate(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
     post_data = await dp.storage.get_data(user=user_id)
 
-    is_must_field_filled, field = check_post_must_fields_filled(post_data)
+    is_must_field_filled, not_filled_field = check_post_must_fields_filled(post_data)
     if not is_must_field_filled:  # если обязательное поле не заполнено
         text_answer = config.messages[user_language]['post_create']['not_filled']
         field = config.messages[user_language]['must_fields']['field']
-        print(field)
-        state = config.messages[user_language]['must_fields'][field]
+        state = config.messages[user_language]['must_fields'][not_filled_field]
         await call_data.answer(field + f' {state.lower()} ' + text_answer, show_alert=True)
         return
 
