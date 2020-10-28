@@ -37,8 +37,7 @@ async def post_post_create(request: web.Request):
     response = {'TIME_CHOICES': Post.TIME_CHOICES, 'STATUS_CHOICES': Post.STATUS_CHOICES}
     post_data = await request.post()
 
-    user = await get_or_create_user(config.ADMINS.get('foxy'))
-    user = user[0]
+    user, created = await get_or_create_user(config.ADMINS.get('foxy'))
 
     uuid_pay = str(uuid4())
 

@@ -50,7 +50,7 @@ class LastPost(BaseModel):
     url = peewee.TextField()
 
 
-class User(BaseModel):
+class TGUser(BaseModel):
     LANGUAGE_CHOICES = (
         ('ru', 'ru'),
         ('en', 'en'),
