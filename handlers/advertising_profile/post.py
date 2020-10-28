@@ -301,7 +301,7 @@ async def post_create_moderate(call_data: types.CallbackQuery) -> None:
 
     is_must_field_filled, field = check_post_must_fields_filled(post_data)
     if not is_must_field_filled:  # если обязательное поле не заполнено
-        text_answer = config.messages[user_language]['create_post']['not_filled']
+        text_answer = config.messages[user_language]['post_create']['not_filled']
         field = config.messages[user_language]['must_fields']['field']
         state = config.messages[user_language]['must_fields'][field]
         await call_data.answer(field + f' {state.lower()} ' + text_answer, show_alert=True)
