@@ -1,6 +1,6 @@
 from aiogram import types
 
-from typing import Dict, List, Optional
+from typing import Dict, Union, Optional
 
 from keyboards.inline.adversiting_profile.post import get_post_create_inline_keyboard, get_post_create_message
 
@@ -67,7 +67,7 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
             )
 
 
-def check_post_must_fields_filled(post_data: Dict) -> List[bool, Optional[str]]:
+def check_post_must_fields_filled(post_data: Dict) -> Union[bool, Optional[str]]:
     """
     :param post_data:
     :return: возвращает список из двух значений. Первое - заполнены ли обязательные поля, второе какие поля не заполнены
