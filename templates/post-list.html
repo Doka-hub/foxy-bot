@@ -34,7 +34,7 @@
                                 "></div>
                             </div>
                         </th>
-                        <td><a style="color: #001759; text-decoration-color: #306AFF" href="/post/{{ post.id }}/">{{ post.title }}</a></td>
+                        <td><a style="color: #001759; text-decoration-color: #306AFF" href="/post/{{ post.id }}/">{{ post.title or 'Нет' }}</a></td>
                         <th><a style="color: #001759; text-decoration-color: #306AFF" href="//t.me/{{ post.user.username }}">{{ post.user.username }}</a></th>
                         <th style="color: #001759; font-weight: 200">{{ post.created }}</th>
                     </tr>
