@@ -1,9 +1,9 @@
 from .users import get_or_create_user
 
-from models import objects, User
+from models import objects, TGUser
 
 
-async def get_language(user_id: int) -> User.language:
+async def get_language(user_id: int) -> TGUser.language:
     user, created = await get_or_create_user(user_id)
     return user.language
 

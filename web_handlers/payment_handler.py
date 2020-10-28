@@ -1,7 +1,7 @@
 from aiohttp import web
 
 
-from models import objects, User, Post
+from models import objects, TGUser, Post
 
 
 payment_handler_app = web.Application()

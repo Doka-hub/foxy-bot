@@ -120,7 +120,7 @@ class Post(BaseModel):
         ('not_paid', 'Не оплачено')
     )
 
-    user = peewee.ForeignKeyField(User, backref='posts')
+    user = peewee.ForeignKeyField(TGUser, backref='posts')
     channel = peewee.ForeignKeyField(Channel, backref='posts')
 
     title = peewee.CharField(default='', max_length=255)

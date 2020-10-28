@@ -5,7 +5,7 @@ import jinja2
 from datetime import datetime
 from uuid import uuid4
 
-from models import objects, Post, User
+from models import objects, Post, TGUser
 from loader import bot
 from data import config
 from utils.db_api.users import get_or_create_user
@@ -19,7 +19,7 @@ async def get_post_list(request: web.Request):
     response = {}
 
     admin_list = list(config.ADMINS.values())
-    query = Post.select().where(Post.paid).join(User).orwhere(User.user_id.in_(admin_list)).order_by(-Post.id)
+    query = Post.select().where(Post.paid).join(TGUser).orwhere(TGUser.user_id.in_(admin_list)).order_by(-Post.id)
     post_list = await objects.execute(query)
 
     response['post_list'] = post_list
