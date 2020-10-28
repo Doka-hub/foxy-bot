@@ -59,7 +59,7 @@ def setup(dp: Dispatcher) -> None:
     # Создание поста - текст
     dp.register_callback_query_handler(post_create_text, lambda c: c.data == 'post_create_text')
     dp.register_callback_query_handler(post_create_text, lambda c: c.data == 'post_edit_text')
-    dp.register_message_handler(post_create_title_handle,
+    dp.register_message_handler(post_create_text_handle,
                                 state=PostState.text, content_types=types.ContentTypes.TEXT)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',
                                        state=PostState.text)
