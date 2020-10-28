@@ -5,7 +5,8 @@ from states.adversiting_profile.post import PostState
 from .profile import advertising_profile
 from .post import (
     post_list, post_detail,
-    post_create, get_contact, post_create_choose_channel_handle, post_create_choose_channel_hanlde_cancel,
+
+    post_create, post_create_cancel, get_contact, post_create_choose_channel_handle, post_create_choose_channel_hanlde_cancel,
     post_create_image, post_create_image_handle,
 
     post_create_title, post_create_title_handle,
@@ -32,6 +33,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста
     dp.register_callback_query_handler(post_create, lambda c: c.data == 'post_create')
+    dp.register_callback_query_handler(post_create_cancel, lambda c: c.data == 'post_cancel')
     dp.register_message_handler(get_contact, content_types=['contact'])
 
     # Создание поста - канал
