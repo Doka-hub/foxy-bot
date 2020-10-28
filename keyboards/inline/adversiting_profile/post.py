@@ -112,7 +112,7 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     return detail_post_inline_keyboard
 
 
-async def get_post_inline_button(post_data: Dict) -> Union[InlineKeyboardMarkup, False]:
+async def get_post_inline_button(post_data: Dict) -> Union[InlineKeyboardMarkup, bool]:
     if post_data.get('button'):
         button_text, button_url = post_data.get('button').split(' - ')
 
