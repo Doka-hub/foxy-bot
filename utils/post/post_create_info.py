@@ -1,6 +1,6 @@
 from aiogram import types
 
-from typing import Dict, Union, Optional
+from typing import Dict, Union, List
 
 from keyboards.inline.adversiting_profile.post import get_post_create_inline_keyboard, get_post_create_message
 
@@ -24,23 +24,15 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         post_data = await dp.storage.get_data(user=user_id)
         image_id = post_data.get('image_id')
 
-        create_post_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
+        post_create_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
         if image_id:
-            await call_data.message.answer_photo(
-                image_id,
-                text_answer,
-                reply_markup=create_post_inline_keyboard,
-                parse_mode='markdown'
-            )
+            await call_data.message.answer_photo(image_id, text_answer, reply_markup=post_create_inline_keyboard,
+                                                 parse_mode='markdown')
         else:
-            await call_data.message.answer(
-                text_answer,
-                reply_markup=create_post_inline_keyboard,
-                parse_mode='markdown'
-            )
+            await call_data.message.answer(text_answer, reply_markup=post_create_inline_keyboard, parse_mode='markdown')
     elif message:
         user_id = message.from_user.id
         user_language = await get_language(user_id=user_id)
@@ -48,26 +40,18 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         post_data = await dp.storage.get_data(user=user_id)
         image_id = post_data.get('image_id')
 
-        create_post_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
+        post_create_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
         if image_id:
-            await message.answer_photo(
-                image_id,
-                text_answer,
-                reply_markup=create_post_inline_keyboard,
-                parse_mode='markdown'
-            )
+            await message.answer_photo(image_id, text_answer, reply_markup=post_create_inline_keyboard,
+                                       parse_mode='markdown')
         else:
-            await message.answer(
-                text_answer,
-                reply_markup=create_post_inline_keyboard,
-                parse_mode='markdown'
-            )
+            await message.answer(text_answer, reply_markup=post_create_inline_keyboard, parse_mode='markdown')
 
 
-def check_post_must_fields_filled(post_data: Dict) -> Union[bool, Optional[str]]:
+def check_post_must_fields_filled(post_data: Dict) -> List[Union[bool, str]]:
     """
     :param post_data:
     :return: возвращает список из двух значений. Первое - заполнены ли обязательные поля, второе какие поля не заполнены
