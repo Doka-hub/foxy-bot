@@ -327,9 +327,9 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
     time = post.get('time', 'morning')
     time = config.messages[user_language]['time_to_mail'][time]
 
-    create_post_preview = config.messages[user_language]['create_post_preview']
-    date_publication_text = create_post_preview['date']
-    time_publication_text = create_post_preview['time']
+    post_create_preview = config.messages[user_language]['post_create_preview']
+    date_publication_text = post_create_preview['date']
+    time_publication_text = post_create_preview['time']
 
     message = (
         f'*{title}*\n\n'
