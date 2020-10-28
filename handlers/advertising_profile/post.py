@@ -40,7 +40,7 @@ async def post_list(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
 
     post_create_inline_keyboard = await get_post_list_inline_keyboard(user_id)
-    text_answer = config.messages[user_language]['advertising_profile']['my_posts']
+    text_answer = config.messages[user_language]['advertising_profile']['post_list']
     await call_data.message.answer(text_answer, reply_markup=post_create_inline_keyboard)
 
 
