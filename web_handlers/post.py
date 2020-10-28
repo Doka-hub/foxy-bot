@@ -18,7 +18,7 @@ aiohttp_jinja2.setup(post_app, loader=jinja2.FileSystemLoader('templates'))
 async def get_post_list(request: web.Request):
     response = {}
 
-    admin_list = list(config.admins.values())
+    admin_list = list(config.ADMINS.values())
     query = Post.select().where(Post.paid).join(User).orwhere(User.user_id.in_(admin_list)).order_by(-Post.id)
     post_list = await objects.execute(query)
 
@@ -37,7 +37,7 @@ async def post_post_create(request: web.Request):
     response = {'TIME_CHOICES': Post.TIME_CHOICES, 'STATUS_CHOICES': Post.STATUS_CHOICES}
     post_data = await request.post()
 
-    user = await get_or_create_user(config.admins.get('foxy'))
+    user = await get_or_create_user(config.ADMINS.get('foxy'))
     user = user[0]
 
     uuid_pay = str(uuid4())

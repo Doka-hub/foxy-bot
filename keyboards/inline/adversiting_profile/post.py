@@ -112,6 +112,37 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     return detail_post_inline_keyboard
 
 
+async def get_post_inline_button(post_data: Dict) -> Union[InlineKeyboardMarkup, False]:
+    if post_data.get('button'):
+        button_text, button_url = post_data.get('button').split(' - ')
+
+        post_inline_button = get_inline_keyboard([[InlineKeyboardButton(button_text, url=button_url)]])
+        return post_inline_button
+    return False
+
+
+def get_confirmation_text_answer(user_language: str) -> str:
+    confirmation_texts = config.messages[user_language]['confirmation']
+    confirmation_text = confirmation_texts['ask']
+    return confirmation_text
+
+
+def get_confirmation_inline_keyboard(user_language: str) -> InlineKeyboardMarkup:
+    """
+    :param user_language:
+    :return: возвращает клавиатуру для подтверждения создания поста
+    """
+    confirmation_texts = config.messages[user_language]['confirmation']
+    confirmation_yes = confirmation_texts['yes']
+    confirmation_no = confirmation_texts['no']
+
+    confirmation_inline_keyboard = get_inline_keyboard([[
+        InlineKeyboardButton(confirmation_yes, callback_data='confirmation_accept'),
+        InlineKeyboardButton(confirmation_no, callback_data='confirmation_decline')
+    ]])
+    return confirmation_inline_keyboard
+
+
 async def get_choose_channel_to_mail_inline_keyboard(user_language: str) -> InlineKeyboardMarkup:
     channels = await objects.execute(Channel.select())
 
@@ -122,7 +153,7 @@ async def get_choose_channel_to_mail_inline_keyboard(user_language: str) -> Inli
                 f'{channel.channel_title} - {channel.language}', url=channel.channel_url
             ),
             InlineKeyboardButton(
-                choose_text, callback_data=f'choose_channel {channel.id}'  # не channel.channel_id (id в таблице)
+                choose_text, callback_data=f'choose_channel {channel.id}'  # channel.id. not channel.channel_id
             )
         ] for channel in channels
     ]
@@ -287,3 +318,89 @@ def get_post_create_data_cancel_inline_keyboard(user_language: str) -> InlineKey
         ]
     )
     return post_create_data_cancel_inline_keyboard
+
+
+async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
+    title = post.get('title', '')
+    text = post.get('text', '')
+    date = post.get('date', '')
+    time = post.get('time', 'morning')
+    time = config.messages[user_language]['time_to_mail'][time]
+
+    create_post_preview = config.messages[user_language]['create_post_preview']
+    date_publication_text = create_post_preview['date']
+    time_publication_text = create_post_preview['time']
+
+    message = (
+        f'*{title}*\n\n'
+        f'{text}'
+        f'\n{date_publication_text}: `{date}`'
+        f'\n{time_publication_text}: `{time}`'
+    )
+    return message
+
+
+async def save_post_data(user_id: int, post_data: Dict, ) -> Post:
+    user, created = await get_or_create_user(user_id)
+
+    channel_id = post_data.get('channel_id')
+    title = post_data.get('title', '')
+    text = post_data.get('text', '')
+    button = post_data.get('button', '')
+    date = datetime.strptime(post_data.get('date'), '%d.%m.%Y')
+    time = post_data.get('time', 'morning')
+    image_id = post_data.get('image_id', '0')
+    bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
+    data = {
+        'user': user,
+        'channel': channel_id,
+        'title': title,
+        'text': text,
+        'button': button,
+        'image_id': image_id,
+        'date': date,
+        'time': time,
+        'bgcolor': bgcolor,
+        'created': datetime.now(),
+        'updated': datetime.now(),
+    }
+    return await objects.create(Post, **data)
+
+
+async def update_post_data(post_data: Dict) -> Post:
+    post_id = post_data.get('post_id')
+    post = await objects.get(Post, id=post_id)
+
+    user_id = post.user.user_id
+
+    title = post_data.get('title')
+    text = post_data.get('text')
+    button = post_data.get('button')
+    date = post_data.get('date')
+    time = post_data.get('time', 'morning')
+    image_id = post_data.get('image_id', '0')
+    bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
+    data = {
+        'title': title,
+        'text': text,
+        'button': button,
+        'image_id': image_id,
+        'date': date,
+        'time': time,
+        'bgcolor': bgcolor,
+        'updated': datetime.now(),
+        'status': 'processing',
+        'status_message': ''
+    }
+    post = post.pre_update_data(data)
+    return await objects.update(post, list(data.keys()))
+
+
+async def get_pay_text_answer(user_id: int) -> str:
+    user, created = await get_or_create_user(user_id)
+    user_language = user.language
+    btc_address_to_pay = user.btc_address_to_pay
+
+    message = config.messages[user_language]['pay_message']
+    message = message.format(btc_address_to_pay=btc_address_to_pay, amount='0.005 btc')
+    return message

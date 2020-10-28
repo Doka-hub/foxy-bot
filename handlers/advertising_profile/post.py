@@ -10,15 +10,19 @@ from states.adversiting_profile.post import PostState
 from utils.db_api.language import get_language
 from utils.db_api.users import get_or_create_user
 from utils.db_api.adversiting_profile.post import set_phone_number
-from utils.post.post_create_info import post_create_detail
+from utils.post.post_create_info import post_create_detail, check_post_must_fields_filled
 
+from keyboards.inline.user.menu import get_menu_inline_keyboard
 from keyboards.inline.adversiting_profile.profile import get_advertising_profile_inline_keyboard
 from keyboards.inline.adversiting_profile.post import (
     get_post_list_inline_keyboard, get_post_detail_text_answer,
 
     get_post_inline_buttons, get_post_create_message, get_post_create_inline_keyboard, get_date_inline_keyboard,
-    get_post_create_data_cancel_inline_keyboard, get_date_inline_keyboard,
+    get_post_create_data_cancel_inline_keyboard, get_date_inline_keyboard, get_post_inline_button,
 
+    get_post_moderate_answer_text, get_confirmation_text_answer, get_confirmation_inline_keyboard, get_pay_text_answer,
+
+    save_post_data, update_post_data,
     get_choose_channel_to_mail_inline_keyboard
 )
 from keyboards.default.advertising_profile.post import get_request_contact_default_keyboard
@@ -287,3 +291,65 @@ async def post_create_handle_cancel_busy(call_data: types.CallbackQuery, state: 
 
     text_answer = config.messages[user_language]['post_create']['date_busy']
     await call_data.answer(text_answer, show_alert=True)
+
+
+# Создать пост - модерация
+async def post_create_moderate(call_data: types.CallbackQuery) -> None:
+    user_id = call_data.from_user.id
+    user_language = await get_language(user_id)
+    post_data = await dp.storage.get_data(user=user_id)
+
+    is_must_field_filled, field = check_post_must_fields_filled(post_data)
+    if not is_must_field_filled:  # если обязательное поле не заполнено
+        text_answer = config.messages[user_language]['create_post']['not_filled']
+        field = config.messages[user_language]['must_fields']['field']
+        state = config.messages[user_language]['must_fields'][field]
+        await call_data.answer(field + f' {state.lower()} ' + text_answer, show_alert=True)
+        return
+
+    await call_data.message.delete()
+
+    image_id = post_data.get('image_id')
+    text_answer = await get_post_moderate_answer_text(user_language, post_data)
+
+    if image_id:
+        mess = await call_data.message.answer_photo(image_id, text_answer, parse_mode='markdown')
+    else:
+        mess = await call_data.message.answer(text_answer, parse_mode='markdown')
+
+    post_inline_button = await get_post_inline_button(post_data)
+    if post_inline_button:
+        await mess.edit_reply_markup(post_inline_button)
+
+    confirmation_text_answer = get_confirmation_text_answer(user_language)
+    confirmation_inline_keyboard = get_confirmation_inline_keyboard(user_language)
+    await call_data.message.answer(confirmation_text_answer, reply_markup=confirmation_inline_keyboard)
+
+
+# Создать пост - подтверждение (нет)
+async def post_create_confirmation_decline(call_data: types.CallbackQuery) -> None:
+    await call_data.message.delete()
+    await post_detail(call_data=call_data)
+
+
+# Создать пост - подтверждение (да)
+async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> None:
+    await call_data.message.delete()
+
+    user_id = call_data.from_user.id
+    user_language = await get_language(user_id)
+    post_data = await dp.storage.get_data(user=user_id)
+
+    if post_data.get('edit'):
+        await update_post_data(post_data)
+        await call_data.answer('success')
+    else:
+        await save_post_data(user_id, post_data)
+
+        text_answer = await get_pay_text_answer(user_id)
+        await call_data.message.answer(text_answer, parse_mode='markdown')
+
+    menu_inline_keyboard = get_menu_inline_keyboard(user_language)
+    await call_data.message.answer(config.messages[user_language]['menu_name'], reply_markup=menu_inline_keyboard,
+                                   parse_mode='markdown')
+    await dp.storage.reset_data(user=user_id)

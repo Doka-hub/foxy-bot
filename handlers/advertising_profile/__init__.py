@@ -16,6 +16,8 @@ from .post import (
 
     post_create_date, post_create_date_handle, post_create_handle_cancel_busy,
 
+    post_create_moderate, post_create_confirmation_decline, post_create_confirmation_accept,
+
     post_create_handle_cancel
 )
 
@@ -79,3 +81,8 @@ def setup(dp: Dispatcher) -> None:
                                        state=PostState.date)
     dp.register_callback_query_handler(post_create_handle_cancel_busy, lambda c: c.data == 'date_busy',
                                        state=PostState.date)
+
+    # Создание поста - модерация
+    dp.register_callback_query_handler(post_create_moderate, lambda c: c.data == 'post_moderate')
+    dp.register_callback_query_handler(post_create_confirmation_decline, lambda c: c.data == 'confirmation_decline')
+    dp.register_callback_query_handler(post_create_confirmation_accept, lambda c: c.data == 'confirmation_accept')
