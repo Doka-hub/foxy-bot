@@ -17,12 +17,12 @@ async def check_subscribe(call_data: types.CallbackQuery) -> None:
 
     try:
         await call_data.bot.get_chat_member(channel_id, user_id)
+        await call_data.message.delete()
+        await subscribe_user_to_channel(user_id)
     except BadRequest:  # если участник не найден
         text_answer = config.messages[user_language]['channel']['not_found']
         await call_data.answer(text_answer, show_alert=True)
         return
-    await call_data.message.delete()
-    await subscribe_user_to_channel(user_id)
 
     categories_inline_keyboard = await get_categories_inline_keyboard(user_id)
     text_answer = config.messages[user_language]['subscribe']
