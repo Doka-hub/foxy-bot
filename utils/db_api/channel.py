@@ -13,10 +13,4 @@ async def subscribe_user_to_channel(user_id: int) -> None:
     elif user.language == 'he':
         user.he_subscribed = True
 
-    await objects.update(
-        user, [
-            'ru_subscribed',
-            'en_subscribed',
-            'he_subscribed'
-        ]
-    )
+    await objects.update(user, ['ru_subscribed', 'en_subscribed', 'he_subscribed'])
