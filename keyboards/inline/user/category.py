@@ -8,7 +8,8 @@ from utils.db_api.users import get_or_create_user
 from data import config
 
 
-def get_check_subscribe_inline_keyboard(user_language: str, channel_to_subscribe: Channel) -> InlineKeyboardMarkup:
+def get_channel_check_subscribe_inline_keyboard(user_language: str,
+                                                channel_to_subscribe: Channel) -> InlineKeyboardMarkup:
     check_subscribe_inline_keyboard = get_inline_keyboard(
         [
             [

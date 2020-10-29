@@ -2,7 +2,7 @@ from aiogram import types
 
 from keyboards.inline.user.category import get_categories_inline_keyboard
 
-from utils.db_api.channel import subscribe_user_to_channel, check_user_subscribed
+from utils.db_api.channel import subscribe_user_to_channel, check_user_channel_subscribed
 from utils.db_api.language import get_language
 
 from data import config
@@ -14,7 +14,7 @@ async def check_subscribe(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
 
     channel_id = int(call_data.data.replace('check_subscribe ', ' '))
-    user_subscribed = await check_user_subscribed(call_data.bot, channel_id, user_id)
+    user_subscribed = await check_user_channel_subscribed(call_data.bot, user_id, channel_id)
 
     if user_subscribed:
         await call_data.message.delete()

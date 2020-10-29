@@ -1,16 +1,13 @@
 from aiogram import types
 
 from keyboards.inline.user.category import (
-    get_check_subscribe_inline_keyboard, get_categories_inline_keyboard,
+    get_channel_check_subscribe_inline_keyboard, get_categories_inline_keyboard,
     get_time_to_mail_inline_keyboard
 )
 
 from utils.db_api.language import get_language
-from utils.db_api.category import (
-    check_user_subscribe, get_channel_to_subscribe, subscribe_user_to_category,
-    set_user_time_to_mail
-)
-from utils.db_api.channel import check_user_subscribed
+from utils.db_api.category import subscribe_user_to_category, set_user_time_to_mail
+from utils.db_api.channel import check_user_channel_subscribed, get_channel_to_subscribe
 
 from data import config
 
@@ -33,13 +30,14 @@ async def category_subscribe(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
     category_key = call_data.data.replace('choose_category ', '')  # example: 'choose_category health'
 
-    user_subscribed = await check_user_subscribed(call_data.bot, channel_id, user_id)
+    user_subscribed = await check_user_channel_subscribed(call_data.bot, user_id)
 
     if not user_subscribed:
         await call_data.message.delete()
 
         channel_to_subscribe = await get_channel_to_subscribe(user_language)
-        check_subscribe_inline_keyboard = get_check_subscribe_inline_keyboard(user_language, channel_to_subscribe)
+        check_subscribe_inline_keyboard = get_channel_check_subscribe_inline_keyboard(user_language,
+                                                                                      channel_to_subscribe)
         text_answer = config.messages[user_language]['subscribe_required']
         await call_data.message.answer(text_answer + channel_to_subscribe.channel_url,
                                        reply_markup=check_subscribe_inline_keyboard)
@@ -70,4 +68,3 @@ async def choose_time_to_mail(call_data: types.CallbackQuery) -> None:
     await set_user_time_to_mail(user_id, time_to_mail)
     time_to_mail_inline_keyboard = await get_time_to_mail_inline_keyboard(user_id)
     await call_data.message.edit_reply_markup(reply_markup=time_to_mail_inline_keyboard)
-
