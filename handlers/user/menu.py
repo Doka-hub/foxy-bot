@@ -38,7 +38,8 @@ async def back_to_menu(call_data: types.CallbackQuery) -> None:
 
     if not user_language:
         language_inline_keyboard = get_language_inline_keyboard()
-        await call_data.message.answer('Выберите язык / Choose language / שפה נבחרתת', reply_markup=language_inline_keyboard)
+        await call_data.message.answer('Выберите язык / Choose language / שפה נבחרתת',
+                                       reply_markup=language_inline_keyboard)
         return
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)

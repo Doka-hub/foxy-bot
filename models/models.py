@@ -1,12 +1,11 @@
-from data import config
-
-from typing import Dict, AnyStr
+from typing import Dict, Union, Optional
 
 import peewee
 from peewee_async import Manager, PostgresqlDatabase
 
+from data import config
 
-database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'],)
+database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
 objects = Manager(database)
 
 
@@ -141,14 +140,14 @@ class Post(BaseModel):
     updated = peewee.DateTimeField()
 
     @property
-    def get_time(self):
+    def get_time(self) -> Optional[str]:
         return dict(Post.TIME_CHOICES).get(self.time)
 
     @property
-    def get_status(self):
+    def get_status(self) -> Optional[str]:
         return dict(Post.STATUS_CHOICES).get(self.status)
 
-    def _is_button(self) -> str or None:
+    def _is_button(self) -> Optional[str]:
         return self.button
 
     @property
@@ -157,12 +156,12 @@ class Post(BaseModel):
             return self.button.split(' - ')[0]  # текст на кнопке
 
     @property
-    def button_url(self) -> str:
+    def button_url(self) -> Optional[str]:
         if self._is_button():
             return self.button.split(' - ')[1]  # ссылка кнопки
 
-    def _get_image(self) -> False or str:
-        if self.image_id != '0':
+    def _get_image(self) -> Union[bool, str]:
+        if self.image_id not in ['0', None]:
             return self.image_id
         return False
 
@@ -179,6 +178,10 @@ class Post(BaseModel):
         return data
 
     def pre_update_data(self, data: Dict[str, str]):
+        """
+        :param data:
+        :return: self
+        """
         self.title = data.get('title')
         self.text = data.get('text')
         self.button = data.get('button')

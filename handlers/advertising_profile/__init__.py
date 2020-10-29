@@ -44,7 +44,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста - картинка
     dp.register_callback_query_handler(post_create_image, lambda c: c.data == 'post_create_image')
-    dp.register_callback_query_handler(post_create_image, lambda c: c.data == 'post_edit_image')
+    dp.register_callback_query_handler(post_create_image, lambda c: c.data == 'post_update_image')
     dp.register_message_handler(post_create_image_handle,
                                 state=PostState.image_id, content_types=types.ContentTypes.PHOTO)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',
@@ -52,7 +52,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста - заголовок
     dp.register_callback_query_handler(post_create_title, lambda c: c.data == 'post_create_title')
-    dp.register_callback_query_handler(post_create_title, lambda c: c.data == 'post_edit_title')
+    dp.register_callback_query_handler(post_create_title, lambda c: c.data == 'post_update_title')
     dp.register_message_handler(post_create_title_handle,
                                 state=PostState.title, content_types=types.ContentTypes.TEXT)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',
@@ -60,7 +60,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста - текст
     dp.register_callback_query_handler(post_create_text, lambda c: c.data == 'post_create_text')
-    dp.register_callback_query_handler(post_create_text, lambda c: c.data == 'post_edit_text')
+    dp.register_callback_query_handler(post_create_text, lambda c: c.data == 'post_update_text')
     dp.register_message_handler(post_create_text_handle,
                                 state=PostState.text, content_types=types.ContentTypes.TEXT)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',
@@ -68,7 +68,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста - кнопка
     dp.register_callback_query_handler(post_create_button, lambda c: c.data == 'post_create_button')
-    dp.register_callback_query_handler(post_create_button, lambda c: c.data == 'post_edit_button')
+    dp.register_callback_query_handler(post_create_button, lambda c: c.data == 'post_update_button')
     dp.register_message_handler(post_create_button_handle,
                                 state=PostState.button, content_types=types.ContentTypes.TEXT)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',
@@ -76,7 +76,7 @@ def setup(dp: Dispatcher) -> None:
 
     # Создание поста - дата
     dp.register_callback_query_handler(post_create_date, lambda c: c.data == 'post_create_date')
-    dp.register_callback_query_handler(post_create_date, lambda c: c.data == 'post_edit_date')
+    dp.register_callback_query_handler(post_create_date, lambda c: c.data == 'post_update_date')
     dp.register_callback_query_handler(post_create_date_handle,
                                        lambda c: c.data.startswith('choose_date'), state=PostState.date)
     dp.register_callback_query_handler(post_create_handle_cancel, lambda c: c.data == 'data_cancel',

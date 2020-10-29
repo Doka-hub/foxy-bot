@@ -19,7 +19,6 @@ async def choose_language(call_data: types.CallbackQuery) -> None:
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
     text_answer = config.messages[user_language]['menu_name']
-
     await call_data.message.answer(text_answer, reply_markup=menu_inline_keyboard)
 
 
@@ -28,6 +27,4 @@ async def change_language(call_data: types.CallbackQuery) -> None:
     await call_data.message.delete()
 
     language_inline_keyboard = get_language_inline_keyboard()
-    await call_data.message.answer(
-        'Выберите язык / Choose language / בחר שפה', reply_markup=language_inline_keyboard
-    )
+    await call_data.message.answer('Выберите язык / Choose language / בחר שפה', reply_markup=language_inline_keyboard)

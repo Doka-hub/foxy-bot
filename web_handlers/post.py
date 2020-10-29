@@ -3,12 +3,17 @@ import aiohttp_jinja2
 import jinja2
 
 from datetime import datetime
+
 from uuid import uuid4
 
 from models import objects, Post, TGUser
+
 from loader import bot
-from data import config
+
 from utils.db_api.users import get_or_create_user
+
+from data import config
+
 
 post_app = web.Application()
 aiohttp_jinja2.setup(post_app, loader=jinja2.FileSystemLoader('templates'))

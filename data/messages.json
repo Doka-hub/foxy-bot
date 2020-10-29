@@ -1,6 +1,6 @@
 {
   "ru": {
-    "start_asnwer": "",
+    "start_answer": "",
     "subscribe": "Подписка на категории",
     "subscribe_required": "Для подписки на рассылку необходимо подписаться на канал:",
     "check_subscribe": "Проверить подписку",
@@ -48,7 +48,8 @@
     },
 
     "channel": {
-      "choose_channel": "Выберите канал для рекламного поста"
+      "choose_channel": "Выберите канал для рекламного поста",
+      "not_found": "Не найден!"
     },
 
     "post_create": {
@@ -70,20 +71,23 @@
       "button_format": "Отправьте кнопку в таком формате:\n`Text - URL`",
       "button_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`",
       "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
+
     },
     "post_create_preview": {
       "date": "Дата публикации",
       "time": "Время публикации"
     },
 
-    "edit_post": {
+    "post_update": {
       "image": "Изменить изображение",
       "title": "Изменить заголовок",
       "text": "Изменить текст",
       "button": "Изменить кнопку",
       "date": "Изменить дату публикации",
       "time": "Изменить время для публикации",
-      "moderate": "Отправить на модерацию"
+      "moderate": "Отправить на модерацию",
+
+      "updated": "Обновлено. Пост отправился на модерацию."
     },
 
     "confirmation": {
@@ -109,7 +113,7 @@
   },
 
   "en": {
-    "start_asnwer": "",
+    "start_answer": "",
     "subscribe": "Subscribe to categories",
     "subscribe_required": "To subscribe to the newsletter, you must subscribe to the channel:",
     "check_subscribe": "Check subscription",
@@ -154,7 +158,8 @@
     },
 
     "channel": {
-      "choose_channel": "Выберите канал для рекламного поста"
+      "choose_channel": "Select a channel for ad post",
+      "not_found": "Not found"
     },
 
     "post_create": {
@@ -175,7 +180,7 @@
       "date_busy": "Date is busy!",
       "button_format": "Send the button in this format:\n`Text - URL`",
       "button_invalid_format": "Invalid format, send the button in the required format:\n`Text - URL`",
-      "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
+      "button_url_invalid_format": "Invalid format, send the button in the required format:\n`Text - URL`.\nLink must start with `http://` or `https://`"
     },
     "post_create_preview": {
       "date": "Date of publication",
@@ -199,8 +204,8 @@
     },
 
     "contact": {
-      "request_contact": "Отправьте ваш контакт",
-      "send_contact": "Отправить контакт"
+      "request_contact": "Send your contact",
+      "send_contact": "Send contact"
     },
 
     "must_fields": {
@@ -211,12 +216,12 @@
 
     "pay_message": "Make a payment.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`\n",
     "lock": "Busy",
-    "choose": "Выбрать",
+    "choose": "Choose",
     "cancel": "Cancel"
   },
 
   "he": {
-    "start_asnwer": "",
+    "start_answer": "",
     "subscribe": "הירשם לקטגוריות",
     "subscribe_required": "כדי להירשם לניוזלטר, עליך להירשם לערוץ:",
 
@@ -262,7 +267,8 @@
     },
 
     "channel": {
-      "choose_chanel": "Выберите канал для рекламного поста"
+      "choose_channel": "Выберите канал для рекламного поста",
+      "not_found": "Не найден"
     },
 
     "post_create": {

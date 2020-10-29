@@ -14,23 +14,14 @@ from data import config
 
 def get_post_detail_inline_button(button: str) -> List[InlineKeyboardButton]:
     button_text, button_url = button.split(' - ')
-    post_detail_inline_button = [
-        InlineKeyboardButton(
-            button_text, url=button_url
-        )
-    ]
+    post_detail_inline_button = [InlineKeyboardButton(button_text, url=button_url)]
     return post_detail_inline_button
 
 
-def get_post_edit_inline_button(user_language: str, post_id: Union[int, str]) -> List[InlineKeyboardButton]:
+def get_post_update_inline_button(user_language: str, post_id: Union[int, str]) -> List[InlineKeyboardButton]:
     edit_text = config.messages[user_language]['post_detail_text']['edit']
-    post_edit_inline_button = [
-        InlineKeyboardButton(
-            edit_text,
-            callback_data=f'edit_post {post_id}'
-        )
-    ]
-    return post_edit_inline_button
+    post_update_inline_button = [InlineKeyboardButton(edit_text, callback_data=f'post_update {post_id}')]
+    return post_update_inline_button
 
 
 async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
@@ -95,10 +86,10 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     ]
     # если модерация отказала, то даётся возможность изменить пост
     if post.status == 'declined':
-        post_edit_inline_button = get_post_edit_inline_button(user_language, post.id)
+        post_update_inline_button = get_post_update_inline_button(user_language, post.id)
         inline_buttons.insert(
             0,
-            post_edit_inline_button
+            post_update_inline_button
         )
     # если есть кнопка, то добавляем её
     if post.button:
@@ -160,11 +151,7 @@ async def get_choose_channel_to_mail_inline_keyboard(user_language: str) -> Inli
 
     choose_channel_to_mail_inline_keyboard = get_inline_keyboard(
         channels + [
-            [
-                InlineKeyboardButton(
-                    config.messages[user_language]['cancel'], callback_data='advertising_profile'
-                )
-            ]
+            [InlineKeyboardButton(config.messages[user_language]['cancel'], callback_data='advertising_profile')]
         ]
     )
     return choose_channel_to_mail_inline_keyboard
@@ -195,7 +182,7 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
 
 def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> InlineKeyboardMarkup:
     post_create_menu = config.messages[user_language]['post_create']
-    post_edit_menu = config.messages[user_language]['edit_post']
+    post_update_menu = config.messages[user_language]['post_update']
     if post_data.get('button'):
         post_detail_inline_button = get_post_detail_inline_button(post_data.get('button'))
 
@@ -204,40 +191,42 @@ def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> Inli
             post_detail_inline_button if post_data.get('button') else [],
             [
                 InlineKeyboardButton(
-                    post_create_menu['image'] if not post_data.get('image_id') else post_edit_menu['image'],
-                    callback_data='post_create_image' if not post_data.get('image_id') else 'post_edit_image'
+                    post_create_menu['image'] if not post_data.get('image_id') else post_update_menu['image'],
+                    callback_data='post_create_image' if not post_data.get('image_id') else 'post_update_image'
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    post_create_menu['title'] if not post_data.get('title') else post_edit_menu['title'],
-                    callback_data='post_create_title' if not post_data.get('title') else 'post_edit_title'
+                    post_create_menu['title'] if not post_data.get('title') else post_update_menu['title'],
+                    callback_data='post_create_title' if not post_data.get('title') else 'post_update_title'
                 ),
                 InlineKeyboardButton(
-                    post_create_menu['text'] if not post_data.get('text') else post_edit_menu['text'],
-                    callback_data='post_create_text' if not post_data.get('text') else 'post_edit_text'
+                    post_create_menu['text'] if not post_data.get('text') else post_update_menu['text'],
+                    callback_data='post_create_text' if not post_data.get('text') else 'post_update_text'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    post_create_menu['button'] if not post_data.get('button') else post_edit_menu['button'],
-                    callback_data='post_create_button' if not post_data.get('button') else 'post_edit_button'
+                    post_create_menu['button'] if not post_data.get('button') else post_update_menu['button'],
+                    callback_data='post_create_button' if not post_data.get('button') else 'post_update_button'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    post_create_menu['date'] if not post_data.get('date') else post_edit_menu['date'],
-                    callback_data='post_create_date' if not post_data.get('date') else 'post_edit_date'
+                    post_create_menu['date'] if not post_data.get('date') else post_update_menu['date'],
+                    callback_data='post_create_date' if not post_data.get('date') else 'post_update_date'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    post_create_menu['moderate'], callback_data='post_moderate'
+                    post_create_menu['moderate'],
+                    callback_data='post_moderate'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    config.messages[user_language]['cancel'], callback_data='post_cancel'
+                    config.messages[user_language]['cancel'],
+                    callback_data='post_cancel'
                 )
             ],
         ]
@@ -340,7 +329,7 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
     return message
 
 
-async def save_post_data(user_id: int, post_data: Dict, ) -> Post:
+async def save_post_data(user_id: int, post_data: Dict, ) -> None:
     user, created = await get_or_create_user(user_id)
 
     channel_id = post_data.get('channel_id')
@@ -351,6 +340,7 @@ async def save_post_data(user_id: int, post_data: Dict, ) -> Post:
     time = post_data.get('time', 'morning')
     image_id = post_data.get('image_id', '0')
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
+
     data = {
         'user': user,
         'channel': channel_id,
@@ -364,10 +354,10 @@ async def save_post_data(user_id: int, post_data: Dict, ) -> Post:
         'created': datetime.now(),
         'updated': datetime.now(),
     }
-    return await objects.create(Post, **data)
+    await objects.create(Post, **data)
 
 
-async def update_post_data(post_data: Dict) -> Post:
+async def update_post_data(post_data: Dict) -> None:
     post_id = post_data.get('post_id')
     post = await objects.get(Post, id=post_id)
 
@@ -380,6 +370,7 @@ async def update_post_data(post_data: Dict) -> Post:
     time = post_data.get('time', 'morning')
     image_id = post_data.get('image_id', '0')
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
+
     data = {
         'title': title,
         'text': text,
@@ -393,7 +384,7 @@ async def update_post_data(post_data: Dict) -> Post:
         'status_message': ''
     }
     post = post.pre_update_data(data)
-    return await objects.update(post, list(data.keys()))
+    await objects.update(post, list(data.keys()))
 
 
 async def get_pay_text_answer(user_id: int) -> str:

@@ -1,4 +1,3 @@
-from typing import Optional
 from .models import (
     objects, Post, TGUser, Category, Channel, category_users_through, URL, InfoArticle, LastPost, Article
 )
@@ -26,33 +25,20 @@ def setup():
         ]
 
         for category, ru_category in zip(categories, ru_categories):
-            Category.create(
-                key=category,
-                name=ru_category,
-                language='ru'
-            )
+            Category.create(key=category, name=ru_category, language='ru')
+
         for category, en_category in zip(categories, en_categories):
-            Category.create(
-                key=category,
-                name=en_category,
-                language='en'
-            )
+            Category.create(key=category, name=en_category, language='en')
+
         for category, he_category in zip(categories, he_categories):
-            Category.create(
-                key=category,
-                name=he_category,
-                language='he'
-            )
+            Category.create(key=category, name=he_category, language='he')
 
     if not URL.table_exists():
         URL.create_table()
 
-        def create(category: Optional[str], language: Optional[str], site: Optional[str], url: Optional[str]):
-            URL.create(
-                category=Category.select().where(Category.key == category, Category.language == language).get(),
-                site=site,
-                url=url
-            )
+        def url_create(category: str, language: str, site: str, url: str) -> None:
+            category = Category.select().where(Category.key == category, Category.language == language).get()
+            URL.create(category=category, site=site, url=url)
 
         urls = {
             'ru':
@@ -238,8 +224,8 @@ def setup():
         }
         for language in urls:
             for category in urls[language]:
-                for url in urls[language][category]:
-                    create(category, language, site=url[0], url=url[1])
+                for type_, url in urls[language][category]:
+                    url_create(category, language, site=type_, url=url)
 
     if not LastPost.table_exists():
         LastPost.create_table()
@@ -262,12 +248,8 @@ def setup():
     if not InfoArticle.table_exists():
         InfoArticle.create_table()
 
-        def info_article_create(title: Optional[str], language: Optional[str], url: Optional[str]):
-            InfoArticle.create(
-                title=title,
-                language=language,
-                url=url
-            )
+        def info_article_create(title: str, language: str, url: str) -> None:
+            InfoArticle.create(title=title, language=language, url=url)
 
         info_articles = {
             'ru': (
@@ -289,16 +271,16 @@ def setup():
             'en': (
                 ('How to buy ads?', 'https://google.com'),
                 ('What is Bitcoin?', 'https://telegra.ph/What-is-bitcoin-10-12'),
-                ('SAVL. What are Private and Market wallets? What are they for and what is the difference between them?',
+                ('SAVL. Private and Market wallets',
                  'https://telegra.ph/SAVL-What-are-Private-and-Market-wallets-What-are-they-for-and-what-is-the'
                  '-difference-between-them-10-12'),
                 ('SAVL. How can I buy crypto?', 'https://telegra.ph/SAVL-How-can-I-buy-crypto-10-12'),
                 ('SAVL. How can I sell crypto?', 'https://telegra.ph/SAVL-How-can-I-sell-crypto-10-12'),
-                ('SAVL. Why is the verification (KYC) necessary and how do I complete it?',
+                ('SAVL. Verification. How complete it?',
                  'https://telegra.ph/SAVL-Why-is-the-verification-KYC-necessary-and-how-do-I-complete-it-10-12'),
                 ('SAVL. Why is verification (KYC) necessary and how to get through it?',
                  'https://telegra.ph/SAVL-Why-is-verification-KYC-necessary-and-how-to-get-through-it-10-12'),
-                ('SAVL. How can I buy crypto with debit/credit card or Apple Pay?',
+                ('SAVL. How buy crypto with card?',
                  'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
             ),
             'he': (

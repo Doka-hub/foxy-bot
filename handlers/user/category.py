@@ -1,7 +1,5 @@
 from aiogram import types
 
-from data import config
-
 from keyboards.inline.user.category import (
     get_check_subscribe_inline_keyboard, get_categories_inline_keyboard,
     get_time_to_mail_inline_keyboard
@@ -12,6 +10,8 @@ from utils.db_api.category import (
     check_user_subscribe, get_channel_to_subscribe, subscribe_user_to_category,
     set_user_time_to_mail
 )
+
+from data import config
 
 
 # Список категорий
@@ -38,11 +38,8 @@ async def category_subscribe(call_data: types.CallbackQuery) -> None:
         channel_to_subscribe = await get_channel_to_subscribe(user_language)
         check_subscribe_inline_keyboard = get_check_subscribe_inline_keyboard(user_language, channel_to_subscribe)
         text_answer = config.messages[user_language]['subscribe_required']
-
-        await call_data.message.answer(
-            text_answer + channel_to_subscribe.channel_url,
-            reply_markup=check_subscribe_inline_keyboard
-        )
+        await call_data.message.answer(text_answer + channel_to_subscribe.channel_url,
+                                       reply_markup=check_subscribe_inline_keyboard)
         return
 
     await subscribe_user_to_category(user_id, category_key)

@@ -17,7 +17,7 @@ from keyboards.inline.adversiting_profile.profile import get_advertising_profile
 from keyboards.inline.adversiting_profile.post import (
     get_post_list_inline_keyboard, get_post_detail_text_answer,
 
-    get_post_inline_buttons, get_post_create_message, get_post_create_inline_keyboard, get_date_inline_keyboard,
+    get_post_inline_buttons, get_post_create_message, get_post_create_inline_keyboard,
     get_post_create_data_cancel_inline_keyboard, get_date_inline_keyboard, get_post_inline_button,
 
     get_post_moderate_answer_text, get_confirmation_text_answer, get_confirmation_inline_keyboard, get_pay_text_answer,
@@ -59,9 +59,8 @@ async def post_detail(call_data: types.CallbackQuery) -> None:
 
     # если картинки нет
     if post.image_id != '0':
-        await call_data.message.answer_photo(
-            post.image_id, message, reply_markup=detail_post_inline_keyboard, parse_mode='markdown'
-        )
+        await call_data.message.answer_photo(post.image_id, message, reply_markup=detail_post_inline_keyboard,
+                                             parse_mode='markdown')
         return
     await call_data.message.answer(message, reply_markup=detail_post_inline_keyboard, parse_mode='markdown')
 
@@ -338,11 +337,13 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
 
     user_id = call_data.from_user.id
     user_language = await get_language(user_id)
-    post_data = await dp.storage.get_data(user=user_id)
 
+    post_data = await dp.storage.get_data(user=user_id)
     if post_data.get('edit'):
         await update_post_data(post_data)
-        await call_data.answer('success')
+
+        text_answer = config.messages[user_language]['post_update']['updated']
+        await call_data.answer(text_answer, show_alert=True)
     else:
         await save_post_data(user_id, post_data)
 
@@ -350,6 +351,6 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
-    await call_data.message.answer(config.messages[user_language]['menu_name'], reply_markup=menu_inline_keyboard,
-                                   parse_mode='markdown')
+    text_answer = config.messages[user_language]['menu_name']
+    await call_data.message.answer(text_answer, reply_markup=menu_inline_keyboard, parse_mode='markdown')
     await dp.storage.reset_data(user=user_id)
