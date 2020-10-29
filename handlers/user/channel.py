@@ -16,7 +16,8 @@ async def check_subscribe(call_data: types.CallbackQuery) -> None:
     channel_id = int(call_data.data.replace('check_subscribe ', ' '))
 
     try:
-        await call_data.bot.get_chat_member(channel_id, user_id)
+        member = await call_data.bot.get_chat_member(channel_id, user_id)
+        print(member)
         await call_data.message.delete()
         await subscribe_user_to_channel(user_id)
     except BadRequest:  # если участник не найден
