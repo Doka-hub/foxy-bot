@@ -10,6 +10,7 @@ from utils.db_api.category import (
     check_user_subscribe, get_channel_to_subscribe, subscribe_user_to_category,
     set_user_time_to_mail
 )
+from utils.db_api.channel import check_user_subscribed
 
 from data import config
 
@@ -32,7 +33,9 @@ async def category_subscribe(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
     category_key = call_data.data.replace('choose_category ', '')  # example: 'choose_category health'
 
-    if not await check_user_subscribe(user_id):
+    user_subscribed = await check_user_subscribed(call_data.bot, channel_id, user_id)
+
+    if not user_subscribed:
         await call_data.message.delete()
 
         channel_to_subscribe = await get_channel_to_subscribe(user_language)
