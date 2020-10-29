@@ -15,9 +15,7 @@ async def check_user_subscribe(user_id: int) -> bool:
 
 
 async def get_channel_to_subscribe(language: str) -> Channel:
-    channel = await objects.get(
-        Channel, language=language
-    )
+    channel = await objects.get(Channel, language=language)
     return channel
 
 
@@ -36,7 +34,4 @@ async def set_user_time_to_mail(user_id: int, time_to_mail: str) -> None:
     user, created = await get_or_create_user(user_id)
 
     user.time_to_mail = time_to_mail
-    await objects.update(
-        user, ['time_to_mail']
-    )
-
+    await objects.update(user, ['time_to_mail'])

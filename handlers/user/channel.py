@@ -14,7 +14,7 @@ async def check_subscribe(call_data: types.CallbackQuery) -> None:
     user_id = call_data.from_user.id
     user_language = await get_language(user_id)
     channel_id = int(call_data.data.replace('check_subscribe ', ' '))
-
+    print(channel_id)
     try:
         member = await call_data.bot.get_chat_member(channel_id, user_id)
         print(member)
