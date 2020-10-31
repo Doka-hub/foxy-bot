@@ -17,6 +17,8 @@ LOGS_BASE_PATH = str(BASE_DIR / 'logs')
 I18N_DOMAIN = 'foxy'
 LOCALES_DIR = BASE_DIR / 'locales'
 
+TIMEZONE = env('TIMEZONE')
+
 ADMINS = {
     'foxy': 414908999,
     'kolyabjj': 1092694232

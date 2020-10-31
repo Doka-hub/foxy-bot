@@ -1,5 +1,5 @@
 from .models import (
-    objects, Post, TGUser, Category, Channel, category_users_through, URL, InfoArticle, LastPost, Article
+    objects, Post, TGUser, Category, Channel, category_users_through, News, InfoArticle, LastPost, Article
 )
 
 
@@ -33,12 +33,16 @@ def setup():
         for category, he_category in zip(categories, he_categories):
             Category.create(key=category, name=he_category, language='he')
 
-    if not URL.table_exists():
-        URL.create_table()
+    if not LastPost.table_exists():
+        LastPost.create_table()
+
+    if not News.table_exists():
+        News.create_table()
 
         def url_create(category: str, language: str, site: str, url: str) -> None:
             category = Category.select().where(Category.key == category, Category.language == language).get()
-            URL.create(category=category, site=site, url=url)
+            news = News.create(category=category, site=site, url=url)
+            LastPost.create(news=news)
 
         urls = {
             'ru':
@@ -227,8 +231,6 @@ def setup():
                 for type_, url in urls[language][category]:
                     url_create(category, language, site=type_, url=url)
 
-    if not LastPost.table_exists():
-        LastPost.create_table()
 
     if not TGUser.table_exists():
         TGUser.create_table()

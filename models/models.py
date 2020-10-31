@@ -21,7 +21,7 @@ class Category(BaseModel):
     is_active = peewee.BooleanField(default=True)
 
 
-class URL(BaseModel):
+class News(BaseModel):
     # При парсинге учитывается сайт. В зависимости от сайта выбирается определённый тип парсинга.
     # смотреть -> parsing.Parsing.parse()
     SITE_CHOICES = (
@@ -45,8 +45,8 @@ class URL(BaseModel):
 
 
 class LastPost(BaseModel):
-    category = peewee.ForeignKeyField(Category, unique=True, on_delete='CASCADE', backref='last_posts')
-    url = peewee.TextField()
+    news = peewee.ForeignKeyField(News, unique=True, on_delete='CASCADE', backref='last_post')
+    article_url = peewee.TextField(null=True)
 
 
 class TGUser(BaseModel):
