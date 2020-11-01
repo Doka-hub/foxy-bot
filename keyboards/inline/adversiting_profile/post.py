@@ -343,7 +343,7 @@ async def save_post_data_and_get_payment_address(user_id: int, post_data: Dict) 
     payment_address_data = {
         'wallet_id': config.BTC_WALLET_ID,
         'wallet_id_hash': config.BTC_WALLET_ID_HASH,
-        'address': payment_address,
+        'address': payment_address['address'],
         'balance': 0,
         'created': datetime.now(),
         'updated': datetime.now()
