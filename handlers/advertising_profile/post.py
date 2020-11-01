@@ -7,8 +7,8 @@ from loader import dp
 
 from states.adversiting_profile.post import PostState
 
-from utils.db_api.language import get_language
-from utils.db_api.users import get_or_create_user
+from utils.db_api.user.language import get_language
+from utils.db_api.user.user import get_or_create_user
 from utils.db_api.adversiting_profile.post import set_phone_number
 from utils.post.post_create_info import post_create_detail, check_post_must_fields_filled
 
@@ -22,7 +22,7 @@ from keyboards.inline.adversiting_profile.post import (
 
     get_post_moderate_answer_text, get_confirmation_text_answer, get_confirmation_inline_keyboard, get_pay_text_answer,
 
-    save_post_data, update_post_data,
+    save_post_data_and_get_payment_address, update_post_data,
     get_choose_channel_to_mail_inline_keyboard
 )
 from keyboards.default.advertising_profile.post import get_request_contact_default_keyboard
@@ -345,9 +345,9 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
         text_answer = config.messages[user_language]['post_update']['updated']
         await call_data.answer(text_answer, show_alert=True)
     else:
-        await save_post_data(user_id, post_data)
+        payment_address = await save_post_data_and_get_payment_address(user_id, post_data)
 
-        text_answer = await get_pay_text_answer(user_id)
+        text_answer = await get_pay_text_answer(user_id, payment_address)
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)

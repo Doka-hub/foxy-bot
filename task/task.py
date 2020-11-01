@@ -38,24 +38,27 @@ app.conf.beat_schedule = {
 async def parse_news():
     for news in await objects.execute(News.select()):
         parser = Parsing(news.url, news.site)
-        posts = parser.parse()
+        posts = await parser.parse()
         if posts:
-            for post in posts[::-1]:
-                page_url = create_article_and_get_article_url(post[0], post[1])  # title, content
-                if news.site in ['https://www.ynet.co.il']:
-                    page_url = parse_url(page_url)
+            for post in posts[::-1]:  # берём старые посты в первую очередь
+                # page_url = create_article_and_get_article_url(post[0], post[1])  # title, content
+                page_url = post[-1]
+                if news.site in ['https://www.ynet.co.il']:  # для этого сайта нужно перекодировать урл
+                    page_url = parse_url(page_url).url
+
                 await objects.get_or_create(Article, url=page_url, category=news.category)
 
             last_post = await objects.get(LastPost, news=news)
-            last_post.article_url = page_url
-            await objects.update(last_post, ['page_url'])
+            last_post.post_url = post[-1]  # post_url
+            await objects.update(last_post, ['post_url'])
 
 
-asyncio.run(parse_news())
+# asyncio.run(parse_news())
 
 
-@app.task
+# @app.task
 def mailing(time_to_mail):
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(post_news_teller(time_to_mail))
-    loop.close()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(parse_news())
+    # loop.close()
+    asyncio.create_task(parse_news())

@@ -10,7 +10,7 @@ from models import objects, Post, TGUser
 
 from loader import bot
 
-from utils.db_api.users import get_or_create_user
+from utils.db_api.user.user import get_or_create_user
 
 from data import config
 

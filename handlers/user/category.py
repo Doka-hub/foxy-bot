@@ -5,9 +5,9 @@ from keyboards.inline.user.category import (
     get_time_to_mail_inline_keyboard
 )
 
-from utils.db_api.language import get_language
-from utils.db_api.category import subscribe_user_to_category, set_user_time_to_mail
-from utils.db_api.channel import check_user_channel_subscribed, get_channel_to_subscribe
+from utils.db_api.user.language import get_language
+from utils.db_api.user.category import subscribe_user_to_category, set_user_time_to_mail
+from utils.db_api.user.channel import check_user_channel_subscribed, get_channel_to_subscribe
 
 from data import config
 

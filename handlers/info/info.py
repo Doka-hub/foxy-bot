@@ -2,7 +2,7 @@ from aiogram import types
 
 from keyboards.inline.info import get_info_inline_keyboard
 
-from utils.db_api.language import get_language
+from utils.db_api.user.language import get_language
 
 from data import config
 

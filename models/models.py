@@ -1,17 +1,29 @@
 from typing import Dict, Union, Optional
 
 import peewee
-from peewee_async import Manager, PostgresqlDatabase
+from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
 
 from data import config
 
-database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
+# database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
+database = MySQLDatabase(database=config.mysql['db'], user=config.mysql['user'], password=config.mysql['password'])
 objects = Manager(database)
 
 
 class BaseModel(peewee.Model):
     class Meta:
         database = database
+
+
+class PaymentAddress(BaseModel):
+    wallet_id = peewee.CharField(max_length=255)
+    wallet_id_hash = peewee.CharField(max_length=255)
+
+    address = peewee.CharField(max_length=255)
+    balance = peewee.DecimalField()
+
+    created = peewee.DateTimeField()
+    updated = peewee.DateTimeField()
 
 
 class Category(BaseModel):
@@ -37,7 +49,9 @@ class News(BaseModel):
         ('https://www.globes.co.il', 'https://www.globes.co.il'),  # 8
         ('https://passportnews.co.il', 'https://passportnews.co.il'),  # 9
         ('https://mobile.mako.co.il', 'https://mobile.mako.co.il'),  # 10
-        ('https://www.ynet.co.il/tags/', 'https://www.ynet.co.il/tags/')  # 11
+        ('https://www.ynet.co.il/tags', 'https://www.ynet.co.il/tags'),  # 11
+
+        ('https://www.ynetnews.com', 'https://www.ynetnews.com')  # 12
     )
     category = peewee.ForeignKeyField(Category, on_delete='CASCADE', backref='urls', null=True)
     site = peewee.CharField(max_length=255, choices=SITE_CHOICES)
@@ -46,7 +60,7 @@ class News(BaseModel):
 
 class LastPost(BaseModel):
     news = peewee.ForeignKeyField(News, unique=True, on_delete='CASCADE', backref='last_post')
-    article_url = peewee.TextField(null=True)
+    post_url = peewee.TextField(null=True)
 
 
 class TGUser(BaseModel):
@@ -66,8 +80,6 @@ class TGUser(BaseModel):
     phone_number = peewee.CharField(max_length=255, null=True)
 
     language = peewee.CharField(max_length=3, null=True, choices=LANGUAGE_CHOICES)
-
-    btc_address_to_pay = peewee.CharField(max_length=255, null=True)
 
     subscribed = peewee.ManyToManyField(Category, on_delete='CASCADE', backref='users')
     time_to_mail = peewee.CharField(max_length=30, choices=TIME_TO_MAIL, default='upon_receipt_of')
@@ -121,6 +133,7 @@ class Post(BaseModel):
 
     user = peewee.ForeignKeyField(TGUser, backref='posts')
     channel = peewee.ForeignKeyField(Channel, backref='posts')
+    payment_address = peewee.ForeignKeyField(PaymentAddress, unique=True, backref='post')
 
     title = peewee.CharField(default='', max_length=255)
     text = peewee.TextField(default='')

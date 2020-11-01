@@ -14,10 +14,5 @@ async def get_or_create_user(user_id: int, username: Optional[str] = None) -> Li
     if username and user.username != username:
         user.username = username
         await objects.update(user, ['username'])
-    # если юзер создан сейчас
-    if created:
-        btc_address_to_pay = await bitcoin.create_payment_address(config.BTC_WALLET_ID)
-        user.btc_address_to_pay = btc_address_to_pay['address']
-        await objects.update(user, ['btc_address_to_pay'])
     return [user, created]
 

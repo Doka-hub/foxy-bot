@@ -2,8 +2,8 @@ from aiogram import types
 
 from keyboards.inline.user.category import get_categories_inline_keyboard
 
-from utils.db_api.channel import subscribe_user_to_channel, check_user_channel_subscribed
-from utils.db_api.language import get_language
+from utils.db_api.user.channel import subscribe_user_to_channel, check_user_channel_subscribed
+from utils.db_api.user.language import get_language
 
 from data import config
 

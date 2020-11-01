@@ -1,6 +1,6 @@
 from aiogram import types
 
-from utils.db_api.language import get_language
+from utils.db_api.user.language import get_language
 from keyboards.inline.adversiting_profile.profile import get_advertising_profile_inline_keyboard
 
 from data import config

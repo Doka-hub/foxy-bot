@@ -2,7 +2,7 @@ from aiogram import Bot
 
 from models import objects, Channel, Article
 
-from utils.db_api.channel import get_channel_to_subscribe, check_user_channel_subscribed
+from utils.db_api.user.channel import get_channel_to_subscribe, check_user_channel_subscribed
 
 from loader import bot
 

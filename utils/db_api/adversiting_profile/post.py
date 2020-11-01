@@ -1,4 +1,4 @@
-from utils.db_api.users import get_or_create_user
+from utils.db_api.user.user import get_or_create_user
 
 from models import objects
 

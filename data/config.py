@@ -10,6 +10,7 @@ BASE_URL = env('WEBHOOK_DOMAIN')  # Webhook domain
 WEBHOOK_PATH = f'/tg/webhooks/bot/{BOT_TOKEN}'
 WEBHOOK_URL = f'{BASE_URL}{WEBHOOK_PATH}'
 BTC_WALLET_ID = env('BTC_WALLET_ID')
+BTC_WALLET_ID_HASH = env('BTC_WALLET_ID_HASH')
 
 BASE_DIR = Path(__file__).parent.parent
 LOGS_BASE_PATH = str(BASE_DIR / 'logs')
@@ -34,6 +35,12 @@ postgresql_info = {
     'user':     'postgres',
     'password': '',
     'db':       'foxy',
+}
+mysql = {
+    'host': ip['db'],
+    'user': 'root',
+    'password': '123riko123',
+    'db': 'test'
 }
 
 redis = {

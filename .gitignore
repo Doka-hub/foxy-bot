@@ -144,3 +144,4 @@ dmypy.json
 *.rar
 *.swp*
 *.py.swp
+test.py

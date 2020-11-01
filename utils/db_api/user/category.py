@@ -1,6 +1,6 @@
 from models import objects, Category
 
-from .users import get_or_create_user
+from .user import get_or_create_user
 
 
 async def subscribe_user_to_category(user_id: int, category_key: str) -> None:

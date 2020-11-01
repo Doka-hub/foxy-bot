@@ -5,7 +5,7 @@ from aiogram.utils.exceptions import BadRequest
 
 from models import objects, Channel
 
-from .users import get_or_create_user
+from .user import get_or_create_user
 from .language import get_language
 
 

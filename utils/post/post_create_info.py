@@ -4,7 +4,7 @@ from typing import Dict, Union, List
 
 from keyboards.inline.adversiting_profile.post import get_post_create_inline_keyboard, get_post_create_message
 
-from utils.db_api.language import get_language
+from utils.db_api.user.language import get_language
 
 from loader import dp
 

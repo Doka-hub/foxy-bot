@@ -5,9 +5,10 @@ from datetime import datetime, timedelta
 from typing import List, Union, Dict
 
 from utils.keyboards.inline import get_inline_keyboard
-from utils.db_api.users import get_or_create_user
+from utils.db_api.user.user import get_or_create_user
+from utils.payment.bitcoin import create_payment_address
 
-from models import objects, Post, Channel
+from models import objects, Post, Channel, PaymentAddress
 
 from data import config
 
@@ -329,8 +330,25 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
     return message
 
 
-async def save_post_data(user_id: int, post_data: Dict, ) -> None:
+async def save_post_data_and_get_payment_address(user_id: int, post_data: Dict) -> PaymentAddress:
+    """
+    :param user_id:
+    :param post_data:
+    :return: создаёт пост и возвращает адресс для оплаты поста
+    """
     user, created = await get_or_create_user(user_id)
+
+    # создаём адресс для оплаты
+    payment_address = await create_payment_address(config.BTC_WALLET_ID)
+    payment_address_data = {
+        'wallet_id': config.BTC_WALLET_ID,
+        'wallet_id_hash': config.BTC_WALLET_ID_HASH,
+        'address': payment_address,
+        'balance': 0,
+        'created': datetime.now(),
+        'updated': datetime.now()
+    }
+    payment_address = await objects.create(PaymentAddress, **payment_address_data)
 
     channel_id = post_data.get('channel_id')
     title = post_data.get('title', '')
@@ -341,9 +359,10 @@ async def save_post_data(user_id: int, post_data: Dict, ) -> None:
     image_id = post_data.get('image_id', '0')
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
 
-    data = {
+    post_data = {
         'user': user,
         'channel': channel_id,
+        'payment_address': payment_address,
         'title': title,
         'text': text,
         'button': button,
@@ -354,7 +373,8 @@ async def save_post_data(user_id: int, post_data: Dict, ) -> None:
         'created': datetime.now(),
         'updated': datetime.now(),
     }
-    await objects.create(Post, **data)
+    await objects.create(Post, **post_data)
+    return payment_address.address
 
 
 async def update_post_data(post_data: Dict) -> None:
@@ -371,7 +391,7 @@ async def update_post_data(post_data: Dict) -> None:
     image_id = post_data.get('image_id', '0')
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
 
-    data = {
+    post_data = {
         'title': title,
         'text': text,
         'button': button,
@@ -383,15 +403,14 @@ async def update_post_data(post_data: Dict) -> None:
         'status': 'processing',
         'status_message': ''
     }
-    post = post.pre_update_data(data)
-    await objects.update(post, list(data.keys()))
+    post = post.pre_update_data(post_data)
+    await objects.update(post, list(post_data.keys()))
 
 
-async def get_pay_text_answer(user_id: int) -> str:
+async def get_pay_text_answer(user_id: int, payment_address: str) -> str:
     user, created = await get_or_create_user(user_id)
     user_language = user.language
-    btc_address_to_pay = user.btc_address_to_pay
 
     message = config.messages[user_language]['pay_message']
-    message = message.format(btc_address_to_pay=btc_address_to_pay, amount='0.005 btc')
+    message = message.format(btc_address_to_pay=payment_address, amount='0.005 btc')
     return message

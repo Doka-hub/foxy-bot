@@ -1,5 +1,6 @@
 from .models import (
-    objects, Post, TGUser, Category, Channel, category_users_through, News, InfoArticle, LastPost, Article
+    objects, Post, TGUser, Category, Channel, category_users_through, News, InfoArticle, LastPost, Article,
+    PaymentAddress
 )
 
 
@@ -33,11 +34,10 @@ def setup():
         for category, he_category in zip(categories, he_categories):
             Category.create(key=category, name=he_category, language='he')
 
-    if not LastPost.table_exists():
-        LastPost.create_table()
-
     if not News.table_exists():
         News.create_table()
+        if not LastPost.table_exists():
+            LastPost.create_table()
 
         def url_create(category: str, language: str, site: str, url: str) -> None:
             category = Category.select().where(Category.key == category, Category.language == language).get()
@@ -124,7 +124,8 @@ def setup():
                         ],
                     'world':
                         [
-                            ('https://www.jpost.com', 'https://www.jpost.com/international')
+                            ('https://www.jpost.com', 'https://www.jpost.com/international'),
+                            ('https://www.ynetnews.com', 'https://www.ynetnews.com/category/4666')
                         ],
                     'science_and_technology':
                         [
@@ -137,7 +138,7 @@ def setup():
                         ],
                     'cars':
                         [
-                            ('https://www.jpost.com', 'https://www.autocar.co.uk/car-news')
+                            # ('https://www.jpost.com', 'https://www.autocar.co.uk/car-news')
                         ],
                     'conflicts':
                         [
@@ -208,7 +209,7 @@ def setup():
                         ],
                     'USA_and_Canada':
                         [
-                            ('https://www.ynet.co.il/tags/', 'https://www.ynet.co.il/tags/ארה%22ב'),
+                            # ('https://www.ynet.co.il/tags/', 'https://www.ynet.co.il/tags/ארה%22ב'),
                         ],
                     'travel':
                         [
@@ -231,6 +232,8 @@ def setup():
                 for type_, url in urls[language][category]:
                     url_create(category, language, site=type_, url=url)
 
+    if not LastPost.table_exists():
+        LastPost.create_table()
 
     if not TGUser.table_exists():
         TGUser.create_table()
