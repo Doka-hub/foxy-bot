@@ -5,6 +5,9 @@ from .models import (
 
 
 def setup():
+    if not PaymentAddress.table_exists():
+        PaymentAddress.create_table()
+
     if not Category.table_exists():
         Category.create_table()
         categories = [
