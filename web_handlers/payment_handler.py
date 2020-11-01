@@ -11,11 +11,7 @@ logging.basicConfig(filename='log.log', level=logging.INFO)
 
 
 async def payment_handler(request: web.Request) -> str:
-    logging.info('%s' % await request.text() + '%s' % request.content)
-    print(await request.text())
-    # print(await request.json())
-    print(request.content)
-    data = json.dumps(await request.json())
+    data = json.dumps(await request.text())
     invoice = data.get('invoice')
     print(data)
     return invoice
