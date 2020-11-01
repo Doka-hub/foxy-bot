@@ -27,8 +27,8 @@ async def on_startup(app: web.Application):
     handlers.admin.setup(dp)
     # mailing('')
     logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
-    # await bot.delete_webhook()
-    # await bot.set_webhook(config.WEBHOOK_URL)
+    await bot.delete_webhook()
+    await bot.set_webhook(config.WEBHOOK_URL)
 
 
 async def on_shutdown(app: web.Application):
