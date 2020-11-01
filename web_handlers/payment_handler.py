@@ -9,7 +9,7 @@ payment_handler_app = web.Application()
 
 async def payment_handler(request: web.Request) -> str:
     print(await request.text())
-    print(await request.json())
+    # print(await request.json())
     print(request.content)
     data = json.dumps(await request.json())
     invoice = data.get('invoice')
