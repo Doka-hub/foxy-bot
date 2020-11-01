@@ -1,4 +1,5 @@
 from aiohttp import web
+from aiohttp.web_response import Response
 
 import json
 
@@ -10,11 +11,10 @@ payment_handler_app = web.Application()
 logging.basicConfig(filename='log.log', level=logging.INFO)
 
 
-async def payment_handler(request: web.Request) -> str:
+async def payment_handler(request: web.Request) -> web.Response:
     data = await request.post()
     invoice = data.get('invoice')
-    print(data)
-    return invoice
+    return Response(body={'invoice': invoice})
 
 
 payment_handler_app.add_routes([web.post('/', payment_handler)])
