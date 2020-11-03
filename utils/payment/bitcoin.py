@@ -30,14 +30,11 @@ def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union
 
 async def get_payment_amount() -> Decimal:
     url = 'https://api.bitaps.com/market/v1/ticker/btcusd'
-    usd = (await objects.get(PaymentAmount)).amount
-    logging.info(usd)
+    usd = Decimal((await objects.get(PaymentAmount)).amount)
     async with ClientSession() as session:
         response = await session.get(url)
-        logging.info(response)
         usdbtc = (await response.json())['data']['open']
         btc = usd / Decimal(usdbtc)
-    logging.info(btc)
     return btc
 
 
