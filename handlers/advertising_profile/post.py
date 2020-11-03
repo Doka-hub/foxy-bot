@@ -347,7 +347,7 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
     else:
         payment_address = await save_post_data_and_get_payment_address(user_id, post_data)
 
-        text_answer = await get_pay_text_answer(user_language, payment_address)
+        text_answer = get_pay_text_answer(user_language, payment_address)
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
