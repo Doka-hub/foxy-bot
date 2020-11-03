@@ -61,8 +61,8 @@ async def post_detail(call_data: types.CallbackQuery) -> None:
     if post.image_id != '0':
         await call_data.message.answer_photo(post.image_id, message, reply_markup=detail_post_inline_keyboard,
                                              parse_mode='markdown')
-        return
-    await call_data.message.answer(message, reply_markup=detail_post_inline_keyboard, parse_mode='markdown')
+    else:
+        await call_data.message.answer(message, reply_markup=detail_post_inline_keyboard, parse_mode='markdown')
 
 
 # Создать пост
@@ -347,7 +347,7 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
     else:
         payment_address = await save_post_data_and_get_payment_address(user_id, post_data)
 
-        text_answer = await get_pay_text_answer(user_id, payment_address)
+        text_answer = await get_pay_text_answer(user_language, payment_address)
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
