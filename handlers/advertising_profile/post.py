@@ -54,7 +54,7 @@ async def post_detail(call_data: types.CallbackQuery) -> None:
     post_id = call_data.data.replace('post_detail ', '')
     post = await objects.get(Post, id=post_id)
 
-    message = get_post_detail_text_answer(user_language, post)
+    message = await get_post_detail_text_answer(user_language, post)
     detail_post_inline_keyboard = get_post_inline_buttons(user_language, post)
 
     # если картинки нет

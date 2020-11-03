@@ -56,7 +56,7 @@ async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
     return list_post_inline_keyboard
 
 
-def get_post_detail_text_answer(user_language: str, post: Post) -> str:
+async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     post_detail_text = config.messages[user_language]['post_detail_text']
     pay_text = await get_pay_text_answer(user_language, post.payment_address.address)
     status_title = post_detail_text['status']
