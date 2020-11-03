@@ -58,7 +58,7 @@ async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
 
 def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     post_detail_text = config.messages[user_language]['post_detail_text']
-    pay_text = get_pay_text_answer(user_language, post.payment_address.address)
+    pay_text = await get_pay_text_answer(user_language, post.payment_address.address)
     status_title = post_detail_text['status']
     reason_title = post_detail_text['reason']
     date_title = post_detail_text['date']
@@ -398,7 +398,7 @@ async def update_post_data(post_data: Dict) -> None:
     await objects.update(post, list(post_data.keys()))
 
 
-def get_pay_text_answer(user_language: str, payment_address: str) -> str:
+async def get_pay_text_answer(user_language: str, payment_address: str) -> str:
     message = config.messages[user_language]['pay_message']
     amount = await get_payment_amount()
     message = message.format(btc_address_to_pay=payment_address, amount=amount)
