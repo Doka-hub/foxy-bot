@@ -36,7 +36,7 @@ async def get_payment_amount() -> Decimal:
         response = await session.get(url)
         logging.info(response)
         usdbtc = (await response.json())['data']['open']
-        btc = usd / usdbtc
+        btc = usd / Decimal(usdbtc)
     logging.info(btc)
     return btc
 
