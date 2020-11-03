@@ -39,7 +39,7 @@ async def payment_handler(request: web.Request) -> Response:
 
         user_id = post.user.user_id
 
-        await objects.update(post, ['processing', 'paid'])
+        await objects.update(post, ['status', 'paid'])
         await bot.send_message(user_id, f'{post.status}')
 
     return Response(body=json.dumps({'invoice': invoice}))
