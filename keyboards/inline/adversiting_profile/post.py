@@ -6,9 +6,9 @@ from typing import List, Union, Dict
 
 from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.user.user import get_or_create_user
-from utils.payment.bitcoin import create_payment_address, get_payment_amount
+from utils.payment.bitcoin import  get_payment_amount
 
-from models import objects, Post, Channel, PaymentAddress
+from models import objects, Post, Channel
 
 from data import config
 
@@ -319,83 +319,6 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
         f'\n{time_publication_text}: `{time}`'
     )
     return message
-
-
-async def save_post_data_and_get_payment_address(user_id: int, post_data: Dict) -> PaymentAddress:
-    """
-    :param user_id:
-    :param post_data:
-    :return: создаёт пост и возвращает адресс для оплаты поста
-    """
-    user, created = await get_or_create_user(user_id)
-
-    # создаём адресс для оплаты
-    payment_address = await create_payment_address(config.BTC_WALLET_ID)
-    payment_address_data = {
-        'wallet_id': config.BTC_WALLET_ID,
-        'wallet_id_hash': config.BTC_WALLET_ID_HASH,
-        'address': payment_address['address'],
-        'amount': await get_payment_amount(),
-        'created': datetime.now(),
-        'updated': datetime.now()
-    }
-    payment_address = await objects.create(PaymentAddress, **payment_address_data)
-
-    channel_id = post_data.get('channel_id')
-    title = post_data.get('title', '')
-    text = post_data.get('text', '')
-    button = post_data.get('button', '')
-    date = datetime.strptime(post_data.get('date'), '%d.%m.%Y')
-    time = post_data.get('time', 'morning')
-    image_id = post_data.get('image_id', '0')
-    bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
-
-    post_data = {
-        'user': user,
-        'channel': channel_id,
-        'payment_address': payment_address,
-        'title': title,
-        'text': text,
-        'button': button,
-        'image_id': image_id,
-        'date': date,
-        'time': time,
-        'bgcolor': bgcolor,
-        'created': datetime.now(),
-        'updated': datetime.now(),
-    }
-    await objects.create(Post, **post_data)
-    return payment_address.address
-
-
-async def update_post_data(post_data: Dict) -> None:
-    post_id = post_data.get('post_id')
-    post = await objects.get(Post, id=post_id)
-
-    user_id = post.user.user_id
-
-    title = post_data.get('title')
-    text = post_data.get('text')
-    button = post_data.get('button')
-    date = post_data.get('date')
-    time = post_data.get('time', 'morning')
-    image_id = post_data.get('image_id', '0')
-    bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
-
-    post_data = {
-        'title': title,
-        'text': text,
-        'button': button,
-        'image_id': image_id,
-        'date': date,
-        'time': time,
-        'bgcolor': bgcolor,
-        'updated': datetime.now(),
-        'status': 'processing',
-        'status_message': ''
-    }
-    post = post.pre_update_data(post_data)
-    await objects.update(post, list(post_data.keys()))
 
 
 async def get_pay_text_answer(user_language: str, payment_address: str) -> str:
