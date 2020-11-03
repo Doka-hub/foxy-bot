@@ -1,5 +1,7 @@
 from typing import Union, List
 
+from decimal import Decimal
+
 import json
 
 from time import time
@@ -19,6 +21,15 @@ def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union
     return [nonce, signature]
 
 
+async def get_payment_amount(usd: Decimal = 300) -> Decimal:
+    url = 'https://api.bitaps.com/market/v1/ticker/btcusd'
+    async with ClientSession() as session:
+        response = await session.get(url)
+        usdbtc = (await response.json())['data']['open']
+        btc = usd / usdbtc
+    return btc
+
+
 async def create_wallet(password: str, callback_link: str) -> Response:
     url = 'https://api.bitaps.com/btc/testnet/v1/create/wallet'
     data = json.dumps({'password': password, 'callback_link': callback_link})
@@ -26,6 +37,8 @@ async def create_wallet(password: str, callback_link: str) -> Response:
     async with ClientSession() as client:
         response = await client.post(url, data=data)
         return await response.json()
+
+
 
 
 async def create_payment_address(forwarding_address: str) -> Response:

@@ -20,7 +20,7 @@ class PaymentAddress(BaseModel):
     wallet_id_hash = peewee.CharField(max_length=255)
 
     address = peewee.CharField(max_length=255)
-    balance = peewee.DecimalField()
+    amount = peewee.DecimalField()
 
     created = peewee.DateTimeField()
     updated = peewee.DateTimeField()

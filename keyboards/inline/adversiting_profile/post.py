@@ -6,7 +6,7 @@ from typing import List, Union, Dict
 
 from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.user.user import get_or_create_user
-from utils.payment.bitcoin import create_payment_address
+from utils.payment.bitcoin import create_payment_address, get_payment_amount
 
 from models import objects, Post, Channel, PaymentAddress
 
@@ -265,26 +265,15 @@ async def get_date_inline_keyboard(user_language: str, post_data: Dict) -> Inlin
             date = date_list[0][0]
 
             if date_list[0][0] == 'lock':
-                dates.append(
-                    InlineKeyboardButton(
-                        f'{config.messages[user_language]["lock"]} - {time}',
-                        callback_data='date_busy'
-                    )
-                )
+                dates.append(InlineKeyboardButton(f'{config.messages[user_language]["lock"]} - {time}',
+                                                  callback_data='date_busy'))
                 date_list.remove(date_list[0])
                 continue
             date = date.strftime('%d.%m.%Y')
-            dates.append(
-                InlineKeyboardButton(
-                    f'{date} - {time}',
-                    callback_data=f'choose_date {date}-{time_data}'
-                )
-            )
+            dates.append(InlineKeyboardButton(f'{date} - {time}', callback_data=f'choose_date {date}-{time_data}'))
             date_list.remove(date_list[0])
 
-        free_dates_list.append(
-            dates
-        )
+        free_dates_list.append(dates)
 
     date_inline_keyboard = get_inline_keyboard(
         free_dates_list +
@@ -346,7 +335,7 @@ async def save_post_data_and_get_payment_address(user_id: int, post_data: Dict) 
         'wallet_id': config.BTC_WALLET_ID,
         'wallet_id_hash': config.BTC_WALLET_ID_HASH,
         'address': payment_address['address'],
-        'balance': 0,
+        'amount': await get_payment_amount(),
         'created': datetime.now(),
         'updated': datetime.now()
     }
@@ -411,5 +400,6 @@ async def update_post_data(post_data: Dict) -> None:
 
 def get_pay_text_answer(user_language: str, payment_address: str) -> str:
     message = config.messages[user_language]['pay_message']
-    message = message.format(btc_address_to_pay=payment_address, amount='0.005 btc')
+    amount = await get_payment_amount()
+    message = message.format(btc_address_to_pay=payment_address, amount=amount)
     return message
