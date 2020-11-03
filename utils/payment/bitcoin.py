@@ -2,6 +2,8 @@ from typing import Union, List
 
 from decimal import Decimal
 
+import logging
+
 import json
 
 from time import time
@@ -15,6 +17,9 @@ from hmac import new as hmac_new, HMAC
 from models import objects, PaymentAmount
 
 
+logging.basicConfig(filename='payment.log', level=logging.INFO)
+
+
 def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union[str, HMAC]]:
     nonce = str(int(time() * 1000))
     key = sha256(sha256((wallet_id + password).encode()).digest()).digest()
@@ -26,10 +31,13 @@ def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union
 async def get_payment_amount() -> Decimal:
     url = 'https://api.bitaps.com/market/v1/ticker/btcusd'
     usd = (await objects.get(PaymentAmount)).amount
+    logging.info(usd)
     async with ClientSession() as session:
         response = await session.get(url)
+        logging.info(response)
         usdbtc = (await response.json())['data']['open']
         btc = usd / usdbtc
+    logging.info(btc)
     return btc
 
 
