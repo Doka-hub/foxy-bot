@@ -30,7 +30,7 @@ async def payment_handler(request: web.Request) -> Response:
     address = data.get('address')
     amount = int(data.get('amount'))
 
-    if amount >= 500000:
+    if amount >= 1:
         payment_address = await objects.get(PaymentAddress, address=address)
 
         post = payment_address.post.get()
