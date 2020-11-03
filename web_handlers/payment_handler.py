@@ -5,10 +5,9 @@ import json
 
 import logging
 
-from models import objects, Post, PaymentAddress
+from models import objects, Post, PaymentAddress, TGUser
 
 from loader import bot
-
 
 payment_handler_app = web.Application()
 logging.basicConfig(filename='log.log', level=logging.INFO)
@@ -34,7 +33,7 @@ async def payment_handler(request: web.Request) -> Response:
     if amount >= 500000:
         payment_address = await objects.get(PaymentAddress, address=address)
 
-        post = payment_address.post
+        post = payment_address.post.get()
         post.status = 'processing'
         post.paid = True
 
