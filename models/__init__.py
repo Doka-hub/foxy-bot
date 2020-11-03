@@ -1,10 +1,13 @@
 from .models import (
     objects, Post, TGUser, Category, Channel, category_users_through, News, InfoArticle, LastPost, Article,
-    PaymentAddress
+    PaymentAddress, PaymentAmount
 )
 
 
 def setup():
+    if not PaymentAmount.table_exists():
+        PaymentAmount.create_table()
+
     if not PaymentAddress.table_exists():
         PaymentAddress.create_table()
 

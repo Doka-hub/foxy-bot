@@ -1,4 +1,5 @@
 from aiohttp import web
+
 import aiohttp_jinja2
 import jinja2
 
@@ -19,8 +20,8 @@ post_app = web.Application()
 aiohttp_jinja2.setup(post_app, loader=jinja2.FileSystemLoader('templates'))
 
 
-@aiohttp_jinja2.template('post-list.html')
-async def get_post_list(request: web.Request):
+@aiohttp_jinja2.template('post/post-list.html')
+async def get_post_list(request: web.Request) -> dict:
     response = {}
 
     admin_list = list(config.ADMINS.values())
@@ -31,48 +32,8 @@ async def get_post_list(request: web.Request):
     return response
 
 
-@aiohttp_jinja2.template('post-create.html')
-async def get_post_create(request: web.Request):
-    response = {'TIME_CHOICES': Post.TIME_CHOICES, 'STATUS_CHOICES': Post.STATUS_CHOICES}
-    return response
-
-
-@aiohttp_jinja2.template('post-create.html')
-async def post_post_create(request: web.Request):
-    response = {'TIME_CHOICES': Post.TIME_CHOICES, 'STATUS_CHOICES': Post.STATUS_CHOICES}
-    post_data = await request.post()
-
-    user, created = await get_or_create_user(config.ADMINS.get('foxy'))
-
-    uuid_pay = str(uuid4())
-
-    date = datetime.strptime(post_data.get('date'), '%Y-%m-%d')
-
-    button_text = post_data['button_text']
-    button_url = post_data['button_url']
-    button = f'{button_text} - {button_url}'
-
-    data = {
-        'user': user,
-        'uuid_pay': uuid_pay,
-        'title': post_data.get('title'),
-        'text': post_data.get('text'),
-        'button': button,
-        'image_id': 0,
-        'date': date,
-        'time': post_data.get('time', 'morning'),
-
-        'status': post_data.get('status'),
-        'status_message': post_data.get('status_message'),
-        'paid': post_data.get('paid')
-    }
-
-    await objects.create(Post, **data)
-    return response
-
-
-@aiohttp_jinja2.template('post-detail.html')
-async def get_post_detail(request: web.Request):
+@aiohttp_jinja2.template('post/post-detail.html')
+async def get_post_detail(request: web.Request) -> dict:
     response = {}
     post_id = request.match_info['post_id']
     post = await objects.get(Post, id=post_id)
@@ -87,8 +48,8 @@ async def get_post_detail(request: web.Request):
     return response
 
 
-@aiohttp_jinja2.template('post-detail.html')
-async def post_post_detail(request: web.Request):
+@aiohttp_jinja2.template('post/post-detail.html')
+async def post_post_detail(request: web.Request) -> get_post_detail:
     post_data = await request.post()
     post_id = request.match_info['post_id']
     post = await objects.get(Post, id=post_id)
@@ -115,9 +76,6 @@ async def post_post_detail(request: web.Request):
 post_app.add_routes(
     [
         web.get('/list/', get_post_list),
-
-        web.get('/create/', get_post_create),
-        web.post('/create/', post_post_create),
 
         web.get('/{post_id}/', get_post_detail),
         web.post('/{post_id}/', post_post_detail),

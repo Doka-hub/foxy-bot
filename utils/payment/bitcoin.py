@@ -12,6 +12,8 @@ from aiohttp.web_response import Response
 from hashlib import sha256
 from hmac import new as hmac_new, HMAC
 
+from models import objects, PaymentAmount
+
 
 def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union[str, HMAC]]:
     nonce = str(int(time() * 1000))
@@ -21,8 +23,9 @@ def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union
     return [nonce, signature]
 
 
-async def get_payment_amount(usd: Decimal = 300) -> Decimal:
+async def get_payment_amount() -> Decimal:
     url = 'https://api.bitaps.com/market/v1/ticker/btcusd'
+    usd = await objects.get(PaymentAmount)
     async with ClientSession() as session:
         response = await session.get(url)
         usdbtc = (await response.json())['data']['open']
@@ -37,8 +40,6 @@ async def create_wallet(password: str, callback_link: str) -> Response:
     async with ClientSession() as client:
         response = await client.post(url, data=data)
         return await response.json()
-
-
 
 
 async def create_payment_address(forwarding_address: str) -> Response:

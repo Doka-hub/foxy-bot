@@ -26,9 +26,9 @@ async def on_startup(app: web.Application):
     handlers.advertising_profile.setup(dp)
     handlers.admin.setup(dp)
     # mailing('')
-    logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
-    await bot.delete_webhook()
-    await bot.set_webhook(config.WEBHOOK_URL)
+    # logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
+    # await bot.delete_webhook()
+    # await bot.set_webhook(config.WEBHOOK_URL)
 
 
 async def on_shutdown(app: web.Application):
@@ -46,7 +46,8 @@ async def init() -> web.Application:
         ('/health/', web_handlers.health_app),
         ('/tg/webhooks/', web_handlers.tg_updates_app),
         ('/post/', web_handlers.post_app),
-        ('/payment/handler/', web_handlers.payment_handler_app)
+        ('/payment/handler/', web_handlers.payment_handler_app),
+        ('/payment-amount/', web_handlers.payment_amount_app)
     ]
     for prefix, subapp in subapps:
         subapp['bot'] = bot
@@ -62,4 +63,4 @@ async def init() -> web.Application:
 if __name__ == '__main__':
     # ssl_context = ssl.create_default_context(path='/home/admin/conf/web/ssl.getsub.cc.crt')
     # ssl_context.load_cert_chain('/home/admin/conf/web/ssl.getsub.cc.pem', '/home/admin/conf/web/ssl.getsub.cc.key')
-    web.run_app(init())
+    web.run_app(init(), host='localhost')

@@ -5,7 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <a class="btn" style="background-color: #F8F9FF; color: #001759; margin-bottom: 20px    ;" href="/post/list/">< Назад</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/post/list/">Список постов <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/payment-amount/">Сумма оплаты</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="col-12 container mt-4" style="font-family: Roboto, sans-serif">
     <form class="form-group" method="POST">
         <div class="form-group">
             {% if image_url %}
@@ -81,4 +96,5 @@
             </div>
         </div>
     </form>
+</div>
 {% endblock %}
