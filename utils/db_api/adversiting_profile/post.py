@@ -16,7 +16,7 @@ async def set_phone_number(user_id: int, phone_number: str) -> None:
     await objects.update(user, ['phone_number'])
 
 
-async def save_post_data(user_id: int, post_data: Dict) -> PaymentAddress:
+async def save_post_data(user_id: int, post_data: Dict) -> Post:
     """
     :param user_id:
     :param post_data:
@@ -59,8 +59,8 @@ async def save_post_data(user_id: int, post_data: Dict) -> PaymentAddress:
         'created': datetime.now(),
         'updated': datetime.now(),
     }
-    await objects.create(Post, **post_data)
-    return payment_address
+    post = await objects.create(Post, **post_data)
+    return post
 
 
 async def update_post_data(post_data: Dict) -> None:
