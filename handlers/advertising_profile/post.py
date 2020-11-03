@@ -11,7 +11,7 @@ from utils.db_api.user.language import get_language
 from utils.db_api.user.user import get_or_create_user
 from utils.db_api.adversiting_profile.post import (
     set_phone_number,
-    save_post_data_and_get_payment_address, update_post_data
+    save_post_data, update_post_data
 )
 from utils.post.post_create_info import post_create_detail, check_post_must_fields_filled
 
@@ -347,9 +347,9 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
         text_answer = config.messages[user_language]['post_update']['updated']
         await call_data.answer(text_answer, show_alert=True)
     else:
-        payment_address = await save_post_data_and_get_payment_address(user_id, post_data)
+        post = await save_post_data(user_id, post_data)
 
-        text_answer = await get_pay_text_answer(user_language, payment_address)
+        text_answer = await get_pay_text_answer(user_language, post)
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)

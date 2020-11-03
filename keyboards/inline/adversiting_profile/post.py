@@ -58,7 +58,7 @@ async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
 
 async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     post_detail_text = config.messages[user_language]['post_detail_text']
-    pay_text = await get_pay_text_answer(user_language, post.payment_address.address, post)
+    pay_text = await get_pay_text_answer(user_language, post)
     status_title = post_detail_text['status']
     reason_title = post_detail_text['reason']
     date_title = post_detail_text['date']
@@ -321,11 +321,10 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
     return message
 
 
-async def get_pay_text_answer(user_language: str, payment_address: str, post: Post = None) -> str:
+async def get_pay_text_answer(user_language: str, post: Post) -> str:
+    payment_address = post.payment_address.address
+    amount = post.payment_address.amount
+
     message = config.messages[user_language]['pay_message']
-    if not post:
-        amount = await get_payment_amount()
-    else:
-        amount = post.payment_address.amount
     message = message.format(btc_address_to_pay=payment_address, amount=amount)
     return message
