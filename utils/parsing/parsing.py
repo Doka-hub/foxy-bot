@@ -1,3 +1,5 @@
+import logging
+
 import requests
 
 from bs4 import BeautifulSoup
@@ -6,6 +8,8 @@ from typing import Optional
 
 from utils.db_api.article.last_post import is_new_post
 
+
+logging.basicConfig(level=logging.INFO)
 
 class Parsing:
 
@@ -25,35 +29,39 @@ class Parsing:
         return soup
 
     async def parse(self):
-        if self.head_url == 'https://www.newsru.co.il':
-            return await self.__parse_site_1()
-        elif self.head_url == 'https://news.israelinfo.co.il':
-            return await self.__parse_site_2()
-        elif self.head_url == 'https://mignews.com':
-            return await self.__parse_site_3()
+        try:
+            if self.head_url == 'https://www.newsru.co.il':
+                return await self.__parse_site_1()
+            elif self.head_url == 'https://news.israelinfo.co.il':
+                return await self.__parse_site_2()
+            elif self.head_url == 'https://mignews.com':
+                return await self.__parse_site_3()
 
-        elif self.head_url == 'https://www.jpost.com':
-            return await self.__parse_site_4()
-        elif self.head_url == 'https://en.globes.co.il':
-            return await self.__parse_site_5()
-        elif self.head_url == 'https://www.globes.co.il':
-            return await self.__parse_site_13()
-        elif self.head_url == 'https://www.timesofisrael.com':
-            return await self.__parse_site_6()
+            elif self.head_url == 'https://www.jpost.com':
+                return await self.__parse_site_4()
+            elif self.head_url == 'https://en.globes.co.il':
+                return await self.__parse_site_5()
+            elif self.head_url == 'https://www.globes.co.il':
+                return await self.__parse_site_13()
+            elif self.head_url == 'https://www.timesofisrael.com':
+                return await self.__parse_site_6()
 
-        elif self.head_url == 'https://news.walla.co.il':
-            return await self.__parse_site_7()
-        elif self.head_url == 'https://www.ynet.co.il':
-            return await self.__parse_site_8()
-        elif self.head_url == 'https://www.mako.co.il':
-            return await self.__parse_site_9()
+            elif self.head_url == 'https://news.walla.co.il':
+                return await self.__parse_site_7()
+            elif self.head_url == 'https://www.ynet.co.il':
+                return await self.__parse_site_8()
+            elif self.head_url == 'https://www.mako.co.il':
+                return await self.__parse_site_9()
 
-        elif self.head_url == 'https://passportnews.co.il':
-            return await self.__parse_site_10()
-        elif self.head_url == 'https://mobile.mako.co.il':
-            return await self.__parse_site_11()
-        elif self.head_url == 'https://www.ynetnews.com':
-            return await self.__parse_site_12()
+            elif self.head_url == 'https://passportnews.co.il':
+                return await self.__parse_site_10()
+            elif self.head_url == 'https://mobile.mako.co.il':
+                return await self.__parse_site_11()
+            elif self.head_url == 'https://www.ynetnews.com':
+                return await self.__parse_site_12()
+        except Exception as e:
+            logging.info(e)
+            return []
 
     async def __parse_site_1(self):
         soup = self.get_soup(self.url)

@@ -16,7 +16,7 @@ async def on_startup(app: web.Application):
     import filters
     import handlers
     import models
-    # from task import mailing
+    # from tasks import mailing
     models.setup()
     middlewares.setup(dp)
     filters.setup(dp)

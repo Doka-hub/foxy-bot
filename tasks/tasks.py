@@ -13,28 +13,28 @@ from .mailling import post_news_teller
 
 from data import config
 
-app = Celery('task', broker=config.redis['host'])
+app = Celery('tasks', broker=config.redis['host'])
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
     'parse_news': {
-        'task': 'task.parse_news',
+        'tasks': 'tasks.parse_news',
         'schedule': crontab(minute='50')
     },
     'mailing_morning': {
-        'task': 'task.mailing',
+        'tasks': 'tasks.mailing',
         'schedule': crontab(hour='8', minute='12'),
         'args': ('morning',)
     },
     'mailing_evening': {
-        'task': 'task.mailing',
+        'tasks': 'tasks.mailing',
         'schedule': crontab(hour='20', minute='12'),
         'args': ('evening',)
     },
 }
 
 
-# @app.task
+# @app.tasks
 async def parse_news():
     for news in await objects.execute(News.select()):
         parser = Parsing(news.url, news.site)
@@ -56,7 +56,7 @@ async def parse_news():
 # asyncio.run(parse_news())
 
 
-# @app.task
+# @app.tasks
 def mailing(time_to_mail):
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(parse_news())
