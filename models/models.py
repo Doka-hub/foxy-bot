@@ -5,8 +5,8 @@ from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
 
 from data import config
 
-# database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
-database = MySQLDatabase(database=config.mysql['db'], user=config.mysql['user'], password=config.mysql['password'])
+database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
+# database = MySQLDatabase(database=config.mysql['db'], user=config.mysql['user'], password=config.mysql['password'])
 objects = Manager(database)
 
 
@@ -22,6 +22,8 @@ class PaymentAmount(BaseModel):
 class PaymentAddress(BaseModel):
     wallet_id = peewee.CharField(max_length=255)
     wallet_id_hash = peewee.CharField(max_length=255)
+
+    # payment_code = peewee.CharField(max_length=255)
 
     address = peewee.CharField(max_length=255)
     amount = peewee.DecimalField()
