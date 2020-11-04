@@ -1,6 +1,6 @@
 from typing import Union, List
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_CEILING
 
 import logging
 
@@ -16,7 +16,6 @@ from hmac import new as hmac_new, HMAC
 
 from models import objects, PaymentAmount
 
-
 logging.basicConfig(filename='payment.log', level=logging.INFO)
 
 
@@ -30,12 +29,14 @@ def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union
 
 async def get_payment_amount() -> Decimal:
     url = 'https://api.bitaps.com/market/v1/ticker/btcusd'
-    usd = Decimal((await objects.get(PaymentAmount)).amount)
     async with ClientSession() as session:
         response = await session.get(url)
-        usdbtc = (await response.json())['data']['open']
+
+        usd = (await objects.get(PaymentAmount)).amount
+        usdbtc = Decimal((await response.json())['data']['open'])
         btc = usd / Decimal(usdbtc)
-    return btc
+    return btc.quantize(Decimal('1.00000'),
+                        ROUND_CEILING)  # ROUND_CEILING - округляет число в большую сторону (1.211 = 1.22)
 
 
 async def create_wallet(password: str, callback_link: str) -> Response:

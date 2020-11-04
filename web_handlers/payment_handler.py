@@ -1,11 +1,13 @@
 from aiohttp import web
 from aiohttp.web_response import Response
 
+from peewee import DoesNotExist
+
 import json
 
 import logging
 
-from models import objects, Post, PaymentAddress, TGUser
+from models import objects, PaymentAddress
 
 from loader import bot
 
@@ -33,7 +35,13 @@ async def payment_handler(request: web.Request) -> Response:
 
     address = data.get('address')
     amount = int(data.get('amount'))
-    payment_address = await objects.get(PaymentAddress, address=address)
+
+    logging.info(data)
+    try:
+        payment_address = await objects.get(PaymentAddress, address=address)
+    except DoesNotExist as e:
+        logging.info(e)
+        return Response(body=json.dumps({'invoice': invoice}))
 
     if amount >= payment_address.amount:
         post = payment_address.post.get()
@@ -43,7 +51,7 @@ async def payment_handler(request: web.Request) -> Response:
         user_id = post.user.user_id
 
         await objects.update(post, ['status', 'paid'])
-        await bot.send_message(user_id, f'{post.status}')
+        await bot.send_message(user_id, f'{post.title} {post.status}')
 
     return Response(body=json.dumps({'invoice': invoice}))
 
