@@ -31,7 +31,7 @@ async def back_to_menu(call_data: types.CallbackQuery) -> None:
     await call_data.message.delete()
 
     user_id = call_data.from_user.id
-    username = call_data.message.from_user.username
+    username = call_data.from_user.username
 
     user, created = await get_or_create_user(user_id, username)
     user_language = user.language
