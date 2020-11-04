@@ -6,7 +6,7 @@ from typing import List, Union, Dict
 
 from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.user.user import get_or_create_user
-from utils.post.time_to_pay import timedelta_to_hour
+from utils.post.time_to_pay import timedelta_to_hours
 
 from models import objects, Post, Channel
 
@@ -327,7 +327,7 @@ async def get_pay_text_answer(user_language: str, post: Post) -> str:
     payment_address = post.payment_address.address
     amount = post.payment_address.amount
     today = datetime.now()
-    time_to_pay = 72 - timedelta_to_hour((today - post.created))  # получаем часы
+    time_to_pay = 72 - timedelta_to_hours((today - post.created))  # получаем часы
 
     message = config.messages[user_language]['pay_message']
     message = message.format(btc_address_to_pay=payment_address, amount=amount, time_to_pay=time_to_pay)

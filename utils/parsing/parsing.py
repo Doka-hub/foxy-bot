@@ -11,8 +11,8 @@ from utils.db_api.article.last_post import is_new_post
 
 logging.basicConfig(level=logging.INFO)
 
-class Parsing:
 
+class Parsing:
     def __init__(self, url: str, head_url: str):
         self.url = url
         self.head_url = head_url
