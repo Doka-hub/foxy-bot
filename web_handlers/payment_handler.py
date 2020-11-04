@@ -3,6 +3,8 @@ from aiohttp.web_response import Response
 
 from peewee import DoesNotExist
 
+from datetime import datetime
+
 import json
 
 import logging
@@ -45,6 +47,11 @@ async def payment_handler(request: web.Request) -> Response:
 
     if amount >= payment_address.amount:
         post = payment_address.post.get()
+
+        today = datetime.now()
+        if (today - post.created).days > 3:  # Если после создания поста прошло 3 дня, то оплата не принимается
+            return Response(body=json.dumps({'invoice': invoice}))
+
         post.status = 'processing'
         post.paid = True
 

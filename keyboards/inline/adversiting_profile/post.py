@@ -59,6 +59,7 @@ async def get_post_list_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
 async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     post_detail_text = config.messages[user_language]['post_detail_text']
     pay_text = await get_pay_text_answer(user_language, post)
+
     status_title = post_detail_text['status']
     reason_title = post_detail_text['reason']
     date_title = post_detail_text['date']
@@ -67,14 +68,15 @@ async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     time = config.messages[user_language]['time_to_mail'][post.time]
     status = post_detail_text[post.status]
 
-    message = \
-        pay_text + \
-        f'\n\n{status_title}: `{status}`\n' + \
-        (f'{reason_title}: `{post.status_message}`\n' if post.status == 'declined' else '') + \
-        f'{date_title}: `{post.date}`\n' + \
-        f'{time_title}: `{time}`\n' + \
-        (f'\n*{post.title}*\n' if post.title else '') + \
+    message = (
+        pay_text +
+        f'\n\n{status_title}: `{status}`\n' +
+        (f'{reason_title}: `{post.status_message}`\n' if post.status == 'declined' else '') +
+        f'{date_title}: `{post.date}`\n' +
+        f'{time_title}: `{time}`\n' +
+        (f'\n*{post.title}*\n' if post.title else '') +
         (f'\n{post.text}\n' if post.text else '')
+    )
     return message
 
 
@@ -324,7 +326,9 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
 async def get_pay_text_answer(user_language: str, post: Post) -> str:
     payment_address = post.payment_address.address
     amount = post.payment_address.amount
+    today = datetime.now()
+    time_to_pay = (today - post.created).total_seconds() / 3600  # получаем часы
 
     message = config.messages[user_language]['pay_message']
-    message = message.format(btc_address_to_pay=payment_address, amount=amount)
+    message = message.format(btc_address_to_pay=payment_address, amount=amount, time_to_pay=time_to_pay)
     return message

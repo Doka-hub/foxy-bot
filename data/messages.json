@@ -106,7 +106,7 @@
       "image_or_text": "\"изображение\" или \"текст\"",
       "date": "\"дата\""
     },
-    "pay_message": "Проведите оплату.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`",
+    "pay_message": "Проведите оплату.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nОплата доступна в течении: `{time_to_pay}` часов",
     "lock": "Занято",
     "choose": "Выбрать",
     "cancel": "Отмена"
@@ -214,7 +214,7 @@
       "date": "\"date\""
     },
 
-    "pay_message": "Make a payment.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`\n",
+    "pay_message": "Make a payment.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nPayment is available for: `{time_to_pay}` hours",
     "lock": "Busy",
     "choose": "Choose",
     "cancel": "Cancel"
@@ -323,7 +323,7 @@
       "date": "\"date\""
     },
 
-    "pay_message": "בצע את התשלום.\nBTC-Address: `{btc_address_to_pay}`\nAmount: `{amount}`\n",
+    "pay_message": "בצע את התשלום.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nPayment is available for: `{time_to_pay}` hours",
     "lock": "עסוק",
     "choose": "Выбрать",
     "cancel": "ביטול"
