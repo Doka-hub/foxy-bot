@@ -25,7 +25,7 @@ async def save_post_data(user_id: int, post_data: Dict) -> Post:
     user, created = await get_or_create_user(user_id)
 
     # создаём адресс для оплаты
-    payment_address = await create_payment_address(config.BTC_WALLET_ID)
+    payment_address = await create_payment_address(config.BTC_WALLET_ID, config.BTC_CALLBACK_LINK)
     payment_address_data = {
         'wallet_id': config.BTC_WALLET_ID,
         'wallet_id_hash': config.BTC_WALLET_ID_HASH,

@@ -1,3 +1,5 @@
 # TODO 24.10.2020 -  проблема с базой данных на сервере. Channel - TypeError: argument of type 'ManyToManyQuery' is not iterable. Думаю связано с кодировкой
 
 # TODO 03.11.2020 - округлять до каких цифр?
+
+# TODO 04.11.2020 - доделать селери таски

@@ -48,9 +48,9 @@ async def create_wallet(password: str, callback_link: str) -> Response:
         return await response.json()
 
 
-async def create_payment_address(forwarding_address: str) -> Response:
+async def create_payment_address(forwarding_address: str, callback_link: str) -> Response:
     url = 'https://api.bitaps.com/btc/v1/create/payment/address'
-    data = json.dumps({'forwarding_address': forwarding_address})
+    data = json.dumps({'forwarding_address': forwarding_address, 'callback_link': callback_link})
 
     async with ClientSession() as client:
         response = await client.post(url, data=data)
