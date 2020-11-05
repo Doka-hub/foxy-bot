@@ -72,13 +72,13 @@ async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
     status = post_detail_text[post.status]
 
     message = (
-        pay_text +
-        f'\n\n{status_title}: `{status}`\n' +
-        (f'{reason_title}: `{post.status_message}`\n' if post.status == 'declined' else '') +
-        f'{date_title}: `{post.date}`\n' +
-        f'{time_title}: `{time}`\n' +
-        (f'\n*{post.title}*\n' if post.title else '') +
-        (f'\n{post.text}\n' if post.text else '')
+            pay_text +
+            f'\n\n{status_title}: `{status}`\n' +
+            (f'{reason_title}: `{post.status_message}`\n' if post.status == 'declined' else '') +
+            f'{date_title}: `{post.date}`\n' +
+            f'{time_title}: `{time}`\n' +
+            (f'\n*{post.title}*\n' if post.title else '') +
+            (f'\n{post.text}\n' if post.text else '')
     )
     return message
 
@@ -149,10 +149,11 @@ async def get_choose_channel_to_mail_inline_keyboard(user_language: str) -> Inli
     channels = [
         [
             InlineKeyboardButton(
-                f'{channel.channel_title} - {channel.language}', url=channel.channel_url
+                channel.channel_title, url=channel.channel_url
             ),
             InlineKeyboardButton(
-                choose_text, callback_data=f'choose_channel {channel.id}'  # channel.id. not channel.channel_id
+                f'{choose_text} - {channel.language}',
+                callback_data=f'choose_channel {channel.id}'  # channel.id not channel.channel_id
             )
         ] for channel in channels
     ]
@@ -179,9 +180,9 @@ def get_post_create_message(user_language: str, post_data: Dict) -> str:
 
     message = \
         f'*{title}*\n\n{text}' if title and text else \
-        f'*{title}*\n\n' if title and not text else \
-        f'{text}' if text and not title else \
-        f'{config.messages[user_language]["advertising_profile"]["post_create"]}:'
+            f'*{title}*\n\n' if title and not text else \
+                f'{text}' if text and not title else \
+                    f'{config.messages[user_language]["advertising_profile"]["post_create"]}:'
 
     message += f'\n{date_publication_text}: `{date}`' if date else ''
     message += f'\n{time_publication_text}: `{time}`' if time else ''
