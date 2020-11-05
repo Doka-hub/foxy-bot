@@ -46,5 +46,6 @@ async def post_news_teller(time_to_mail: str) -> None:
 
 
 async def test_():
+    print(2)
     await bot.send_message(1092694232, 'hello')
     await bot.close()
