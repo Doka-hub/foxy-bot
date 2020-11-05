@@ -1,3 +1,5 @@
+import logging
+
 from typing import Optional
 
 from aiogram import bot as Bot
@@ -7,6 +9,9 @@ from models import objects, Channel
 
 from .user import get_or_create_user
 from .language import get_language
+
+
+logging.basicConfig(level=logging.INFO, filename='bot_logs/member.log')
 
 
 async def get_channel_to_subscribe(language: Optional[str] = None, channel_id: Optional[int] = None) -> Channel:
@@ -25,6 +30,7 @@ async def check_user_channel_subscribed(bot: Bot, user_id: int, channel_id: int 
 
     try:
         member = await bot.get_chat_member(channel_id, user_id)
+        logging.info(member)
         return True if member.status == 'member' else False
     except BadRequest:  # если участник не найден
         return False
