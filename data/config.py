@@ -29,7 +29,7 @@ ADMINS = {
 
 ip = {
     'db':    '127.0.0.1',
-    'redis': 'localhost',
+    'redis': 'redis://localhost',
 }
 
 postgresql_info = {

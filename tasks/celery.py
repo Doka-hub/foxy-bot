@@ -18,7 +18,7 @@ from data import config
 
 
 logging.basicConfig(level=logging.INFO, filename='tasks.log')
-app = Celery('tasks', broker=config.redis['host'])
+app = Celery('tasks', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
