@@ -1,3 +1,5 @@
+import logging
+
 from typing import Dict
 
 from datetime import datetime
@@ -8,6 +10,9 @@ from utils.payment.bitcoin import create_payment_address, get_payment_amount
 from models import objects, PaymentAddress, Post
 
 from data import config
+
+
+logging.basicConfig(level=logging.INFO, filename='utils-adv_prof-post.log')
 
 
 async def set_phone_number(user_id: int, phone_number: str) -> None:
@@ -26,6 +31,7 @@ async def save_post_data(user_id: int, post_data: Dict) -> Post:
 
     # создаём адресс для оплаты
     payment_address = await create_payment_address(config.BTC_WALLET_ID, config.BTC_CALLBACK_LINK)
+    logging.info(payment_address)
     payment_address_data = {
         'wallet_id': config.BTC_WALLET_ID,
         'wallet_id_hash': config.BTC_WALLET_ID_HASH,

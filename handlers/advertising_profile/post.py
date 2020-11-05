@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -32,6 +34,9 @@ from keyboards.default.advertising_profile.post import get_request_contact_defau
 from data import config
 
 from .profile import advertising_profile
+
+
+logging.basicConfig(level=logging.INFO, filename='handler-adv_prof-post.log')
 
 
 # Мои посты
@@ -348,8 +353,10 @@ async def post_create_confirmation_accept(call_data: types.CallbackQuery) -> Non
         await call_data.answer(text_answer, show_alert=True)
     else:
         post = await save_post_data(user_id, post_data)
+        logging.info(post)
 
         text_answer = await get_pay_text_answer(user_language, post)
+        logging.info(text_answer)
         await call_data.message.answer(text_answer, parse_mode='markdown')
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
