@@ -33,14 +33,18 @@ async def post_to_channel(language: str, preview_text: str, article_url: str, ca
                                    parse_mode='markdown', disable_notification=True)
         except RetryAfter:
             await sleep(5.0)
-            await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
-                                   parse_mode='markdown', disable_notification=True)
+            try:
+                await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+                                       parse_mode='markdown', disable_notification=True)
+            except RetryAfter:
+                pass
     await bot.close()
 
 
 async def post_to_user(user_id: int, language: str, preview_text: str, article_url: str, category: str) -> None:
     try:
-        await bot.send_message(user_id, make_message(language, preview_text, article_url, category), parse_mode='markdown')
+        await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+                               parse_mode='markdown')
     except RetryAfter:
         await sleep(65.0)
         try:
@@ -48,8 +52,11 @@ async def post_to_user(user_id: int, language: str, preview_text: str, article_u
                                    parse_mode='markdown', disable_notification=True)
         except RetryAfter:
             await sleep(5.0)
-            await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
-                                   parse_mode='markdown', disable_notification=True)
+            try:
+                await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+                                       parse_mode='markdown', disable_notification=True)
+            except RetryAfter:
+                pass
     await bot.close()
 
 

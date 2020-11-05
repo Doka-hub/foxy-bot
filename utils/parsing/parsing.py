@@ -754,30 +754,3 @@ class Parsing:
             parsed_posts.append([title, content, preview_text, post_url])
 
         return parsed_posts
-# a = Parsing(
-#     'https://www.ynet.co.il/wheels/news',
-#     'https://www.ynet.co.il'
-# #     'https://news.israelinfo.co.il/events/', 'https://news.israelinfo.co.il'
-# #     # 'https://www.newsru.co.il/health', 'https://www.newsru.co.il'
-# #     # 'https://www.jpost.com/international', 'https://www.jpost.com'
-# #     # 'https://www.jpost.com/israel-news/arabisrael/',
-# #     # 'https://www.jpost.com'
-# #     # 'https://mignews.com/news/arabisrael/',
-# #     # 'https://mignews.com'
-# # )
-# # #     # 'https://www.timesofisrael.com/topic/crime-in-israel',
-# # #     # 'https://www.timesofisrael.com'
-# # #     'https://www.jpost.com/cybertech',
-# # #     'https://www.jpost.com'
-# # #     'https://www.mako.co.il/news-digital?partner=NewsNavBar',
-# # #     'https://www.mako.co.il'
-# )
-# posts = a.parse()
-# # # # # # print(posts)
-# # # # # #
-# # # # # #
-# from create_article import create_article
-#
-# for post in posts:
-#     page = create_article(post[0], post[1])
-#     print(page)

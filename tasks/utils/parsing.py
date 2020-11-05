@@ -1,10 +1,8 @@
 from asyncio import sleep
 
-from aiogram.utils.exceptions import RetryAfter
-
 import logging
 
-from telegraph.exceptions import TelegraphException
+from telegraph.exceptions import TelegraphException, InvalidHTML
 
 from urllib3.util import parse_url
 
@@ -34,6 +32,8 @@ async def parse_news():
                     except TelegraphException as e:
                         logging.info(f'error - {e}')
                         continue
+                except InvalidHTML as e:
+                    logging.info(f'error - {e}: {news.url} - {post[1]}')
                 if news.site in ['https://www.ynet.co.il']:  # для этого сайта нужно перекодировать урл
                     article_url = parse_url(article_url).url
 
