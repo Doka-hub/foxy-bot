@@ -10,9 +10,9 @@ from loader import bot
 
 
 def make_message(language: str, preview_text: str, article_url: str, category: str) -> str:
-    ru_message = preview_text + f'\n\n#{category}\n\n' + f'[Читать...]({article_url})'
-    en_message = preview_text + f'\n\n#{category}\n\n' + f'[Read...]({article_url})'
-    he_message = preview_text + f'\n\n#{category}\n\n' + f'[Read...]({article_url})'
+    ru_message = preview_text + f'\n\n#' + category.replace('_', '\_') + '\n\n' + f'[Читать...]({article_url})'
+    en_message = preview_text + f'\n\n#' + category.replace('_', '\_') + '\n\n' + f'[Read...]({article_url})'
+    he_message = preview_text + f'\n\n#' + category.replace('_', '\_') + '\n\n' + f'[Read...]({article_url})'
     return (
         ru_message if language == 'ru' else
         en_message if language == 'en' else

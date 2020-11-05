@@ -1,7 +1,7 @@
 from typing import Dict, Union, Optional
 
 import peewee
-from peewee_async import Manager, PostgresqlDatabase
+from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
 
 from data import config
 
