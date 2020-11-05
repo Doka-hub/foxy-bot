@@ -5,6 +5,8 @@ from peewee import DoesNotExist
 
 from datetime import datetime
 
+from decimal import Decimal
+
 import json
 
 import logging
@@ -36,13 +38,14 @@ async def payment_handler(request: web.Request) -> Response:
     invoice = data.get('invoice')
 
     address = data.get('address')
-    amount = int(data.get('amount'))
+    amount = Decimal(data.get('amount')) / 100000000
+    amount = amount.quantize(Decimal("1.00000"))
 
     logging.info(data)
     try:
         payment_address = await objects.get(PaymentAddress, address=address)
     except DoesNotExist as e:
-        logging.info(e)
+        logging.info(f'- error - {e}')
         return Response(body=json.dumps({'invoice': invoice}))
 
     if amount >= payment_address.amount:
