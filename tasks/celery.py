@@ -27,12 +27,12 @@ app.conf.beat_schedule = {
     },
     'mailing_morning': {
         'task': 'mailing',
-        'schedule': crontab(hour='8', minute='12'),
+        'schedule': crontab(hour='8', minute='10'),
         'args': ('morning',)
     },
     'mailing_evening': {
         'task': 'mailing',
-        'schedule': crontab(hour='20', minute='12'),
+        'schedule': crontab(hour='20', minute='10'),
         'args': ('evening',)
     },
 }
