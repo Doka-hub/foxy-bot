@@ -16,7 +16,6 @@ async def on_startup(app: web.Application):
     import filters
     import handlers
     import models
-    # from tasks import mailing
     models.setup()
     middlewares.setup(dp)
     filters.setup(dp)
@@ -25,7 +24,6 @@ async def on_startup(app: web.Application):
     handlers.info.setup(dp)
     handlers.advertising_profile.setup(dp)
     handlers.admin.setup(dp)
-    # mailing('')
     # logger.info('Configure Webhook URL to: {url}', url=config.WEBHOOK_URL)
     await bot.delete_webhook()
     await bot.set_webhook(config.WEBHOOK_URL)
