@@ -19,12 +19,12 @@ def make_message(language: str, preview_text: str, article_url: str) -> str:
 async def post_to_channel(language: str, preview_text: str, article_url: str) -> None:
     channel = await objects.get(Channel, language=language)
     channel_id = channel.channel_id
-    await bot.send_message(channel_id, make_message(language, preview_text, article_url))
+    await bot.send_message(channel_id, make_message(language, preview_text, article_url), parse_mode='markdown')
     await bot.close()
 
 
 async def post_to_user(user_id: int, language: str, preview_text: str, article_url: str) -> None:
-    await bot.send_message(user_id, make_message(language, preview_text, article_url))
+    await bot.send_message(user_id, make_message(language, preview_text, article_url), parse_mode='markdown')
     await bot.close()
 
 
