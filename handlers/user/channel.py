@@ -16,7 +16,7 @@ async def check_subscribe(call_data: types.CallbackQuery) -> None:
     channel_id = int(call_data.data.replace('check_subscribe ', ' '))
     user_subscribed = await check_user_channel_subscribed(call_data.bot, user_id, channel_id)
 
-    if user_subscribed or user_id in config.ADMINS.values():
+    if user_subscribed or int(user_id) in config.ADMINS.values():
         await call_data.message.delete()
         await subscribe_user_to_channel(user_id, channel_id)
     else:
