@@ -5,9 +5,9 @@ import asyncio
 from celery import Celery
 from celery.schedules import crontab, timedelta
 
-from tasks.utils.mailling import post_news_teller, test_
-from tasks.utils.parsing import parse_news
-from tasks.utils.post import delete_not_paid_posts
+from .utils.mailling import post_news_teller, test_
+from .utils.parsing import parse_news
+from .utils.post import delete_not_paid_posts
 
 from data import config
 
@@ -42,28 +42,28 @@ app.conf.beat_schedule = {
 }
 
 
-@app.task
+@app.task()
 def test() -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(test_())
     loop.close()
 
 
-@app.task
+@app.task()
 def parse_news_task() -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(parse_news())
     loop.close()
 
 
-@app.task
+@app.task()
 def mailing_task(time_to_mail: str) -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(post_news_teller(time_to_mail))
     loop.close()
 
 
-@app.task
+@app.task()
 def delete_not_paid_posts_task() -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(delete_not_paid_posts())
