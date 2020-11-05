@@ -102,7 +102,7 @@ async def post_create_cancel(call_data: types.CallbackQuery) -> None:
 
 # Обработка контакта
 async def get_contact(message: types.Message) -> None:
-    await message.delete()
+    await message.bot.delete_message(message.chat.id, message.message_id - 1)
 
     wait_message = await message.answer('...', reply_markup=types.ReplyKeyboardRemove())
     await wait_message.delete()
@@ -173,7 +173,7 @@ async def post_create_image(call_data: types.CallbackQuery) -> None:
 
 # Создать пост - обработка изображения
 async def post_create_image_handle(message: types.Message, state: FSMContext) -> None:
-    await message.delete()
+    await message.bot.delete_message(message.chat.id, message.message_id - 1)
 
     photo_sizes = message.photo
     image_id = photo_sizes[-1].file_id  # [-1] - самый лучший размер
@@ -200,7 +200,7 @@ async def post_create_title(call_data: types.CallbackQuery) -> None:
 
 # Создать пост - обработка заголовка
 async def post_create_title_handle(message: types.Message, state: FSMContext) -> None:
-    await message.delete()
+    await message.bot.delete_message(message.chat.id, message.message_id - 1)
 
     await state.update_data(title=message.text)
     await state.reset_state(with_data=False)
@@ -224,7 +224,7 @@ async def post_create_text(call_data: types.CallbackQuery) -> None:
 
 # Создать пост - обработка текста
 async def post_create_text_handle(message: types.Message, state: FSMContext) -> None:
-    await message.delete()
+    await message.bot.delete_message(message.chat.id, message.message_id - 1)
 
     await state.update_data(text=message.text)
     await state.reset_state(with_data=False)
@@ -267,7 +267,7 @@ async def post_create_button_handle(message: types.Message, state: FSMContext) -
         text_answer = config.messages[user_language]['post_create']['button_url_invalid_format']
         await message.answer(text_answer, reply_markup=post_create_data_cancel_inline_keyboard, parse_mode='markdown')
         return
-    await message.delete()
+    await message.bot.delete_message(message.chat.id, message.message_id - 1)
 
     await state.update_data(button=message.text)
     await state.reset_state(with_data=False)
