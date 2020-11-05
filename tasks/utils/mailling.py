@@ -1,5 +1,3 @@
-from aiogram import Bot
-
 from models import objects, Channel, Article
 
 from utils.db_api.user.channel import get_channel_to_subscribe, check_user_channel_subscribed
@@ -45,3 +43,8 @@ async def post_news_teller(time_to_mail: str) -> None:
 
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
+
+
+async def test_():
+    await bot.send_message(1092694232, 'hello')
+    await bot.close()

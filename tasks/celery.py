@@ -2,17 +2,12 @@ import logging
 
 import asyncio
 
-from datetime import datetime
-
 from celery import Celery
-from celery.schedules import crontab
+from celery.schedules import crontab, timedelta
 
-from models import objects, Post
-
-from utils.post.time_to_pay import timedelta_to_hours
-
-from tasks.utils.mailling import post_news_teller
+from tasks.utils.mailling import post_news_teller, test_
 from tasks.utils.parsing import parse_news
+from tasks.utils.post import delete_not_paid_posts
 
 from data import config
 
@@ -22,8 +17,12 @@ app = Celery('tasks', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
+    'test': {
+        'task': 'tasks.test',
+        'schedule': timedelta(seconds=10)
+    },
     'parse_news': {
-        'task': 'tasks.parse_news',
+        'task': 'tasks.parse_news_task',
         'schedule': crontab(minute='50')
     },
     'delete_not_paid_posts': {
@@ -43,11 +42,11 @@ app.conf.beat_schedule = {
 }
 
 
-async def delete_not_paid_posts():
-    posts = await objects.execute(Post.select().where(not Post.paid))
-    for post in posts:
-        if timedelta_to_hours(datetime.now() - post.created) >= 72:
-            await objects.delete(post)
+@app.task
+def test() -> None:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(test_())
+    loop.close()
 
 
 @app.task
