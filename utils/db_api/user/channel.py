@@ -48,3 +48,4 @@ async def subscribe_user_to_channel(user_id: int, channel_id: int) -> None:
         user.he_subscribed = True
 
     await objects.update(user, ['ru_subscribed', 'en_subscribed', 'he_subscribed'])
+
