@@ -35,6 +35,7 @@ async def save_post_data(user_id: int, post_data: Dict) -> Post:
         'confirmations': payment_address['confirmations'],
 
         'address': payment_address['address'],
+        'forwarding_address': config.BTC_WALLET_ID,
         'amount': await get_payment_amount(),
 
         'created': datetime.now(),
