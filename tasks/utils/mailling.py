@@ -23,13 +23,33 @@ def make_message(language: str, preview_text: str, article_url: str, category: s
 async def post_to_channel(language: str, preview_text: str, article_url: str, category: str) -> None:
     channel = await objects.get(Channel, language=language)
     channel_id = channel.channel_id
-    await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
-                           parse_mode='markdown', disable_notification=True)
+    try:
+        await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+                               parse_mode='markdown', disable_notification=True)
+    except RetryAfter:
+        await sleep(65.0)
+        try:
+            await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+                                   parse_mode='markdown', disable_notification=True)
+        except RetryAfter:
+            await sleep(5.0)
+            await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+                                   parse_mode='markdown', disable_notification=True)
     await bot.close()
 
 
 async def post_to_user(user_id: int, language: str, preview_text: str, article_url: str, category: str) -> None:
-    await bot.send_message(user_id, make_message(language, preview_text, article_url, category), parse_mode='markdown')
+    try:
+        await bot.send_message(user_id, make_message(language, preview_text, article_url, category), parse_mode='markdown')
+    except RetryAfter:
+        await sleep(65.0)
+        try:
+            await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+                                   parse_mode='markdown', disable_notification=True)
+        except RetryAfter:
+            await sleep(5.0)
+            await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+                                   parse_mode='markdown', disable_notification=True)
     await bot.close()
 
 
@@ -43,12 +63,7 @@ async def post_news_teller(time_to_mail: str) -> None:
 
             if check_user_channel_subscribed(bot, user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
-                    try:
-                        await post_to_user(user.user_id, article.category.language, f'#{article.category.name}',
-                                           article.url, article.category.name)
-                    except RetryAfter:
-                        await sleep(61.0)
-                        await post_to_user(user.user_id, article.category.language, f'#{article.category.name}',
-                                           article.url, article.category.name)
+                    await post_to_user(user.user_id, article.category.language, f'#{article.category.name}',
+                                       article.url, article.category.name)
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()

@@ -38,21 +38,8 @@ async def parse_news():
                     article_url = parse_url(article_url).url
 
                 await objects.get_or_create(Article, url=article_url, category=news.category)
-                try:
-                    await post_to_channel(news.category.language, post[2], article_url,
-                                          news.category.name)  # post[2] - preview_text
-                except RetryAfter:
-                    await sleep(61.0)
-                    try:
-                        await post_to_channel(news.category.language, post[2], article_url,
-                                              news.category.name)  # post[2] - preview_text
-                    except RetryAfter:
-                        await sleep(10.0)
-                        try:
-                            await post_to_channel(news.category.language, post[2], article_url,
-                                                  news.category.name)  # post[2] - preview_text
-                        except RetryAfter:
-                            continue
+                await post_to_channel(news.category.language, post[2], article_url,
+                                      news.category.name)  # post[2] - preview_text
             last_post = await objects.get(LastPost, news=news)
             last_post.post_url = post[-1]  # post_url
             await objects.update(last_post, ['post_url'])
