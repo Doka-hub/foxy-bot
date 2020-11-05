@@ -37,6 +37,7 @@ async def payment_handler(request: web.Request) -> Response:
     data = await request.post()
     invoice = data.get('invoice')
 
+    logging.info(data)
     if not data.get('event') == 'confirmed':
         return Response(body=json.dumps({'invoice': invoice}))
 
@@ -44,7 +45,6 @@ async def payment_handler(request: web.Request) -> Response:
     amount = Decimal(data.get('amount')) / 100000000
     amount = amount.quantize(Decimal("1.00000"))
 
-    logging.info(data)
     try:
         payment_address = await objects.get(PaymentAddress, address=address)
     except DoesNotExist as e:
