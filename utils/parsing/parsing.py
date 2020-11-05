@@ -272,7 +272,7 @@ class Parsing:
             if not soup:
                 continue
             title = soup.find('h1', {'id': 'F_Title'}).text
-            text = soup.find('article', ).get_text(strip=True)
+            text = soup.find('article', ).get_text(strip=True).replace('<p>', '')
 
             try:
                 image = soup.find('picture', ).find('img', ).get('src')
