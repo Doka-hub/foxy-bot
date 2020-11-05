@@ -23,7 +23,7 @@ app.conf.beat_schedule = {
     #     'schedule': 10.0
     # },
     'parse_news': {
-        'task': 'parse_news_task',
+        'task': 'parse_news',
         'schedule': crontab(minute='50')
     },
     'delete_not_paid_posts': {
@@ -31,12 +31,12 @@ app.conf.beat_schedule = {
         'schedule': crontab(hour='23', minute='59')
     },
     'mailing_morning': {
-        'task': 'mailing_task',
+        'task': 'mailing',
         'schedule': crontab(hour='8', minute='12'),
         'args': ('morning',)
     },
     'mailing_evening': {
-        'task': 'mailing_task',
+        'task': 'mailing',
         'schedule': crontab(hour='20', minute='12'),
         'args': ('evening',)
     },
