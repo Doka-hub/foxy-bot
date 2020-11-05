@@ -6,7 +6,8 @@ from .profile import advertising_profile
 from .post import (
     post_list, post_detail,
 
-    post_create, post_create_cancel, get_contact, post_create_choose_channel_handle, post_create_choose_channel_hanlde_cancel,
+    post_create, post_create_cancel, get_contact, post_create_choose_channel_handle,
+    post_create_choose_channel_handle_cancel,
     post_create_image, post_create_image_handle,
 
     post_create_title, post_create_title_handle,
@@ -39,7 +40,7 @@ def setup(dp: Dispatcher) -> None:
     # Создание поста - канал
     dp.register_callback_query_handler(post_create_choose_channel_handle, lambda c: c.data.startswith('choose_channel'),
                                        state=PostState.channel_id)
-    dp.register_callback_query_handler(post_create_choose_channel_hanlde_cancel,
+    dp.register_callback_query_handler(post_create_choose_channel_handle_cancel,
                                        lambda c: c.data == 'advertising_profile', state=PostState.channel_id)
 
     # Создание поста - картинка

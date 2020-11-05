@@ -135,9 +135,7 @@ async def post_create_choose_channel_handle(call_data: types.CallbackQuery, stat
 
 
 # Создать пост - обработка выбора канала - отмена
-async def post_create_choose_channel_hanlde_cancel(call_data: types.CallbackQuery, state: FSMContext) -> None:
-    await call_data.message.delete()
-
+async def post_create_choose_channel_handle_cancel(call_data: types.CallbackQuery, state: FSMContext) -> None:
     await state.reset_state()
     await advertising_profile(call_data)
 
