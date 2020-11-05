@@ -3,9 +3,9 @@ import logging
 import asyncio
 
 from celery import Celery
-from celery.schedules import crontab, timedelta
+from celery.schedules import crontab
 
-from .utils.mailling import post_news_teller, test_
+from .utils.mailling import post_news_teller
 from .utils.parsing import parse_news
 from .utils.post import delete_not_paid_posts
 
@@ -17,11 +17,6 @@ app = Celery('celery', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
-    # Для теста работоспособности селери
-    # 'test2': {
-    #     'task': 'test',
-    #     'schedule': 10.0
-    # },
     'parse_news': {
         'task': 'parse_news',
         'schedule': crontab(minute='30')
@@ -41,13 +36,6 @@ app.conf.beat_schedule = {
         'args': ('evening',)
     },
 }
-
-
-# @app.task(name='test')
-# def test() -> None:
-#     loop = asyncio.new_event_loop()
-#     loop.run_until_complete(test_())
-#     loop.close()
 
 
 @app.task(name='parse_news')

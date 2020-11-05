@@ -1,5 +1,7 @@
 from asyncio import sleep
 
+from aiogram.utils.exceptions import RetryAfter
+
 import logging
 
 from telegraph.exceptions import TelegraphException
@@ -26,7 +28,7 @@ async def parse_news():
                     article_url = create_article_and_get_article_url(post[0], post[1])  # title, content
                 except TelegraphException as e:
                     logging.info(f'error - {e}')
-                    await sleep(5)
+                    await sleep(5.0)
                     try:
                         article_url = create_article_and_get_article_url(post[0], post[1])  # title, content
                     except TelegraphException as e:
@@ -36,7 +38,21 @@ async def parse_news():
                     article_url = parse_url(article_url).url
 
                 await objects.get_or_create(Article, url=article_url, category=news.category)
-                await post_to_channel(news.category.language, post[2], article_url)  # post[2] - preview_text
+                try:
+                    await post_to_channel(news.category.language, post[2], article_url,
+                                          news.category.name)  # post[2] - preview_text
+                except RetryAfter:
+                    await sleep(61.0)
+                    try:
+                        await post_to_channel(news.category.language, post[2], article_url,
+                                              news.category.name)  # post[2] - preview_text
+                    except RetryAfter:
+                        await sleep(10.0)
+                        try:
+                            await post_to_channel(news.category.language, post[2], article_url,
+                                                  news.category.name)  # post[2] - preview_text
+                        except RetryAfter:
+                            continue
             last_post = await objects.get(LastPost, news=news)
             last_post.post_url = post[-1]  # post_url
             await objects.update(last_post, ['post_url'])
