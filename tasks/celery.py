@@ -17,10 +17,11 @@ app = Celery('celery', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
-    'test2': {
-        'task': 'test',
-        'schedule': 10.0
-    },
+    # Для теста работоспособности селери
+    # 'test2': {
+    #     'task': 'test',
+    #     'schedule': 10.0
+    # },
     'parse_news': {
         'task': 'parse_news_task',
         'schedule': crontab(minute='50')
@@ -42,11 +43,11 @@ app.conf.beat_schedule = {
 }
 
 
-@app.task(name='test')
-def test() -> None:
-    loop = asyncio.new_event_loop()
-    loop.run_until_complete(test_())
-    loop.close()
+# @app.task(name='test')
+# def test() -> None:
+#     loop = asyncio.new_event_loop()
+#     loop.run_until_complete(test_())
+#     loop.close()
 
 
 @app.task(name='parse_news')
