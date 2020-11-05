@@ -290,8 +290,8 @@ def setup():
                 ('SAVL. How can I sell crypto?', 'https://telegra.ph/SAVL-How-can-I-sell-crypto-10-12'),
                 ('SAVL. Verification. How complete it?',
                  'https://telegra.ph/SAVL-Why-is-the-verification-KYC-necessary-and-how-do-I-complete-it-10-12'),
-                ('SAVL. Why is verification (KYC) necessary and how to get through it?',
-                 'https://telegra.ph/SAVL-Why-is-verification-KYC-necessary-and-how-to-get-through-it-10-12'),
+                ('SAVL. Create a buy or sell ad?',
+                 'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
                 ('SAVL. How buy crypto with card?',
                  'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
             ),
@@ -299,17 +299,17 @@ def setup():
                 ('כיצד אוכל לקנות מודעות?', 'https://google.com'),
                 ('מה זה ביטקוין?',
                  'https://telegra.ph/%D7%9E%D7%94-%D7%96%D7%94-%D7%91%D7%99%D7%98%D7%A7%D7%95%D7%99%D7%9F-10-12'),
-                ('SAVL. What are Private and Market wallets? What are they for and what is the difference between them?',
+                ('SAVL. Private and Market wallets',
                  'https://telegra.ph/SAVL-What-are-Private-and-Market-wallets-What-are-they-for-and-what-is-the'
                  '-difference-between-them-10-12'),
                 ('SAVL. How can I buy crypto?', 'https://telegra.ph/SAVL-How-can-I-buy-crypto-10-12'),
                 ('SAVL. How can I sell crypto?', 'https://telegra.ph/SAVL-How-can-I-sell-crypto-10-12'),
-                ('SAVL. Why is the verification (KYC) necessary and how do I complete it?',
+                ('SAVL. Verification. How complete it?',
                  'https://telegra.ph/SAVL-Why-is-the-verification-KYC-necessary-and-how-do-I-complete-it-10-12'),
-                ('SAVL. Why is verification (KYC) necessary and how to get through it?',
-                 'https://telegra.ph/SAVL-Why-is-verification-KYC-necessary-and-how-to-get-through-it-10-12'),
-                ('SAVL. How can I buy crypto with debit/credit card or Apple Pay?',
-                 'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12')
+                ('SAVL. Create a buy or sell ad?',
+                 'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
+                ('SAVL. How buy crypto with card?',
+                 'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
             )
         }
         for language in info_articles:
