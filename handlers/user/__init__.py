@@ -1,7 +1,6 @@
 from aiogram import Dispatcher
-from aiogram.dispatcher.filters import CommandStart, CommandHelp, Command
+from aiogram.dispatcher.filters import CommandStart, Command
 
-from .help import bot_help
 from .start import start
 from .menu import menu, back_to_menu
 from .language import choose_language, change_language
@@ -16,9 +15,6 @@ def setup(dp: Dispatcher) -> None:
     # menu
     dp.register_message_handler(menu, Command(['menu']))
     dp.register_callback_query_handler(back_to_menu, lambda c: c.data == 'menu')
-
-    # help
-    dp.register_message_handler(bot_help, CommandHelp())
 
     # language
     dp.register_callback_query_handler(choose_language, lambda c: c.data.startswith('choose_language'))

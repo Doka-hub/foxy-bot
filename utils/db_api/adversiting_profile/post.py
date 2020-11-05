@@ -3,7 +3,7 @@ from typing import Dict
 from datetime import datetime
 
 from utils.db_api.user.user import get_or_create_user
-from utils.payment.bitcoin import create_payment_address, get_payment_amount
+from utils.payment.bitcoin import create_payment_address, get_ad_cost
 
 from models import objects, PaymentAddress, Post
 
@@ -36,7 +36,7 @@ async def save_post_data(user_id: int, post_data: Dict) -> Post:
 
         'address': payment_address['address'],
         'forwarding_address': config.BTC_WALLET_ID,
-        'amount': await get_payment_amount(),
+        'amount': await get_ad_cost(),
 
         'created': datetime.now(),
         'updated': datetime.now()

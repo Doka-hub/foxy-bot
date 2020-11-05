@@ -187,14 +187,16 @@
       "time": "Post time"
     },
 
-    "edit_post": {
+    "post_update": {
       "image": "Change picture",
       "title": "Change title",
       "text": "Change text",
       "button": "Change button",
       "date": "Change publication date",
       "time": "Change post time",
-      "moderate": "Send for moderation"
+      "moderate": "Send for moderation",
+
+      "updated": "Updated. Post sent on moderation."
     },
 
     "confirmation": {
@@ -296,14 +298,16 @@
       "time": "זמן פרסום"
     },
 
-    "edit_post": {
+    "post_update": {
       "image": "שנה תמונה",
       "title": "שנה כותרת",
       "text": "שנה טקסט",
       "button": "שנה כפתור",
       "date": "שנה תאריך פרסום",
       "time": "שנה את זמן המודעה",
-      "moderate": "שלח לאימות"
+      "moderate": "שלח לאימות",
+
+      "updated": "Обновлено. Пост отправился на модерацию."
     },
 
     "confirmation": {
