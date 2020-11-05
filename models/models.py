@@ -23,10 +23,15 @@ class PaymentAddress(BaseModel):
     wallet_id = peewee.CharField(max_length=255)
     wallet_id_hash = peewee.CharField(max_length=255)
 
-    # payment_code = peewee.CharField(max_length=255)
+    invoice = peewee.CharField(max_length=255)
+    payment_code = peewee.CharField(max_length=255)
+    confirmations = peewee.IntegerField(default=1)
 
     address = peewee.CharField(max_length=255)
+    forwarding_address = peewee.CharField(max_length=255)
+
     amount = peewee.DecimalField()
+    amount_got = peewee.DecimalField()
 
     created = peewee.DateTimeField()
     updated = peewee.DateTimeField()
