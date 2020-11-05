@@ -31,7 +31,7 @@ class PaymentAddress(BaseModel):
     forwarding_address = peewee.CharField(max_length=255)
 
     amount = peewee.DecimalField()
-    amount_got = peewee.DecimalField()
+    amount_got = peewee.DecimalField(default=0)
 
     created = peewee.DateTimeField()
     updated = peewee.DateTimeField()
