@@ -11,7 +11,7 @@ from .user import get_or_create_user
 from .language import get_language
 
 
-logging.basicConfig(level=logging.INFO, filename='bot_logs/member.log')
+logging.basicConfig(level=logging.INFO, filename='member.log')
 
 
 async def get_channel_to_subscribe(language: Optional[str] = None, channel_id: Optional[int] = None) -> Channel:
