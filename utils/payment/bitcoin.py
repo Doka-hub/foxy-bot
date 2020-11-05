@@ -16,7 +16,7 @@ from hmac import new as hmac_new, HMAC
 
 from models import objects, PaymentAmount
 
-logging.basicConfig(filename='payment.log', level=logging.INFO)
+logging.basicConfig(filename='bot_logs/payment.log', level=logging.INFO)
 
 
 def create_nonce_and_hmac_signature(wallet_id: str, password: str) -> List[Union[str, HMAC]]:

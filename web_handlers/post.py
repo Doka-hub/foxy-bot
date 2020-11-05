@@ -3,15 +3,9 @@ from aiohttp import web
 import aiohttp_jinja2
 import jinja2
 
-from datetime import datetime
-
-from uuid import uuid4
-
 from models import objects, Post, TGUser
 
 from loader import bot
-
-from utils.db_api.user.user import get_or_create_user
 
 from data import config
 

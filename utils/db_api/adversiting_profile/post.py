@@ -12,7 +12,7 @@ from models import objects, PaymentAddress, Post
 from data import config
 
 
-logging.basicConfig(level=logging.INFO, filename='utils-adv_prof-post.log')
+logging.basicConfig(level=logging.INFO, filename='bot_logs/utils-adv_prof-post.log')
 
 
 async def set_phone_number(user_id: int, phone_number: str) -> None:
