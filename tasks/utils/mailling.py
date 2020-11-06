@@ -68,7 +68,7 @@ async def post_news_teller(time_to_mail: str) -> None:
             channel = await get_channel_to_subscribe(article_language)
             channel_id = channel.channel_id
 
-            if check_user_channel_subscribed(bot, user.user_id, channel_id):
+            if await check_user_channel_subscribed(user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
                     await post_to_user(user.user_id, article.category.language, f'#{article.category.name}',
                                        article.url, article.category.name)

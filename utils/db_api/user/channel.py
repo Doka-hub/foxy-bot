@@ -1,12 +1,13 @@
 from typing import Optional
 
-from aiogram import bot as Bot
 from aiogram.utils.exceptions import BadRequest
 
 from models import objects, Channel
 
 from .user import get_or_create_user
 from .language import get_language
+
+from loader import bot
 
 from data import config
 
@@ -19,7 +20,7 @@ async def get_channel_to_subscribe(language: Optional[str] = None, channel_id: O
     return channel
 
 
-async def check_user_channel_subscribed(bot: Bot, user_id: int, channel_id: int = None) -> bool:
+async def check_user_channel_subscribed(user_id: int, channel_id: int = None) -> bool:
     if user_id in config.ADMINS.values():
         return True
 

@@ -30,7 +30,7 @@ async def category_subscribe(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
     category_key = call_data.data.replace('choose_category ', '')  # example: 'choose_category health'
 
-    user_subscribed = await check_user_channel_subscribed(call_data.bot, user_id)
+    user_subscribed = await check_user_channel_subscribed(user_id)
 
     if not user_subscribed:
         await call_data.message.delete()
