@@ -65,7 +65,7 @@ async def post_detail(call_data: types.CallbackQuery) -> None:
     detail_post_inline_keyboard = get_post_inline_buttons(user_language, post)
 
     # если картинки нет
-    if post.image_id != '0':
+    if post.image_id:
         await call_data.message.answer_photo(post.image_id, message, reply_markup=detail_post_inline_keyboard,
                                              parse_mode='markdown')
     else:

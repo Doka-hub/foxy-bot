@@ -32,7 +32,7 @@ async def get_post_detail(request: web.Request) -> dict:
     post_id = request.match_info['post_id']
     post = await objects.get(Post, id=post_id)
 
-    if post.image_id != '0':  # если фото не было добавлено в рекламный пост
+    if post.image_id:  # если фото не было добавлено в рекламный пост
         # получаем ссылку на фото, чтобы показать в панели
         image = await bot.get_file(post.image_id)
         image_url = bot.get_file_url(image.file_path)
