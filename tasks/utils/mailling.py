@@ -57,7 +57,6 @@ async def send_post_to_channel(language: str, preview_text: str, article_url: st
             await sleep(5.0)
         except CantParseEntities as e:  # если какой-то символ нельзя писать в тг
             logging.info(f'{e} - {article_url}')
-    await bot.close()
 
 
 async def send_post_to_user(user_id: int, language: str, article_url: str, category: str) -> None:
@@ -79,7 +78,6 @@ async def send_post_to_user(user_id: int, language: str, article_url: str, categ
                 pass
     except CantParseEntities as e:
         logging.info(f'{e} - {category}')
-    await bot.close()
 
 
 async def send_post_news_teller(time_to_mail: str) -> None:
