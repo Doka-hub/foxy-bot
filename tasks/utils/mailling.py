@@ -1,3 +1,5 @@
+from typing import List
+
 import logging
 
 from asyncio import sleep
@@ -25,7 +27,7 @@ def make_message(language: str, preview_text: str, article_url: str, category: s
     )
 
 
-async def post_to_channel(language: str, preview_text: str, article_url: str, category: str) -> None:
+async def send_post_to_channel(language: str, preview_text: str, article_url: str, category: str) -> None:
     channel = await objects.get(Channel, language=language)
     channel_id = channel.channel_id
 
@@ -58,7 +60,7 @@ async def post_to_channel(language: str, preview_text: str, article_url: str, ca
     await bot.close()
 
 
-async def post_to_user(user_id: int, language: str, article_url: str, category: str) -> None:
+async def send_post_to_user(user_id: int, language: str, article_url: str, category: str) -> None:
     message = make_message(language, '', article_url, category)
     try:
         await bot.send_message(user_id, message,
@@ -80,7 +82,7 @@ async def post_to_user(user_id: int, language: str, article_url: str, category: 
     await bot.close()
 
 
-async def post_news_teller(time_to_mail: str) -> None:
+async def send_post_news_teller(time_to_mail: str) -> None:
     for article in await objects.execute(Article.select()):
         for user in article.category.users:
             article_language = article.category.language
@@ -90,6 +92,18 @@ async def post_news_teller(time_to_mail: str) -> None:
 
             if await check_user_channel_subscribed(user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
-                    await post_to_user(user.user_id, article.category.language, article.url, article.category.name)
+                    await send_post_to_user(user.user_id, article.category.language, article.url, article.category.name)
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
+
+
+async def send_post_news_teller_upon_receipt_of(articles: List[Article]) -> None:
+    for article in articles:
+        for user in article.category.users:
+            article_language = article.category.language
+
+            channel = await get_channel(article_language)
+            channel_id = channel.channel_id
+
+            if await check_user_channel_subscribed(user.user_id, channel_id):
+                await send_post_to_user(user.user_id, article.category.language, article.url, article.category.name)

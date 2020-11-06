@@ -5,7 +5,7 @@ import asyncio
 from celery import Celery
 from celery.schedules import crontab
 
-from .utils.mailling import post_news_teller
+from .utils.mailling import send_post_news_teller
 from .utils.parsing import parse_news
 from .utils.post import delete_not_paid_posts
 
@@ -48,7 +48,7 @@ def parse_news_task() -> None:
 @app.task(name='mailing')
 def mailing_task(time_to_mail: str) -> None:
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(post_news_teller(time_to_mail))
+    loop.run_until_complete(send_post_news_teller(time_to_mail))
     print('end: mailing')
 
 
