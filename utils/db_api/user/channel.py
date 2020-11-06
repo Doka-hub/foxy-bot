@@ -4,7 +4,6 @@ from aiogram.utils.exceptions import BadRequest
 
 from models import objects, Channel
 
-from .user import get_or_create_user
 from .language import get_language
 
 from loader import bot
@@ -12,7 +11,7 @@ from loader import bot
 from data import config
 
 
-async def get_channel_to_subscribe(language: Optional[str] = None, channel_id: Optional[int] = None) -> Channel:
+async def get_channel(language: Optional[str] = None, channel_id: Optional[int] = None) -> Channel:
     if language:
         channel = await objects.get(Channel, language=language)
     else:
@@ -20,13 +19,13 @@ async def get_channel_to_subscribe(language: Optional[str] = None, channel_id: O
     return channel
 
 
-async def check_user_channel_subscribed(user_id: int, channel_id: int = None) -> bool:
+async def check_user_channel_subscribed(user_id: int, channel_id: Optional[int] = None) -> bool:
     if user_id in config.ADMINS.values():
         return True
 
     if not channel_id:
         user_language = await get_language(user_id)
-        channel = await get_channel_to_subscribe(user_language)
+        channel = await get_channel(user_language)
         channel_id = channel.channel_id
 
     try:
@@ -34,17 +33,3 @@ async def check_user_channel_subscribed(user_id: int, channel_id: int = None) ->
         return True if member.status == 'member' else False
     except BadRequest:  # если участник не найден
         return False
-
-
-async def subscribe_user_to_channel(user_id: int, channel_id: int) -> None:
-    user, created = await get_or_create_user(user_id)
-    channel = await get_channel_to_subscribe(channel_id=channel_id)
-
-    if channel.language == 'ru':
-        user.ru_subscribed = True
-    elif channel.language == 'en':
-        user.en_subscribed = True
-    elif channel.language == 'he':
-        user.he_subscribed = True
-
-    await objects.update(user, ['ru_subscribed', 'en_subscribed', 'he_subscribed'])

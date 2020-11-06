@@ -7,7 +7,7 @@ from keyboards.inline.user.category import (
 
 from utils.db_api.user.language import get_language
 from utils.db_api.user.category import subscribe_user_to_category, set_user_time_to_mail
-from utils.db_api.user.channel import check_user_channel_subscribed, get_channel_to_subscribe
+from utils.db_api.user.channel import check_user_channel_subscribed, get_channel
 
 from data import config
 
@@ -35,7 +35,7 @@ async def category_subscribe(call_data: types.CallbackQuery) -> None:
     if not user_subscribed:
         await call_data.message.delete()
 
-        channel_to_subscribe = await get_channel_to_subscribe(user_language)
+        channel_to_subscribe = await get_channel(user_language)
         check_subscribe_inline_keyboard = get_channel_check_subscribe_inline_keyboard(user_language,
                                                                                       channel_to_subscribe)
         text_answer = config.messages[user_language]['subscribe_required']

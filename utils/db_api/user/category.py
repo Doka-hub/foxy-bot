@@ -6,11 +6,12 @@ from .user import get_or_create_user
 async def subscribe_user_to_category(user_id: int, category_key: str) -> None:
     user, created = await get_or_create_user(user_id)
     user_language = user.language
+
     category = await objects.get(Category, key=category_key, language=user_language)
 
     if category not in user.subscribed:
         user.subscribed.add([category])
-    else:
+    else:  # если он уже подписан и нажимает на неё ещё раз, то отписывается
         user.subscribed.remove([category])
 
 

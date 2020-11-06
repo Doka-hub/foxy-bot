@@ -6,7 +6,7 @@ from aiogram.utils.exceptions import RetryAfter, CantParseEntities
 
 from models import objects, Channel, Article
 
-from utils.db_api.user.channel import get_channel_to_subscribe, check_user_channel_subscribed
+from utils.db_api.user.channel import get_channel, check_user_channel_subscribed
 
 from loader import bot
 
@@ -28,9 +28,11 @@ def make_message(language: str, preview_text: str, article_url: str, category: s
 async def post_to_channel(language: str, preview_text: str, article_url: str, category: str) -> None:
     channel = await objects.get(Channel, language=language)
     channel_id = channel.channel_id
+
+    message = make_message(language, preview_text, article_url, category)
     try:
         try:
-            await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+            await bot.send_message(channel_id, message,
                                    parse_mode='markdown', disable_notification=True)
         except RetryAfter:
             await sleep(65.0)
@@ -44,28 +46,37 @@ async def post_to_channel(language: str, preview_text: str, article_url: str, ca
                                            parse_mode='markdown', disable_notification=True)
                 except RetryAfter:
                     pass
-    except CantParseEntities:
-        logging.info(preview_text)
-        return
+    except CantParseEntities as e:  # если какой-то символ нельзя писать в тг
+        logging.info(f'{e} - {preview_text} - {article_url}')
+        try:
+            await bot.send_message(channel_id, make_message(language, '', article_url, category),
+                                   parse_mode='markdown', disable_notification=True)
+        except RetryAfter:
+            await sleep(5.0)
+        except CantParseEntities as e:  # если какой-то символ нельзя писать в тг
+            logging.info(f'{e} - {article_url}')
     await bot.close()
 
 
-async def post_to_user(user_id: int, language: str, preview_text: str, article_url: str, category: str) -> None:
+async def post_to_user(user_id: int, language: str, article_url: str, category: str) -> None:
+    message = make_message(language, '', article_url, category)
     try:
-        await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+        await bot.send_message(user_id, message,
                                parse_mode='markdown')
     except RetryAfter:
         await sleep(65.0)
         try:
-            await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+            await bot.send_message(user_id, message,
                                    parse_mode='markdown', disable_notification=True)
         except RetryAfter:
             await sleep(5.0)
             try:
-                await bot.send_message(user_id, make_message(language, preview_text, article_url, category),
+                await bot.send_message(user_id, message,
                                        parse_mode='markdown', disable_notification=True)
             except RetryAfter:
                 pass
+    except CantParseEntities as e:
+        logging.info(f'{e} - {category}')
     await bot.close()
 
 
@@ -74,12 +85,11 @@ async def post_news_teller(time_to_mail: str) -> None:
         for user in article.category.users:
             article_language = article.category.language
 
-            channel = await get_channel_to_subscribe(article_language)
+            channel = await get_channel(article_language)
             channel_id = channel.channel_id
 
             if await check_user_channel_subscribed(user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
-                    await post_to_user(user.user_id, article.category.language, f'#{article.category.name}',
-                                       article.url, article.category.name)
+                    await post_to_user(user.user_id, article.category.language, article.url, article.category.name)
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
