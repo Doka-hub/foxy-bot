@@ -41,7 +41,7 @@ def setup(dp: Dispatcher) -> None:
     dp.register_message_handler(get_contact, content_types=['contact'])
 
     # Изменение поста
-    dp.register_callback_query_handler(post_update, lambda c: c.data.startswith('post_update'))
+    dp.register_callback_query_handler(post_update, lambda c: c.data.startswith('post_update '))
 
     # Создание поста - канал
     dp.register_callback_query_handler(post_create_choose_channel_handle, lambda c: c.data.startswith('choose_channel'),
