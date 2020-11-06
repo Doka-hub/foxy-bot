@@ -28,7 +28,7 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
-        if image_id:
+        if image_id != '0':
             await call_data.message.answer_photo(image_id, text_answer, reply_markup=post_create_inline_keyboard,
                                                  parse_mode='markdown')
         else:
@@ -44,7 +44,7 @@ async def post_create_detail(*, call_data: types.CallbackQuery = None, message: 
         text_answer = get_post_create_message(user_language, post_data)
 
         # если картинка заполнена
-        if image_id:
+        if image_id != '0':
             await message.answer_photo(image_id, text_answer, reply_markup=post_create_inline_keyboard,
                                        parse_mode='markdown')
         else:
