@@ -49,9 +49,7 @@ async def save_post_data(user_id: int, post_data: Dict) -> Post:
     button = post_data.get('button', '')
     date = datetime.strptime(post_data.get('date'), '%d.%m.%Y')
     time = post_data.get('time', 'morning')
-    image_id = post_data.get('image_id', '0')
-    if not image_id:  # if not None
-        image_id = '0'
+    image_id = post_data.get('image_id', None)
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
 
     post_data = {

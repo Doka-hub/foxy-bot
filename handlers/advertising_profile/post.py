@@ -107,7 +107,7 @@ async def post_update(call_data: types.CallbackQuery) -> None:
     post_data = post.get_states_data()
     post_data['edit'] = True
     post_data['post_id'] = post.id
-    post_data = await dp.storage.set_data(user=user_id, data=post_data)
+    await dp.storage.set_data(user=user_id, data=post_data)
 
     choose_channel_to_mail_inline_keyboard = await get_choose_channel_to_mail_inline_keyboard(user_language)
     text_answer = config.messages[user_language]['channel']['choose_channel']
