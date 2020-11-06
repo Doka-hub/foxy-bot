@@ -153,7 +153,7 @@ async def post_create_choose_channel_handle(call_data: types.CallbackQuery, stat
 
     post_create_inline_keyboard = get_post_create_inline_keyboard(user_language, post_data)
     text_answer = get_post_create_message(user_language, post_data)
-    await call_data.message.answer(text_answer, reply_markup=post_create_inline_keyboard)
+    await call_data.message.answer(text_answer, reply_markup=post_create_inline_keyboard, parse_mode='markdown')
 
 
 # Создать пост - обработка выбора канала - отмена
