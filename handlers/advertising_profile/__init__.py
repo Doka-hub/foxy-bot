@@ -6,6 +6,7 @@ from .profile import advertising_profile
 from .post import (
     post_list, post_detail,
 
+
     post_create, post_create_cancel, get_contact, post_create_choose_channel_handle,
     post_create_choose_channel_handle_cancel,
     post_create_image, post_create_image_handle,
@@ -20,7 +21,9 @@ from .post import (
 
     post_create_moderate, post_create_confirmation_decline, post_create_confirmation_accept,
 
-    post_create_handle_cancel
+    post_create_handle_cancel,
+
+    post_update
 )
 
 
@@ -36,6 +39,9 @@ def setup(dp: Dispatcher) -> None:
     dp.register_callback_query_handler(post_create, lambda c: c.data == 'post_create')
     dp.register_callback_query_handler(post_create_cancel, lambda c: c.data == 'post_cancel')
     dp.register_message_handler(get_contact, content_types=['contact'])
+
+    # Изменение поста
+    dp.register_callback_query_handler(post_update, lambda c: c.data.startswith('post_update'))
 
     # Создание поста - канал
     dp.register_callback_query_handler(post_create_choose_channel_handle, lambda c: c.data.startswith('choose_channel'),
