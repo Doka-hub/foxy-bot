@@ -347,6 +347,7 @@ async def post_create_moderate(call_data: types.CallbackQuery) -> None:
     await call_data.message.delete()
 
     image_id = post_data.get('image_id')
+    logging.info(image_id)
     text_answer = await get_post_moderate_answer_text(user_language, post_data)
 
     if image_id:
