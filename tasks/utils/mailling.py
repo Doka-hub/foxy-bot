@@ -1,12 +1,17 @@
+import logging
+
 from asyncio import sleep
 
-from aiogram.utils.exceptions import RetryAfter
+from aiogram.utils.exceptions import RetryAfter, CantParseEntities
 
 from models import objects, Channel, Article
 
 from utils.db_api.user.channel import get_channel_to_subscribe, check_user_channel_subscribed
 
 from loader import bot
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 def make_message(language: str, preview_text: str, article_url: str, category: str) -> str:
@@ -24,20 +29,24 @@ async def post_to_channel(language: str, preview_text: str, article_url: str, ca
     channel = await objects.get(Channel, language=language)
     channel_id = channel.channel_id
     try:
-        await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
-                               parse_mode='markdown', disable_notification=True)
-    except RetryAfter:
-        await sleep(65.0)
         try:
             await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
                                    parse_mode='markdown', disable_notification=True)
         except RetryAfter:
-            await sleep(5.0)
+            await sleep(65.0)
             try:
                 await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
                                        parse_mode='markdown', disable_notification=True)
             except RetryAfter:
-                pass
+                await sleep(5.0)
+                try:
+                    await bot.send_message(channel_id, make_message(language, preview_text, article_url, category),
+                                           parse_mode='markdown', disable_notification=True)
+                except RetryAfter:
+                    pass
+    except CantParseEntities:
+        logging.info(preview_text)
+        return
     await bot.close()
 
 
