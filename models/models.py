@@ -185,9 +185,9 @@ class Post(BaseModel):
             return self.button.split(' - ')[1]  # ссылка кнопки
 
     def _get_image(self) -> Union[bool, str]:
-        if self.image_id not in ['0', None]:
+        if self.image_id not in ['0', None, False]:
             return self.image_id
-        return False
+        return '0'
 
     def get_states_data(self) -> dict:
         data = {

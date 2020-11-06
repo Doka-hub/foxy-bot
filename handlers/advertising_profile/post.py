@@ -103,7 +103,6 @@ async def post_update(call_data: types.CallbackQuery) -> None:
 
     # заполняем PostState данными из БД
     post_id = call_data.data.replace('post_update ', '')
-    logging.info(post_id)
     post = await objects.get(Post, id=post_id)
     post_data = post.get_states_data()
     post_data['edit'] = True
