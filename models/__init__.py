@@ -24,12 +24,12 @@ def setup():
             'Спорт', 'США_и_Канада', 'Путешествия', 'Культура', 'Происшествия'
         ]
         en_categories = [
-            'Health', 'Economy', 'Politic', 'World', 'Science_and_technology', 'Realty', 'Cars', 'Conflicts',
+            'Health', 'Economy', 'Politic', 'World', 'Science_and_technology', 'Realty', 'Conflicts',
             'Sport', 'USA_and_Canada', 'Travel', 'Culture', 'Incidents'
         ]
         he_categories = [
             'בריאות', 'כלכלה', 'פוליטי', 'בעולם', 'טכנולוגיה', 'נכס', 'רכב', 'עימותים_צבאיים',
-            'ספורט', 'ארה"ב_וקנדה', 'תיירות', 'תרבות', 'תאונות'
+            'ספורט', 'תיירות', 'תרבות', 'תאונות'
         ]
 
         for category, ru_category in zip(categories, ru_categories):
