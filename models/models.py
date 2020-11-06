@@ -184,10 +184,10 @@ class Post(BaseModel):
         if self._is_button():
             return self.button.split(' - ')[1]  # ссылка кнопки
 
-    def _get_image(self) -> Union[bool, str]:
+    def _get_image(self) -> Optional[str]:
         if self.image_id not in ['0', None, False]:
             return self.image_id
-        return '0'
+        return None
 
     def get_states_data(self) -> dict:
         data = {

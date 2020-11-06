@@ -350,7 +350,7 @@ async def post_create_moderate(call_data: types.CallbackQuery) -> None:
     logging.info(image_id)
     text_answer = await get_post_moderate_answer_text(user_language, post_data)
 
-    if image_id != '0':
+    if image_id:
         mess = await call_data.message.answer_photo(image_id, text_answer, parse_mode='markdown')
     else:
         mess = await call_data.message.answer(text_answer, parse_mode='markdown')
