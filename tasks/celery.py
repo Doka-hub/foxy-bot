@@ -19,7 +19,7 @@ app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
     'parse_news': {
         'task': 'parse_news',
-        'schedule': crontab(minute='42')
+        'schedule': crontab(minute='35')
     },
     'delete_not_paid_posts': {
         'task': 'delete_not_paid_posts_task',
@@ -27,7 +27,7 @@ app.conf.beat_schedule = {
     },
     'mailing_morning': {
         'task': 'mailing',
-        'schedule': crontab(hour='8', minute='10'),
+        'schedule': crontab(minute='40'),
         'args': ('morning',)
     },
     'mailing_evening': {
@@ -43,6 +43,7 @@ def parse_news_task() -> None:
     loop = asyncio.new_event_loop()
     loop.run_until_complete(parse_news())
     loop.close()
+    print('end: parse')
 
 
 @app.task(name='mailing')
@@ -50,6 +51,7 @@ def mailing_task(time_to_mail: str) -> None:
     loop = asyncio.new_event_loop()
     loop.run_until_complete(post_news_teller(time_to_mail))
     loop.close()
+    print('end: mailing')
 
 
 @app.task(name='delete_not_paid_posts')
@@ -57,3 +59,4 @@ def delete_not_paid_posts_task() -> None:
     loop = asyncio.new_event_loop()
     loop.run_until_complete(delete_not_paid_posts())
     loop.close()
+    print('end: mailing')

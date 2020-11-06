@@ -145,3 +145,5 @@ dmypy.json
 *.swp*
 *.py.swp
 test.py
+*.py.*
+*.save
