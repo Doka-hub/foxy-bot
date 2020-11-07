@@ -139,7 +139,8 @@ class Post(BaseModel):
         ('accepted', 'Одобрено'),
         ('declined', 'Отказано'),
         ('processing', 'В процессе'),
-        ('not_paid', 'Не оплачено')
+        ('not_paid', 'Не оплачено'),
+        ('posted', 'Выложен')
     )
 
     user = peewee.ForeignKeyField(TGUser, backref='posts')

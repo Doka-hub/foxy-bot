@@ -111,13 +111,13 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     return detail_post_inline_keyboard
 
 
-async def get_post_inline_button(post_data: Dict) -> Union[InlineKeyboardMarkup, bool]:
-    if post_data.get('button'):
-        button_text, button_url = post_data.get('button').split(' - ')
+async def get_post_button_inline_keyboard(button: str) -> Union[InlineKeyboardMarkup, bool]:
+    if not button:
+        return False
+    button_text, button_url = button.split(' - ')
 
-        post_inline_button = get_inline_keyboard([[InlineKeyboardButton(button_text, url=button_url)]])
-        return post_inline_button
-    return False
+    post_inline_button = get_inline_keyboard([[InlineKeyboardButton(button_text, url=button_url)]])
+    return post_inline_button
 
 
 def get_confirmation_text_answer(user_language: str) -> str:
