@@ -59,8 +59,7 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
         error = f'{e}'
         time = error[error.find('Retry in ') + len('Retry in '):error.find(' seconds')]  # сколько нужно ждать
         await sleep(float(time))
-        await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, made_tries + 1,
-                           max_tries)
+        await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, made_tries+1, max_tries)
         return False
     return True
 
@@ -109,8 +108,8 @@ async def send_advertising_post_to_user(user_id: int, advertising_post: Post) ->
 async def send_post_news_teller(time_to_mail: str) -> None:
     expression = [Post.paid, Post.status == 'accepted', Post.date == date.today(), Post.time == time_to_mail]
     for advertising_post in await objects.execute(Post.select().where(*expression)):
-        channel_id = advertising_post.channel.channel_id
-        await send_advertising_post_to_channel(channel_id, advertising_post)
+        # channel_id = advertising_post.channel.channel_id
+        # await send_advertising_post_to_channel(channel_id, advertising_post)
 
         for user in await objects.execute(TGUser.select().where(not TGUser.blocked_by_user)):
             if user.language == advertising_post.channel.language:
@@ -119,7 +118,6 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                 except BotBlocked:
                     user.blocked_by_user = True
                     await objects.update(user, ['blocked_by_user'])
-                    continue
 
     for article in await objects.execute(Article.select()):
         for user in article.category.users.where(not TGUser.blocked_by_user):
@@ -139,7 +137,7 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                     except BotBlocked:
                         user.blocked_by_user = True
                         await objects.update(user, ['blocked_by_user'])
-                        continue
+
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
 
