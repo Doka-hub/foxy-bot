@@ -48,6 +48,7 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
     if made_tries >= 5:
         return False
     try:
+        logging.info(image_id)
         if image_id:
             await bot.send_photo(to, image_id, text, parse_mode=parse_mode, reply_markup=reply_markup,
                                  disable_notification=disable_notification)
@@ -86,7 +87,7 @@ async def send_post_to_user(user_id: int, language: str, article_url: str, categ
 
 
 async def send_advertising_post_to_channel(channel_id: Union[str, int], advertising_post: Post) -> None:
-    image_id = advertising_post.image_id
+    image_id = advertising_post.get_image()
     text = advertising_post.text
     post_button_inline_keyboard = await get_post_button_inline_keyboard(advertising_post.button)
 
