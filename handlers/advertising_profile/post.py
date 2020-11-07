@@ -23,7 +23,7 @@ from keyboards.inline.adversiting_profile.post import (
     get_post_list_inline_keyboard, get_post_detail_text_answer,
 
     get_post_inline_buttons, get_post_create_message, get_post_create_inline_keyboard,
-    get_post_create_data_cancel_inline_keyboard, get_date_inline_keyboard, get_post_inline_button,
+    get_post_create_data_cancel_inline_keyboard, get_date_inline_keyboard, get_post_button_inline_keyboard,
 
     get_post_moderate_answer_text, get_confirmation_text_answer, get_confirmation_inline_keyboard, get_pay_text_answer,
 
@@ -355,7 +355,7 @@ async def post_create_moderate(call_data: types.CallbackQuery) -> None:
     else:
         mess = await call_data.message.answer(text_answer, parse_mode='markdown')
 
-    post_inline_button = await get_post_inline_button(post_data)
+    post_inline_button = await get_post_button_inline_keyboard(post_data.get('button'))
     if post_inline_button:
         await mess.edit_reply_markup(post_inline_button)
 
