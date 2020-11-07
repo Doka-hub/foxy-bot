@@ -81,7 +81,7 @@ async def update_post_data(post_data: Dict) -> None:
     button = post_data.get('button')
     date = post_data.get('date')
     time = post_data.get('time', 'morning')
-    image_id = post_data.get('image_id', '0')
+    image_id = post_data.get('image_id', None)
     bgcolor = 'gray' if user_id in config.ADMINS.values() else 'yellow'
 
     post_data = {
