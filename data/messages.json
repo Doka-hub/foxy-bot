@@ -43,6 +43,7 @@
       "declined": "Отказано",
       "processing": "В процессе",
       "not_paid": "Не оплачено",
+      "posted": "Выложено",
 
       "edit": "Изменить"
     },
@@ -154,7 +155,10 @@
       "accepted": "Success",
       "declined": "Declined",
       "processing": "Processing",
-      "not_paid": "Not paid"
+      "not_paid": "Not paid",
+      "posted": "Posted",
+
+      "edit": "Edit"
     },
 
     "channel": {
@@ -265,7 +269,10 @@
       "accepted": "בהצלחה",
       "declined": "נדחה",
       "processing": "במהלך",
-      "not_paid": "לא משולם"
+      "not_paid": "לא משולם",
+      "posted": "",
+
+      "edit": ""
     },
 
     "channel": {
