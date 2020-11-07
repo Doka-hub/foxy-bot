@@ -276,8 +276,8 @@
     },
 
     "channel": {
-      "choose_channel": "Выберите канал для рекламного поста",
-      "not_found": "Не найден"
+      "choose_channel": "בחר ערוץ לפרסום המודעה שלך",
+      "not_found": "לא נמצא"
     },
 
     "post_create": {
@@ -298,7 +298,7 @@
       "date_busy": "התאריך עמוס!",
       "button_format": "שלח את הכפתור בפורמט זה:\n`Text - URL`",
       "button_invalid_format": "פורמט לא חוקי, שלח את הכפתור בפורמט הנכון:\n`Text - URL`",
-      "button_url_invalid_format": "Неверный формат, отправьте кнопку в нужном формате:\n`Text - URL`.\nСсылка должна начинаться с `http://` или `https://`"
+      "button_url_invalid_format": "פורמט לא חוקי, שלח את הכפתור בפורמט הנכון:` \n`Text - URL`.\n : הקישור חייב להתחיל ב- 'http://' או 'https://`"
     },
     "post_create_preview": {
       "date": "תאריך הפרסום",
@@ -314,7 +314,7 @@
       "time": "שנה את זמן המודעה",
       "moderate": "שלח לאימות",
 
-      "updated": "Обновлено. Пост отправился на модерацию."
+      "updated": "עודכן. ההודעה נשלחה למנחה"
     },
 
     "confirmation": {
@@ -324,8 +324,8 @@
     },
 
     "contact": {
-      "request_contact": "Отправьте ваш контакт",
-      "send_contact": "Отправить контакт"
+      "request_contact": "הגש את איש הקשר שלך",
+      "send_contact": "שלח איש קשר"
     },
 
     "must_fields": {
@@ -336,7 +336,7 @@
 
     "pay_message": "בצע את התשלום.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nPayment is available for: `{time_to_pay}` hours",
     "lock": "עסוק",
-    "choose": "Выбрать",
+    "choose": "בחר",
     "cancel": "ביטול"
   }
 }
