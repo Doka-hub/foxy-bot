@@ -108,10 +108,10 @@ async def send_advertising_post_to_user(user_id: int, advertising_post: Post) ->
 async def send_post_news_teller(time_to_mail: str) -> None:
     expression = [Post.paid, Post.status == 'accepted', Post.date == date.today(), Post.time == time_to_mail]
     for advertising_post in await objects.execute(Post.select().where(*expression)):
-        # channel_id = advertising_post.channel.channel_id
-        # await send_advertising_post_to_channel(channel_id, advertising_post)
+        channel_id = advertising_post.channel.channel_id
+        await send_advertising_post_to_channel(channel_id, advertising_post)
 
-        for user in await objects.execute(TGUser.select().where(not TGUser.blocked_by_user)):
+        for user in await objects.execute(TGUser.select().where(TGUser.blocked_by_user == False)):
             if user.language == advertising_post.channel.language:
                 try:
                     await send_advertising_post_to_user(user.user_id, advertising_post)
@@ -120,7 +120,7 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                     await objects.update(user, ['blocked_by_user'])
 
     for article in await objects.execute(Article.select()):
-        for user in article.category.users.where(not TGUser.blocked_by_user):
+        for user in article.category.users.where(TGUser.blocked_by_user == False):
             article_language = article.category.language
 
             channel = await get_channel(article_language)
