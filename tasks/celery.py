@@ -19,7 +19,7 @@ app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
     'parse_news': {
         'task': 'parse_news',
-        'schedule': crontab(minute='9')
+        'schedule': crontab(minute='15')
     },
     'delete_not_paid_posts': {
         'task': 'delete_not_paid_posts_task',
@@ -32,7 +32,7 @@ app.conf.beat_schedule = {
     },
     'mailing_evening': {
         'task': 'mailing',
-        'schedule': crontab(hour='20', minute='10'),
+        'schedule': crontab(hour='14', minute='18'),
         'args': ('evening',)
     },
 }

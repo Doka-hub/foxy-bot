@@ -112,6 +112,7 @@ async def send_post_news_teller(time_to_mail: str) -> None:
         # await send_advertising_post_to_channel(channel_id, advertising_post)
 
         for user in await objects.execute(TGUser.select().where(not TGUser.blocked_by_user)):
+            print(user)
             if user.language == advertising_post.channel.language:
                 try:
                     await send_advertising_post_to_user(user.user_id, advertising_post)
