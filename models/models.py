@@ -186,7 +186,7 @@ class Post(BaseModel):
             return self.button.split(' - ')[1]  # ссылка кнопки
 
     def get_image(self) -> Optional[str]:
-        if self.image_id not in ['0', None, False]:
+        if self.image_id not in ['', None, False]:
             return self.image_id
         return None
 
