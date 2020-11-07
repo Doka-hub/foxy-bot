@@ -52,7 +52,6 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
         print(bool(image_id))
         if image_id:
             print(image_id)
-            print(image_id)
             await bot.send_photo(to, image_id, text, parse_mode=parse_mode, reply_markup=reply_markup,
                                  disable_notification=disable_notification)
         else:
@@ -62,7 +61,8 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
         error = f'{e}'
         time = error[error.find('Retry in ') + len('Retry in '):error.find(' seconds')]  # сколько нужно ждать
         await sleep(float(time))
-        await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, made_tries+1, max_tries)
+        await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, made_tries + 1,
+                           max_tries)
         return False
     return True
 
@@ -90,11 +90,7 @@ async def send_post_to_user(user_id: int, language: str, article_url: str, categ
 
 
 async def send_advertising_post_to_channel(channel_id: Union[str, int], advertising_post: Post) -> None:
-    print(advertising_post.text)
-    print(advertising_post.image_id)
     image_id = advertising_post.get_image()
-    print(type(image_id))
-    print(image_id)
     text = advertising_post.text
     post_button_inline_keyboard = await get_post_button_inline_keyboard(advertising_post.button)
 
@@ -113,8 +109,10 @@ async def send_advertising_post_to_user(user_id: int, advertising_post: Post) ->
 
 
 async def send_post_news_teller(time_to_mail: str) -> None:
-    expression = Post.paid and Post.status == 'accepted' and Post.date == date.today() and Post.time == time_to_mail
+    expression = Post.status == 'accepted' and Post.date == date.today() and Post.time == time_to_mail
     for advertising_post in await objects.execute(Post.select().where(expression)):
+        if not advertising_post.paid:
+            continue
         channel_id = advertising_post.channel.channel_id
         await send_advertising_post_to_channel(channel_id, advertising_post)
 
