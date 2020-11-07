@@ -95,9 +95,7 @@ class TGUser(BaseModel):
     subscribed = peewee.ManyToManyField(Category, on_delete='CASCADE', backref='users')
     time_to_mail = peewee.CharField(max_length=30, choices=TIME_TO_MAIL, default='upon_receipt_of')
 
-    ru_subscribed = peewee.BooleanField(default=False)
-    en_subscribed = peewee.BooleanField(default=False)
-    he_subscribed = peewee.BooleanField(default=False)
+    blocked_by_user = peewee.BooleanField(default=False)
 
 
 class Channel(BaseModel):

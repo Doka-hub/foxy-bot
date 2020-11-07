@@ -6,7 +6,7 @@ from typing import List, Union, Optional
 
 from asyncio import sleep
 
-from aiogram.utils.exceptions import RetryAfter, CantParseEntities
+from aiogram.utils.exceptions import RetryAfter, CantParseEntities, BotBlocked
 from aiogram.types import InlineKeyboardMarkup
 
 from models import objects, Channel, Article, Post, TGUser
@@ -119,7 +119,7 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                 await send_advertising_post_to_user(user.user_id, advertising_post)
 
     for article in await objects.execute(Article.select()):
-        for user in article.category.users:
+        for user in article.category.users.where(not TGUser.blocked_by_user):
             article_language = article.category.language
 
             channel = await get_channel(article_language)
@@ -127,7 +127,16 @@ async def send_post_news_teller(time_to_mail: str) -> None:
 
             if await check_user_channel_subscribed(user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
-                    await send_post_to_user(user.user_id, article.category.language, article.url, article.category.name)
+                    user_id = user.user_id
+                    language = article.category.language
+                    article_url = article.url
+                    category_name = article.category.name
+                    try:
+                        await send_post_to_user(user_id, language, article_url, category_name)
+                    except BotBlocked:
+                        user.blocked_by_user = True
+                        await objects.update(user, ['blocked_by_user'])
+                        continue
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
 
