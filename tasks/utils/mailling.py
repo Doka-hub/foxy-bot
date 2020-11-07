@@ -48,8 +48,10 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
     if made_tries >= 5:
         return False
     try:
-        logging.info(image_id)
+        print(type(image_id))
+        print(bool(image_id))
         if image_id:
+            print(image_id)
             await bot.send_photo(to, image_id, text, parse_mode=parse_mode, reply_markup=reply_markup,
                                  disable_notification=disable_notification)
         else:
