@@ -16,6 +16,7 @@ from keyboards.inline.adversiting_profile.post import get_post_button_inline_key
 
 from loader import bot
 
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -111,9 +112,14 @@ async def send_post_news_teller(time_to_mail: str) -> None:
         channel_id = advertising_post.channel.channel_id
         await send_advertising_post_to_channel(channel_id, advertising_post)
 
-        for user in await objects.execute(TGUser.select()):
+        for user in await objects.execute(TGUser.select().where(not TGUser.blocked_by_user)):
             if user.language == advertising_post.channel.language:
-                await send_advertising_post_to_user(user.user_id, advertising_post)
+                try:
+                    await send_advertising_post_to_user(user.user_id, advertising_post)
+                except BotBlocked:
+                    user.blocked_by_user = True
+                    await objects.update(user, ['blocked_by_user'])
+                    continue
 
     for article in await objects.execute(Article.select()):
         for user in article.category.users.where(not TGUser.blocked_by_user):
