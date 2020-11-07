@@ -52,6 +52,7 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
         print(bool(image_id))
         if image_id:
             print(image_id)
+            print(image_id)
             await bot.send_photo(to, image_id, text, parse_mode=parse_mode, reply_markup=reply_markup,
                                  disable_notification=disable_notification)
         else:
@@ -89,7 +90,11 @@ async def send_post_to_user(user_id: int, language: str, article_url: str, categ
 
 
 async def send_advertising_post_to_channel(channel_id: Union[str, int], advertising_post: Post) -> None:
+    print(advertising_post.text)
+    print(advertising_post.image_id)
     image_id = advertising_post.get_image()
+    print(type(image_id))
+    print(image_id)
     text = advertising_post.text
     post_button_inline_keyboard = await get_post_button_inline_keyboard(advertising_post.button)
 
@@ -126,8 +131,7 @@ async def send_post_news_teller(time_to_mail: str) -> None:
 
             if await check_user_channel_subscribed(user.user_id, channel_id):
                 if user.time_to_mail == time_to_mail:
-                    await send_post_to_user(user.user_id, article.category.language,
-                                            article.url, article.category.name)
+                    await send_post_to_user(user.user_id, article.category.language, article.url, article.category.name)
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
 
