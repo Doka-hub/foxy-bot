@@ -109,10 +109,8 @@ async def send_advertising_post_to_user(user_id: int, advertising_post: Post) ->
 
 
 async def send_post_news_teller(time_to_mail: str) -> None:
-    expression = Post.status == 'accepted' and Post.date == date.today() and Post.time == time_to_mail
-    for advertising_post in await objects.execute(Post.select().where(expression)):
-        if not advertising_post.paid:
-            continue
+    expression = [Post.paid, Post.status == 'accepted', Post.date == date.today(), Post.time == time_to_mail]
+    for advertising_post in await objects.execute(Post.select().where(*expression)):
         channel_id = advertising_post.channel.channel_id
         await send_advertising_post_to_channel(channel_id, advertising_post)
 
