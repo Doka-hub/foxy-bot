@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from datetime import datetime, timedelta
 
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Optional
 
 from utils.keyboards.inline import get_inline_keyboard
 from utils.db_api.user.user import get_or_create_user
@@ -111,9 +111,9 @@ def get_post_inline_buttons(user_language: str, post: Post) -> InlineKeyboardMar
     return detail_post_inline_keyboard
 
 
-async def get_post_button_inline_keyboard(button: str) -> Union[InlineKeyboardMarkup, bool]:
+async def get_post_button_inline_keyboard(button: str) -> Optional[InlineKeyboardMarkup]:
     if not button:
-        return False
+        return None
     button_text, button_url = button.split(' - ')
 
     post_inline_button = get_inline_keyboard([[InlineKeyboardButton(button_text, url=button_url)]])
