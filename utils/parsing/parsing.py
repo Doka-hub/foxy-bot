@@ -678,7 +678,10 @@ class Parsing:
         return parsed_posts
 
     async def __parse_site_12(self):
+        print(self.url)
         soup = self.get_soup(self.url)
+        if not soup:
+            return []
         posts = soup.find('div', {'class': 'slotList'}).find_all('div', {'class': 'slotView'})[:5]
 
         # спарсенные посты
