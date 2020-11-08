@@ -162,15 +162,18 @@ class Post(BaseModel):
     created = peewee.DateTimeField()
     updated = peewee.DateTimeField()
 
+    def get_date(self) -> str:
+        return self.date.strftime('%d.%m.%Y')
+
     @property
-    def get_time(self) -> Optional[str]:
+    def get_time(self) -> str:
         return dict(Post.TIME_CHOICES).get(self.time)
 
     @property
-    def get_status(self) -> Optional[str]:
+    def get_status(self) -> str:
         return dict(Post.STATUS_CHOICES).get(self.status)
 
-    def _is_button(self) -> Optional[str]:
+    def _is_button(self) -> str:
         return self.button
 
     @property
@@ -186,7 +189,6 @@ class Post(BaseModel):
     def get_image(self) -> Optional[str]:
         if self.image_id not in ['', None, False]:
             return self.image_id
-        return None
 
     def get_states_data(self) -> dict:
         data = {

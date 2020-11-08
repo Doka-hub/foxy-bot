@@ -73,12 +73,12 @@ async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
 
     message = (
             pay_text +
-            f'\n\n{status_title}: `{status}`\n' +
-            (f'{reason_title}: `{post.status_message}`\n' if post.status == 'declined' else '') +
-            f'{date_title}: `{post.date}`\n' +
-            f'{time_title}: `{time}`\n' +
-            (f'\n*{post.title}*\n' if post.title else '') +
-            (f'\n{post.text}\n' if post.text else '')
+            f'\n\n{status_title}: `{status}`' +
+            (f'\n{reason_title}: `{post.status_message}`' if post.status == 'declined' else '') +
+            f'\n{date_title}: `{post.date}`' +
+            f'\n{time_title}: `{time}`' +
+            (f'\n\n*{post.title}*' if post.title else '') +
+            (f'\n\n{post.text}\n' if post.text else '')
     )
     return message
 
@@ -243,11 +243,13 @@ def get_post_create_inline_keyboard(user_language: str, post_data: Dict) -> Inli
     return post_create_inline_keyboard
 
 
-async def get_date_inline_keyboard(user_language: str, post_data: Dict) -> InlineKeyboardMarkup:
+async def get_date_inline_keyboard(user_id: int, post_data: Dict) -> InlineKeyboardMarkup:
+    user, created = await get_or_create_user(user_id)
+    user_language = user.language
     channel_id = post_data.get('channel_id')
 
-    posts = await objects.execute(Post.select().where(Post.paid).join(Channel).where(Channel.id == channel_id))
-    posts = [(post.date, post.time) for post in posts]
+    posts = await objects.execute(Post.select().where(Post.paid == True).join(Channel).where(Channel.id == channel_id))
+    posts = [(post.date.get_date(), post.time) for post in posts]
 
     today = datetime.today()
     date_list = []
@@ -258,7 +260,7 @@ async def get_date_inline_keyboard(user_language: str, post_data: Dict) -> Inlin
                 (date, time)
             )
     for date in date_list:
-        if (date[0].date(), date[1]) in posts:
+        if (date[0].date().strftime('%d.%m.Y'), date[1]) in posts:
             date_list[date_list.index(date)] = ('lock', date[1])
             continue
 

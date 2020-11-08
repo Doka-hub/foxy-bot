@@ -107,6 +107,7 @@ async def post_update(call_data: types.CallbackQuery) -> None:
     post_data = post.get_states_data()
     post_data['edit'] = True
     post_data['post_id'] = post.id
+    post_data['date'] = post.get_date()
     await dp.storage.set_data(user=user_id, data=post_data)
 
     choose_channel_to_mail_inline_keyboard = await get_choose_channel_to_mail_inline_keyboard(user_language)
@@ -303,7 +304,7 @@ async def post_create_date(call_data: types.CallbackQuery) -> None:
     user_language = await get_language(user_id)
     post_data = await dp.storage.get_data(user=user_id)
 
-    date_inline_keyboard = await get_date_inline_keyboard(user_language, post_data)
+    date_inline_keyboard = await get_date_inline_keyboard(user_id, post_data)
     text_answer = config.messages[user_language]['post_create']['date_choose']
 
     await call_data.message.answer(text_answer, reply_markup=date_inline_keyboard)
