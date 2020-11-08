@@ -249,7 +249,7 @@ async def get_date_inline_keyboard(user_id: int, post_data: Dict) -> InlineKeybo
     channel_id = post_data.get('channel_id')
 
     posts = await objects.execute(Post.select().where(Post.paid == True).join(Channel).where(Channel.id == channel_id))
-    posts = [(post.date.get_date(), post.time) for post in posts]
+    posts = [(post.get_date(), post.time) for post in posts]
 
     today = datetime.today()
     date_list = []
