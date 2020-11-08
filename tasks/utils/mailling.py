@@ -1,12 +1,12 @@
 import logging
 
-from datetime import date
+from datetime import date, datetime
 
 from typing import List, Union, Optional
 
 from asyncio import sleep
 
-from aiogram.utils.exceptions import RetryAfter, CantParseEntities, BotBlocked
+from aiogram.utils.exceptions import RetryAfter, CantParseEntities, BotBlocked, ChatNotFound
 from aiogram.types import InlineKeyboardMarkup
 
 from models import objects, Channel, Article, Post, TGUser
@@ -15,6 +15,8 @@ from utils.db_api.user.channel import get_channel, check_user_channel_subscribed
 from keyboards.inline.adversiting_profile.post import get_post_button_inline_keyboard
 
 from loader import bot
+
+from data import config
 
 
 logging.basicConfig(level=logging.INFO)
@@ -118,6 +120,12 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                 except BotBlocked:
                     user.blocked_by_user = True
                     await objects.update(user, ['blocked_by_user'])
+                except ChatNotFound:
+                    pass
+                except Exception as e:
+                    logging.info(f'{datetime.today()}: {e} - {user}')
+                    for admin in config.ADMINS.values():
+                        await bot.send_message(admin, f'{datetime.today()}: {e} - {user}')
 
     for article in await objects.execute(Article.select()):
         for user in article.category.users.where(TGUser.blocked_by_user == False):
@@ -137,6 +145,14 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                     except BotBlocked:
                         user.blocked_by_user = True
                         await objects.update(user, ['blocked_by_user'])
+                    except ChatNotFound as e:
+                        logging.info(f'{datetime.today()}: {e} - {user}')
+                        for admin in config.ADMINS.values():
+                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user}')
+                    except Exception as e:
+                        logging.info(f'{datetime.today()}: {e} - {user}')
+                        for admin in config.ADMINS.values():
+                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user}')
 
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()
@@ -151,5 +167,6 @@ async def send_post_news_teller_upon_receipt_of(articles: List[Article]) -> None
             channel_id = channel.channel_id
 
             if await check_user_channel_subscribed(user.user_id, channel_id):
-                await send_post_to_user(user.user_id, article.category.language,
-                                        article.url, article.category.name)
+                if user.time_to_mail == 'upon_receipt_of':
+                    await send_post_to_user(user.user_id, article.category.language,
+                                            article.url, article.category.name)
