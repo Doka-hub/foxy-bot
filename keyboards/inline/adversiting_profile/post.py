@@ -260,7 +260,7 @@ async def get_date_inline_keyboard(user_id: int, post_data: Dict) -> InlineKeybo
                 (date, time)
             )
     for date in date_list:
-        if (date[0].date().strftime('%d.%m.Y'), date[1]) in posts:
+        if (date[0].date().strftime('%d.%m.%Y'), date[1]) in posts:
             date_list[date_list.index(date)] = ('lock', date[1])
             continue
 
