@@ -75,7 +75,7 @@ async def get_post_detail_text_answer(user_language: str, post: Post) -> str:
             pay_text +
             f'\n\n{status_title}: `{status}`' +
             (f'\n{reason_title}: `{post.status_message}`' if post.status == 'declined' else '') +
-            f'\n{date_title}: `{post.date}`' +
+            f'\n{date_title}: `{post.get_date()}`' +
             f'\n{time_title}: `{time}`' +
             (f'\n\n*{post.title}*' if post.title else '') +
             (f'\n\n{post.text}\n' if post.text else '')
