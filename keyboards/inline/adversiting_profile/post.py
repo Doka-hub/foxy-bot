@@ -251,16 +251,16 @@ async def get_date_inline_keyboard(user_id: int, post_data: Dict) -> InlineKeybo
     posts = await objects.execute(Post.select().where(Post.paid == True).join(Channel).where(Channel.id == channel_id))
     posts = [(post.get_date(), post.time) for post in posts]
 
-    today = datetime.today()
+    today = datetime.today().date()
     date_list = []
     for day in range(30):
         for time in ['morning', 'evening']:
-            date = (today + timedelta(days=day))
+            date = today + timedelta(days=day)
             date_list.append(
                 (date, time)
             )
     for date in date_list:
-        if (date[0].date().strftime('%d.%m.%Y'), date[1]) in posts:
+        if (date[0].strftime('%d.%m.%Y'), date[1]) in posts:
             date_list[date_list.index(date)] = ('lock', date[1])
             continue
 
@@ -313,7 +313,7 @@ async def get_post_moderate_answer_text(user_language: int, post: Post) -> str:
     title = post.get('title', '')
     text = post.get('text', '')
     date = post.get('date', '')
-    time = post.get('time', 'morning')
+    time = post.get('time', '')
     time = config.messages[user_language]['time_to_mail'][time]
 
     post_create_preview = config.messages[user_language]['post_create_preview']
