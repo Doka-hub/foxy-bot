@@ -10,5 +10,5 @@ async def ssl_verification(request: web.Request) -> Response:
 
 
 ssl_verification_app.add_routes(
-    [web.get('/D9C0B7BE255AC9C5319EE0E989C40809.txt/', ssl_verification)]
+    [web.get('D9C0B7BE255AC9C5319EE0E989C40809.txt', ssl_verification)]
 )
