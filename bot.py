@@ -54,7 +54,7 @@ async def init() -> web.Application:
         subapp['scheduler'] = scheduler
         app.add_subapp(prefix, subapp)
     app['bot'] = bot
-    # app.on_startup.append(on_startup)
+    app.on_startup.append(on_startup)
     app.on_shutdown.append(on_shutdown)
     return app
 
