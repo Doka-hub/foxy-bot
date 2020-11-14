@@ -59,6 +59,6 @@ async def init() -> web.Application:
 
 
 if __name__ == '__main__':
-    # ssl_context = ssl.create_default_context(path='/home/admin/conf/web/ssl.getsub.cc.crt')
-    # ssl_context.load_cert_chain('/home/admin/conf/web/ssl.getsub.cc.pem', '/home/admin/conf/web/ssl.getsub.cc.key')
-    web.run_app(init(), host='localhost')
+#    ssl_context = ssl.create_default_context(path='/etc/ssl/bot.crt')
+#    ssl_context.load_cert_chain('rootCA.pem', 'rootCA.key')
+    web.run_app(init())
