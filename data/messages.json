@@ -270,9 +270,9 @@
       "declined": "נדחה",
       "processing": "במהלך",
       "not_paid": "לא משולם",
-      "posted": "",
+      "posted": "פוסט פורסם",
 
-      "edit": ""
+      "edit": "לערוך"
     },
 
     "channel": {
@@ -329,12 +329,12 @@
     },
 
     "must_fields": {
-      "field": "Field",
-      "image_or_text": "\"image\" or \"text\"",
-      "date": "\"date\""
+      "field": "שדה",
+      "image_or_text": "\"תמונה\" אוֹ \"טקסט\"",
+      "date": "\"תאריך\""
     },
 
-    "pay_message": "בצע את התשלום.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nPayment is available for: `{time_to_pay}` hours",
+    "pay_message": "בצע את התשלום.\nBTC address: `{btc_address_to_pay}`\nAmount: `{amount}` btc\nתשלום זמין עבור: `{time_to_pay}` שעות",
     "lock": "עסוק",
     "choose": "בחר",
     "cancel": "ביטול"

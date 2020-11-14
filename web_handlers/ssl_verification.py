@@ -1,14 +1,20 @@
-from aiohttp import web
-from aiohttp.web_response import Response
+import os
 
+from typing import Union
+
+from aiohttp import web
+from aiohttp.multipart import CIMultiDict
 
 ssl_verification_app = web.Application()
 
 
-async def ssl_verification(request: web.Request) -> Response:
-    return Response(headers={'X-Accel-Redirect': '/.well-known/pki-validation/D9C0B7BE255AC9C5319EE0E989C40809.txt'})
+async def ssl_verification(request: web.Request) -> Union[web.FileResponse, web.Response]:
+    file = request.match_info.get("file", None)
+    if not file:
+        return web.Response(status=404)
+    return web.FileResponse(os.path.join("data", file), headers=CIMultiDict({'CONTENT-DISPOSITION': file}))
 
 
 ssl_verification_app.add_routes(
-    [web.get('/D9C0B7BE255AC9C5319EE0E989C40809.txt', ssl_verification)]
+    [web.get('/{file}', ssl_verification)]
 )
