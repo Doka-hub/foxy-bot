@@ -16,7 +16,7 @@ async def register_channel(message: types.Message):
         return
 
     admins = [member.user.username for member in await message.bot.get_chat_administrators(channel_id)]
-    if 'foxy3bot' in admins:
+    if 'hot_news_israel_bot' in admins:
         await objects.get_or_create(
             Channel,
             channel_id=channel_id,
