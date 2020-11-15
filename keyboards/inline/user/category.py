@@ -28,7 +28,7 @@ async def get_categories_inline_keyboard(user_id: int) -> InlineKeyboardMarkup:
     user_language = user.language
     subscribed_categories = user.subscribed
 
-    categories = await objects.execute(Category.select().where(Category.language == user_language))
+    categories = await objects.execute(Category.select().where(Category.language == user_language, Category.key))
     category_list = [
         [
             InlineKeyboardButton(

@@ -1,4 +1,4 @@
-from typing import Dict, Union, Optional
+from typing import Dict, Optional
 
 import peewee
 from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
@@ -38,8 +38,8 @@ class PaymentAddress(BaseModel):
 
 
 class Category(BaseModel):
-    key = peewee.CharField(max_length=255)
-    name = peewee.CharField(max_length=255)
+    key = peewee.CharField(max_length=255, null=True)
+    name = peewee.CharField(max_length=255, null=True)
     language = peewee.CharField(max_length=2)
     is_active = peewee.BooleanField(default=True)
 

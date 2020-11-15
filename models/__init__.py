@@ -24,12 +24,12 @@ def setup():
             'Спорт', 'США_и_Канада', 'Путешествия', 'Культура', 'Происшествия'
         ]
         en_categories = [
-            'Health', 'Economy', 'Politic', 'World', 'Science_and_technology', 'Realty', 'Conflicts',
+            'Health', 'Economy', 'Politic', 'World', 'Science_and_technology', 'Realty', None, 'Conflicts',
             'Sport', 'USA_and_Canada', 'Travel', 'Culture', 'Incidents'
         ]
         he_categories = [
             'בריאות', 'כלכלה', 'פוליטי', 'בעולם', 'טכנולוגיה', 'נכס', 'רכב', 'עימותים_צבאיים',
-            'ספורט', 'תיירות', 'תרבות', 'תאונות'
+            'ספורט', None, 'תיירות', 'תרבות', 'תאונות'
         ]
 
         for category, ru_category in zip(categories, ru_categories):
@@ -46,7 +46,8 @@ def setup():
         if not LastPost.table_exists():
             LastPost.create_table()
 
-        def url_create(category: str, language: str, site: str, url: str) -> None:
+        def news_create(category: str, language: str, site: str, url: str) -> None:
+            print(category, language)
             category = Category.select().where(Category.key == category, Category.language == language).get()
             news = News.create(category=category, site=site, url=url)
             LastPost.create(news=news)
@@ -237,7 +238,7 @@ def setup():
         for language in urls:
             for category in urls[language]:
                 for type_, url in urls[language][category]:
-                    url_create(category, language, site=type_, url=url)
+                    news_create(category, language, site=type_, url=url)
 
     if not LastPost.table_exists():
         LastPost.create_table()
