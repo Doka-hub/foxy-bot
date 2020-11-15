@@ -18,7 +18,6 @@ from loader import bot
 
 from data import config
 
-
 logging.basicConfig(level=logging.INFO)
 
 
@@ -35,7 +34,7 @@ def make_message(language: str, preview_text: str, article_url: str, category: s
 
 async def send_message(to: Union[str, int], text: Optional[str] = None, image_id: Optional[str] = None,
                        parse_mode: Optional[str] = None, reply_markup: Optional[InlineKeyboardMarkup] = None,
-                       disable_notification: Optional[bool] = True, made_tries: int = 0, max_tries: int = 5) -> bool:
+                       disable_notification: Optional[bool] = True, tries: int = 0, max_tries: int = 5) -> bool:
     """
 
     :param to:
@@ -44,11 +43,11 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
     :param parse_mode:
     :param reply_markup:
     :param disable_notification: отключаем звук
-    :param made_tries: `n` совершенных проб
+    :param tries: `n` совершенных проб
     :param max_tries: пробуем отправить сообщение максимум `n` раз
     :return:
     """
-    if made_tries >= 5:
+    if tries > max_tries:
         return False
     try:
         if image_id:
@@ -61,8 +60,8 @@ async def send_message(to: Union[str, int], text: Optional[str] = None, image_id
         error = f'{e}'
         time = error[error.find('Retry in ') + len('Retry in '):error.find(' seconds')]  # сколько нужно ждать
         await sleep(float(time))
-        await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, made_tries+1, max_tries)
-        return False
+        return await send_message(to, text, image_id, parse_mode, reply_markup, disable_notification, tries + 1,
+                                  max_tries)
     return True
 
 
@@ -148,11 +147,11 @@ async def send_post_news_teller(time_to_mail: str) -> None:
                     except ChatNotFound as e:
                         logging.info(f'{datetime.today()}: {e} - {user}')
                         for admin in config.ADMINS.values():
-                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user}')
+                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user} - {user.username}')
                     except Exception as e:
                         logging.info(f'{datetime.today()}: {e} - {user}')
                         for admin in config.ADMINS.values():
-                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user}')
+                            await bot.send_message(admin, f'{datetime.today()}: {e} - {user} - {user.username}')
 
     if time_to_mail == 'morning':  # очищаем статьи после утренней рассылки
         Article.truncate_table()

@@ -17,10 +17,10 @@ app = Celery('celery', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
 app.conf.beat_schedule = {
-#    'test': {
-#	'task': 'test',
-#	'schedule': timedelta(seconds=10.0)
-#    },
+    # 'test': {
+    #     'task': 'test',
+    #     'schedule': timedelta(seconds=10.0)
+    # },
     'parse_news': {
         'task': 'parse_news',
         'schedule': crontab(minute='48')

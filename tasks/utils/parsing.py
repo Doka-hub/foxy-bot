@@ -1,8 +1,4 @@
-from asyncio import sleep
-
 import logging
-
-from telegraph.exceptions import TelegraphException, InvalidHTML
 
 from urllib3.util import parse_url
 
