@@ -35,5 +35,7 @@ async def parse_news():
             last_post = await objects.get(LastPost, news=news)
             last_post.post_url = post[-1]  # post_url
             await objects.update(last_post, ['post_url'])
+        else:
+            print(posts, news.url)
 
     await send_post_news_teller_upon_receipt_of(posts_upon_receipt_of)
