@@ -209,7 +209,7 @@ class Parsing:
         soup = self.get_soup(self.url)
         if not soup:
             return []
-        posts = soup.find_all('div', {'class': 'itc'})[6:8]
+        posts = soup.find_all('div', {'class': 'itc'})
 
         # спаршенные посты
         parsed_posts = []
@@ -541,7 +541,7 @@ class Parsing:
         soup = self.get_soup(self.url)
         posts = soup.find('div', {
             'class': 'elementor-posts-container elementor-posts elementor-passport-skin elementor-grid'}).find_all(
-            'article')[:5]
+            'article')
 
         # спарсенные посты
         parsed_posts = []
@@ -608,7 +608,7 @@ class Parsing:
         soup = self.get_soup(self.url)
         if not soup:
             return []
-        posts = soup.find('ol').find_all('li')[:5]
+        posts = soup.find('ol').find_all('li')
 
         # спарсенные посты
         parsed_posts = []
@@ -682,12 +682,12 @@ class Parsing:
         soup = self.get_soup(self.url)
         if not soup:
             return []
-        posts = soup.find('div', {'class': 'slotList'}).find_all('div', {'class': 'slotView'})[:5]
+        posts = soup.find('div', {'class': 'slotList'}).find_all('div', {'class': 'slotView'})
 
         # спарсенные посты
         parsed_posts = []
 
-        for post in posts[:1]:
+        for post in posts:
             try:
                 post_url = post.find('a').get('href')
 
