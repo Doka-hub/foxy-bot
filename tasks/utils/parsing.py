@@ -38,4 +38,5 @@ async def parse_news():
         else:
             print(posts, news.url)
 
+    posts_upon_receipt_of = list(set(posts_upon_receipt_of))
     await send_post_news_teller_upon_receipt_of(posts_upon_receipt_of)

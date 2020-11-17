@@ -1,8 +1,8 @@
+from typing import Optional, List, Union
+
 from models import objects, TGUser
 
 from utils.payment import bitcoin
-
-from typing import Optional, List, Union
 
 from data import config
 

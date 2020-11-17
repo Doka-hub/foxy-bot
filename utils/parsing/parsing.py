@@ -650,12 +650,15 @@ class Parsing:
                         image = image.get('src')
                         content += f'<img src={image}>'
 
-                    if tag.name == 'p':
-                        try:
-                            content += f"<p>{tag.get_text()}</p>"
-                        except Exception as e:
-                            print(e)
-                            pass
+                    if tag.name == 'div':
+                        if not tag.get('class'):
+                            for sub_tag in tag:
+                                if sub_tag.name == 'p':
+                                    try:
+                                        content += f"<p>{tag.get_text()}</p>"
+                                    except Exception as e:
+                                        print(e)
+                                        pass
 
                     if a and a != -1:  # в переменную иногда прилетает "-1"
                         try:
