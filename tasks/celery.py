@@ -13,6 +13,8 @@ from data import config
 
 
 logging.basicConfig(level=logging.INFO, filename='tasks.log')
+
+
 app = Celery('celery', broker=config.redis['host'], )
 
 app.conf.timezone = config.TIMEZONE
