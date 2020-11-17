@@ -23,7 +23,7 @@ app.conf.beat_schedule = {
     # },
     'parse_news': {
         'task': 'parse_news',
-        'schedule': crontab(minute='48')
+        'schedule': crontab(minute='34')
     },
     'delete_not_paid_posts': {
         'task': 'delete_not_paid_posts_task',
