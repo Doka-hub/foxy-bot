@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import List, Union, Dict, Optional
 
 from utils.keyboards.inline import get_inline_keyboard
-from utils.db_api.user.user import get_or_create_user
+from utils.db_api.user import get_or_create_user
 from utils.post.time_to_pay import timedelta_to_hours
 
 from models import objects, Post, Channel

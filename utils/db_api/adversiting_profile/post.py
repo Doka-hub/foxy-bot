@@ -2,7 +2,7 @@ from typing import Dict
 
 from datetime import datetime
 
-from utils.db_api.user.user import get_or_create_user
+from utils.db_api.user import get_or_create_user
 from utils.payment.bitcoin import create_payment_address, get_ad_cost
 
 from models import objects, PaymentAddress, Post
