@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from models import objects, Channel, Category
 
 from utils.keyboards.inline import get_inline_keyboard
-from utils.db_api.user.user import get_or_create_user
+from utils.db_api.user import get_or_create_user
 
 from data import config
 

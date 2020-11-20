@@ -10,7 +10,7 @@ from loader import dp
 from states.adversiting_profile.post import PostState
 
 from utils.db_api.user.language import get_language
-from utils.db_api.user.user import get_or_create_user
+from utils.db_api.user import get_or_create_user
 from utils.db_api.adversiting_profile.post import (
     set_phone_number,
     save_post_data, update_post_data
