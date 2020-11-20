@@ -11,7 +11,7 @@ from .forward import forward_handler
 
 def setup(dp: Dispatcher) -> None:
     # forward
-    dp.register_message_handler(forward_handler, lambda m: m.forward_from_chat)
+    dp.register_message_handler(forward_handler, lambda m: m.forward_from_chat and m.text not in ['ru', 'en', 'he'])
 
     # start
     dp.register_message_handler(start, CommandStart())

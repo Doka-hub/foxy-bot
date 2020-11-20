@@ -18,8 +18,10 @@ async def choose_language(call_data: types.CallbackQuery) -> None:
     user_language = call_data.data[-2:]  # последние два символа это язык ('choose_language ru')
 
     if not user.language:
-        text_answer = config.messages[user_language]['first_message']
-        await call_data.message.answer(text_answer)
+        pinned_message = config.messages[user_language]['pinned']
+        from_chat_id = pinned_message['from_chat_id']
+        message_id = pinned_message['message_id']
+        await call_data.bot.forward_message(call_data.message.chat.id, from_chat_id, message_id)
 
     menu_inline_keyboard = get_menu_inline_keyboard(user_language)
     text_answer = config.messages[user_language]['menu_name']

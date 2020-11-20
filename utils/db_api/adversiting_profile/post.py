@@ -96,5 +96,4 @@ async def update_post_data(post_data: Dict) -> None:
         'status': 'processing',
         'status_message': ''
     }
-    post = post.pre_update_data(post_data)
-    await objects.update(post, list(post_data.keys()))
+    await post.update_data(post_data)
