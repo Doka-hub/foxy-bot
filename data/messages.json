@@ -19,6 +19,9 @@
       "info": "Информация",
       "back": "< Назад"
     },
+    "info": {
+      "video_title": "Как купить рекламу?"
+    },
 
     "time_to_mail": {
       "morning": "Утром",
@@ -136,6 +139,9 @@
       "info": "Information",
       "back": "< Back"
     },
+    "info": {
+      "video_title": "How to buy ads?"
+    },
 
     "time_to_mail": {
       "morning": "Morning",
@@ -252,6 +258,9 @@
       "advertising_profile": "פרופיל פרסום",
       "info": "מידע",
       "back": "< לאחור"
+    },
+    "info": {
+      "video_title": "כיצד אוכל לקנות מודעות?"
     },
 
     "time_to_mail": {

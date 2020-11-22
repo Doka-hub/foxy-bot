@@ -6,13 +6,9 @@ from .menu import menu, back_to_menu
 from .language import choose_language, change_language
 from .category import category_subscribe, category_list, show_time_to_mail, choose_time_to_mail
 from .channel import check_subscribe
-from .forward import forward_handler
 
 
 def setup(dp: Dispatcher) -> None:
-    # forward
-    dp.register_message_handler(forward_handler, lambda m: m.forward_from_chat and m.text not in ['ru', 'en', 'he'])
-
     # start
     dp.register_message_handler(start, CommandStart())
 
