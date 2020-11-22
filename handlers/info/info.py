@@ -34,9 +34,9 @@ async def send_video(call_data: types.CallbackQuery) -> None:
     for video_data in videos:
         for video_model_id, video in video_data:
             if type(video) is BufferedReader:  # если файл был open()
-                message = await call_data.message.answer_video(video)
+                message = await call_data.message.answer_video(video, width=1080, height=1920)
                 video.close()
                 await save_video_id(video_model_id, message.video.file_id)
             else:  # по id
-                await call_data.message.answer_video(video)
+                await call_data.message.answer_video(video, width=1080, height=1920)
     await info(call_data)
