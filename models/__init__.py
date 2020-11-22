@@ -1,6 +1,6 @@
 from .models import (
     objects, Post, TGUser, Category, Channel, category_users_through, News, InfoArticle, LastPost, Article,
-    PaymentAddress, PaymentAmount
+    PaymentAddress, PaymentAmount, Video
 )
 
 
@@ -11,6 +11,15 @@ def setup():
 
     if not PaymentAddress.table_exists():
         PaymentAddress.create_table()
+
+    if not Video.table_exists():
+        Video.create_table()
+
+        for language, title in \
+                [('ru', 'Как купить рекламу?'), ('en', 'How to buy adds?'), ('he', 'כיצד אוכל לקנות מודעות?')]:
+            for video_type in [1, 2]:
+                video_path = f'media/videos/{language}/{video_type}.MOV'
+                Video.create(language=language, video_type=video_type, video_path=video_path, title=title)
 
     if not Category.table_exists():
         Category.create_table()
@@ -266,7 +275,7 @@ def setup():
 
         info_articles = {
             'ru': (
-                ('Как купить рекламу?', 'https://google.com'),
+                # ('Как купить рекламу?', 'https://google.com'),
                 ('Что такое биткоин?', 'https://telegra.ph/CHto-takoe-Bitcoin-10-12-2'),
                 ("SAVL. Приватный и Маркет кошельки",
                  'https://telegra.ph/SAVL-CHto-takoe-Privatnyj-koshelek-i-Market-koshelek-Dlya-chego-oni-nuzhny-i-v'
@@ -282,7 +291,7 @@ def setup():
                  '-pomoshchyu-Apple-Pay-10-12'),
             ),
             'en': (
-                ('How to buy ads?', 'https://google.com'),
+                # ('How to buy ads?', 'https://google.com'),
                 ('What is Bitcoin?', 'https://telegra.ph/What-is-bitcoin-10-12'),
                 ('SAVL. Private and Market wallets',
                  'https://telegra.ph/SAVL-What-are-Private-and-Market-wallets-What-are-they-for-and-what-is-the'
@@ -297,7 +306,7 @@ def setup():
                  'https://telegra.ph/SAVL-How-can-I-buy-crypto-with-debitcredit-card-or-Apple-Pay-10-12'),
             ),
             'he': (
-                ('כיצד אוכל לקנות מודעות?', 'https://google.com'),
+                # ('כיצד אוכל לקנות מודעות?', 'https://google.com'),
                 ('מה זה ביטקוין?',
                  'https://telegra.ph/%D7%9E%D7%94-%D7%96%D7%94-%D7%91%D7%99%D7%98%D7%A7%D7%95%D7%99%D7%9F-10-12'),
                 ('SAVL. Private and Market wallets',

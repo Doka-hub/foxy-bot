@@ -5,6 +5,7 @@ from peewee_async import Manager, PostgresqlDatabase, MySQLDatabase
 
 from data import config
 
+
 database = PostgresqlDatabase(database=config.postgresql_info['db'], user=config.postgresql_info['user'], )
 # database = MySQLDatabase(database=config.mysql['db'], user=config.mysql['user'], password=config.mysql['password'])
 objects = Manager(database)
@@ -116,6 +117,25 @@ class Article(BaseModel):
     category = peewee.ForeignKeyField(Category, on_delete='CASCADE', backref='articles')
 
 
+class Video(BaseModel):
+    LANGUAGE_CHOICES = (
+        ('ru', 'ru'),
+        ('en', 'en'),
+        ('he', 'he'),
+    )
+    TYPE_CHOICES = (
+        (1, 1),
+        (2, 2)
+    )
+
+    video_id = peewee.CharField(max_length=255, null=True)
+    video_path = peewee.CharField(max_length=255, null=True)
+    video_type = peewee.CharField(max_length=10, choices=TYPE_CHOICES)
+
+    title = peewee.CharField(max_length=255, null=True)
+    language = peewee.CharField(max_length=2, choices=LANGUAGE_CHOICES)
+
+
 class InfoArticle(BaseModel):
     LANGUAGE_CHOICES = (
         ('ru', 'ru'),
@@ -202,11 +222,7 @@ class Post(BaseModel):
         }
         return data
 
-    def pre_update_data(self, data: Dict[str, str]):
-        """
-        :param data:
-        :return: self
-        """
+    async def update_data(self, data: Dict[str, str]) -> None:
         self.title = data.get('title')
         self.text = data.get('text')
         self.button = data.get('button')
@@ -217,7 +233,7 @@ class Post(BaseModel):
         self.updated = data.get('updated')
         self.status = data.get('status')
         self.status_message = data.get('status_message')
-        return self
+        await objects.update(self, list(data.keys()))
 
 
 category_users_through = Category.users.get_through_model()
