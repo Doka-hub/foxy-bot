@@ -144,6 +144,7 @@ def get_confirmation_inline_keyboard(user_language: str) -> InlineKeyboardMarkup
 
 async def get_choose_channel_to_mail_inline_keyboard(user_language: str) -> InlineKeyboardMarkup:
     channels = await objects.execute(Channel.select())
+    print(channels)
 
     choose_text = config.messages[user_language]['choose']
     channels = [

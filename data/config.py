@@ -51,7 +51,7 @@ postgresql_info = {
 mysql = {
     'host': ip['db'],
     'user': 'root',
-    'password': '123riko123',
+    'password': '123root123',
     'db': 'test'
 }
 
